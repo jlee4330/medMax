@@ -30,6 +30,12 @@ public class NewBehaviourScript : MonoBehaviour
             isConnected = false;
         };
 
+        ws.OnMessage += (bytes) =>
+        {
+            var byteStr = System.Text.Encoding.UTF8.GetString(bytes);
+            Debug.Log("byteStr : " + byteStr);
+        };
+
         await ws.Connect();
     }
 
@@ -38,6 +44,9 @@ public class NewBehaviourScript : MonoBehaviour
     // Update is called once per frame
     async void Update()
     {
+        #if !UNITY_WEBGL || UNITY_EDITOR
+            ws.DispatchMessageQueue();
+        #endif
         float x = Input.GetAxisRaw("Horizontal");
         float y = Input.GetAxisRaw("Vertical");
 
