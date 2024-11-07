@@ -3,6 +3,7 @@ import torch
 import numpy as np
 from fastapi import FastAPI
 from pydantic import BaseModel
+from rank_bm25 import BM25Okapi
 
 app = FastAPI()
 
@@ -37,7 +38,7 @@ tokenizer_bge = AutoTokenizer.from_pretrained(model_path_bge)
 model_bge = AutoModelForSequenceClassification.from_pretrained(model_path_bge)
 model_bge.eval()
 
-# 질문 & 답변 예시
+# 질문 & 답변 예시 (실제 DB 에서 가져올 예정)
 pairs = [
     ['아세트아미노펜 복용 시 주의사항은 무엇인가요?', '아세트아미노펜은 과다 복용 시 간 손상을 초래할 수 있습니다.'],
     ['아세트아미노펜을 복용할 때 주의해야 할 것은?', '아세트아미노펜은 과다 복용 시 간 손상을 초래할 수 있습니다.'],
@@ -48,14 +49,20 @@ pairs = [
     ['이 약은 언제 복용해야 하나요?', '아세트아미노펜은 필요할 때마다 복용할 수 있습니다.'],
 ]
 
+# BM25 초기화
+bm25 = BM25Okapi([pair[0] for pair in pairs])
+
 @app.post("/rerank")
-def rerank(query_request: QueryRequest):
+def retrieve_and_rerank(query_request: QueryRequest):
     question = query_request.question
     top_k = query_request.top_k
     
-    similar_pairs_ko = get_top_k_similar_pairs(question, pairs, model_ko, tokenizer_ko, k=top_k)
+    bm25_scores = bm25.get_scores(question)
+    top_k_indices = np.argsort(bm25_scores)[-top_k*2:][::-1]
+    bm25_top_pairs = [pairs[i] for i in top_k_indices]
+    similar_pairs_ko = get_top_k_similar_pairs(question, bm25_top_pairs, model_ko, tokenizer_ko, k=top_k)
     
-    similar_pairs_bge = get_top_k_similar_pairs(question, pairs, model_bge, tokenizer_bge, k=top_k)
+    similar_pairs_bge = get_top_k_similar_pairs(question, bm25_top_pairs, model_bge, tokenizer_bge, k=top_k)
     
     return {
         "ko_results": similar_pairs_ko,
