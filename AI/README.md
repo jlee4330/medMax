@@ -9,16 +9,7 @@ FastAPI를 사용하여 질문에 대한 유사한 답변을 제공하는 Rerank
 - Python 3.10 이상
 - pip (Python 패키지 관리자)
 
-### 2. 프로젝트 클론
-
-먼저, 이 프로젝트를 클론합니다.
-
-```bash
-git clone <repository-url>
-cd <repository-directory>
-```
-
-### 3. 가상 환경 설정 (선택 사항)
+### 2. 가상 환경 설정 (선택 사항)
 
 가상 환경을 설정하는 것이 좋습니다. 아래 명령어로 가상 환경을 생성하고 활성화할 수 있습니다.
 
@@ -35,7 +26,7 @@ venv\Scripts\activate
 source venv/bin/activate
 ```
 
-### 4. 의존성 설치
+### 3. 의존성 설치
 
 `requirements.txt` 파일에 명시된 의존성을 설치합니다.
 
@@ -43,7 +34,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 5. API 실행
+### 4. API 실행
 
 아래 명령어로 FastAPI 서버를 실행합니다.
 
@@ -53,7 +44,7 @@ python reranker_api.py
 
 서버가 성공적으로 실행되면, 기본적으로 `http://localhost:8000`에서 API에 접근할 수 있습니다.
 
-### 6. API 테스트
+### 5. API 테스트
 
 API가 정상적으로 작동하는지 확인하기 위해 `test_reranker_api.py` 파일을 실행합니다.
 
