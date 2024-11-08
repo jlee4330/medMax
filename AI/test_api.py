@@ -5,7 +5,7 @@ url = "http://localhost:8000/rerank"
 
 # 요청 데이터
 data = {
-    "question": "아세트아미노펜 복용 시 주의사항은 무엇인가요?",
+    "question": "아세트아미노펜과 술을 같이 마셔도 괜찮을까요?",
     "top_k": 3
 }
 
