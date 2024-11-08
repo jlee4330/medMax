@@ -1,20 +1,29 @@
-var mysql = require("mysql2");
-var db_info = {
-  host: "localhost",
-  port: "3306",
-  user: "root",
-  password: "1234",
-  database: "mydb",
-};
+const mysql = require("mysql2/promise");
+const dotenv = require("dotenv");
 
-module.exports = {
-  init: function () {
-    return mysql.createConnection(db_info);
-  },
-  connect: function (conn) {
-    conn.connect(function (err) {
-      if (err) console.error("mysql connection error : " + err);
-      else console.log("mysql is connected successfully!");
-    });
-  },
-};
+dotenv.config();
+
+const pool = mysql.createPool({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
+});
+
+// MySQL 연결 테스트
+const testConnection = async () => {
+    try {
+      const connection = await pool.getConnection();
+      console.log('MySQL Database connected successfully');
+      connection.release(); // 연결 해제
+    } catch (error) {
+      console.error('Database connection failed:', error);
+    }
+  };
+  
+testConnection(); // 서버 시작 시 연결 테스트
+
+module.exports = pool;
