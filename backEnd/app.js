@@ -1,11 +1,14 @@
 const express = require('express');
+const http = require('http');
 const db = require('./src/mysql.js');
 const WebSocket = require('ws')
 const cors = require('cors');
+const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 
+dotenv.config();
+
 const app = express();
-const conn = db.init();
 
 app.set("port", process.env.PORT || 3001);
 app.set("host", process.env.HOST || "0.0.0.0");
@@ -14,7 +17,9 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-const wss = new WebSocket.Server({ port: 7777 },()=>{
+const server = http.createServer(app);
+
+const wss = new WebSocket.Server({ server },()=>{
     console.log('서버시작')
 })
 // Player list 객체 생성
@@ -93,8 +98,8 @@ wss.on('listening',()=>{
 })
 
 // 서버 동작중인 표시
-app.listen(app.get("port"), app.get("host"), () =>
+server.listen(app.get("port"), app.get("host"), () =>
    console.log(
      "Server is running on : " + app.get("host") + ":" + app.get("port")
    )
- );
+);
