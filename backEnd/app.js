@@ -1,4 +1,19 @@
+const express = require('express');
+const db = require('./src/mysql.js');
 const WebSocket = require('ws')
+const cors = require('cors');
+const bodyParser = require('body-parser');
+
+const app = express();
+const conn = db.init();
+
+app.set("port", process.env.PORT || 3001);
+app.set("host", process.env.HOST || "0.0.0.0");
+
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 const wss = new WebSocket.Server({ port: 7777 },()=>{
     console.log('서버시작')
 })
@@ -76,3 +91,10 @@ wss.on('connection', function connection(ws) {
 wss.on('listening',()=>{
    console.log('listening on 7777')
 })
+
+// 서버 동작중인 표시
+app.listen(app.get("port"), app.get("host"), () =>
+   console.log(
+     "Server is running on : " + app.get("host") + ":" + app.get("port")
+   )
+ );
