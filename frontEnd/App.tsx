@@ -9,6 +9,7 @@ import { Image } from 'react-native';
 
 import HomeScreen from './src/tabs/main';
 import SettingsScreen from './src/tabs/mypage';
+import QnAScreen from './src/tabs/qna';
 
 enableScreens();
 
@@ -40,7 +41,7 @@ function App() {
         >
           <Tab.Screen 
             name="Question" 
-            component={HomeScreen}
+            component={QnAScreen}
             options={{
               title: '질문하기',
               tabBarIcon: ({ focused }) => (
