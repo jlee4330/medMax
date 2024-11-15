@@ -5,6 +5,8 @@ const WebSocket = require('ws')
 const cors = require('cors');
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
+const qnaRouter = require('./src/Routers/qnaRouter');
+const myPageRouter = require('./src/Routers/myPageRouter');
 
 dotenv.config();
 
@@ -16,6 +18,10 @@ app.set("host", process.env.HOST || "0.0.0.0");
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+// router
+app.use('/qna', qnaRouter);
+app.use('/myPage', myPageRouter);
 
 const server = http.createServer(app);
 
