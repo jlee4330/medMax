@@ -11,7 +11,7 @@ const statisticsStyles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 20,
     marginTop: 10,
-    marginBottom: 10,
+    marginBottom: 20,
     ...sharedStyles.floatingShadow,
     alignItems: 'center', // Center content within the container
     alignSelf: 'center'

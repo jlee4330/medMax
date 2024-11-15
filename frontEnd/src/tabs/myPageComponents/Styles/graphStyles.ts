@@ -1,14 +1,17 @@
 import { StyleSheet, Dimensions } from 'react-native';
-
+import sharedStyles from './sharedStyles';
 const screenWidth = Dimensions.get('window').width;
 
 const graphStyles = StyleSheet.create({
   graphContainer: {
-    width: screenWidth,
-    paddingVertical: 10,
-    paddingHorizontal: 5,
-    paddingTop: 10,
-    marginBottom: 10,
+    width: screenWidth * 0.9,
+    backgroundColor: 'white',
+    padding: 25,
+    borderRadius: 12,
+    ...sharedStyles.floatingShadow,
+    paddingTop: 20,
+    marginTop: 10,
+    marginBottom: 20,
     alignSelf: 'center',
   },
   scrollView: {

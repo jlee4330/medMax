@@ -12,7 +12,7 @@ const calendarStyles = StyleSheet.create({
     paddingHorizontal: 5,
     paddingTop: 20,
     marginTop: 10,
-    marginBottom: 10,
+    marginBottom: 20,
     alignSelf: 'center',
     ...sharedStyles.floatingShadow,
   },

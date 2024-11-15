@@ -11,7 +11,7 @@ const progressBarStyles = StyleSheet.create({
     ...sharedStyles.floatingShadow,
     paddingTop: 20,
     marginTop: 10,
-    marginBottom: 10,
+    marginBottom: 20,
     alignSelf: 'center',
   },
   progressBar: {
