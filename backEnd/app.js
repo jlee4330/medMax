@@ -94,7 +94,7 @@ wss.on('connection', function connection(ws) {
    
 })
 wss.on('listening',()=>{
-   console.log('listening on 7777')
+   console.log('listening on 3001')
 })
 
 // 서버 동작중인 표시
