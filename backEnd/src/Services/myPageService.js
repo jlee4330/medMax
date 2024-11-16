@@ -34,7 +34,7 @@ const getSevenDay = async (userID) => {
         );
         return result.map(row => [row.dateCount, row.mediCount]);
     } catch(error) {
-        console.error("Error fetching ThirtyDayMedi:", error);
+        console.error("Error fetching SevenDayMedi:", error);
         throw error;
     }
 };
@@ -42,4 +42,5 @@ const getSevenDay = async (userID) => {
 module.exports = {
     getCalender,
     getThirtyDay,
+    getSevenDay,
 };
