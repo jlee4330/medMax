@@ -2,8 +2,9 @@
 
 1. mysql 설치  
 2. ```brew install mysql```  
-3. ```mysql -h mydb.cv468gu4chv4.ap-southeast-2.rds.amazonaws.com -u root -p```  
+3. ```mysql -h 172.20.1.46 -u admin -p```  
 4. password 입력  
+5. '.env' 파일 확인
 
 
 # linux 서버
