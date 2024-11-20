@@ -5,8 +5,10 @@ using NativeWebSocket;
 
 public class Networking : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject gameobject;
     // Start is called before the first frame update
-    public WebSocket ws = new WebSocket("ws://localhost:7777");
+    public WebSocket ws = new WebSocket("ws://143.248.200.7:7777");
     public bool isConnected = false;
     public GameSystemScript gameSystemScript;
     async void Start()
@@ -38,7 +40,9 @@ public class Networking : MonoBehaviour
                     gameSystemScript.my_id = int.Parse(parts[1]);
                     Debug.Log("my id is" + gameSystemScript.my_id);
                     isConnected = true; // Set to true once connected
+                    gameSystemScript.playerDict.Add(gameSystemScript.my_id, gameobject);
                     break;
+
                 default:
                     break;
             }

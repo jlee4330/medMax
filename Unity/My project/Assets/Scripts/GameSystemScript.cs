@@ -6,7 +6,7 @@ using NativeWebSocket;
 public class GameSystemScript : MonoBehaviour
 {
     
-    public static Dictionary<int, GameObject> playerDict;
+    public Dictionary<int, GameObject> playerDict;
     public int num_of_players;
     public int my_id = 0;
     public Networking networking;
@@ -26,22 +26,23 @@ public class GameSystemScript : MonoBehaviour
                 case "allpos":
                     foreach(string pos_arr_str in pos_arr_all){
                         if (pos_arr_str == "allpos") continue;
-                        Debug.Log(pos_arr_str);
                         string[] id_pos = pos_arr_str.Split(',');
+                        
                         int id = int.Parse(id_pos[0]);
-                        if (id == my_id){
-                            continue;
-                        }
-                        else{
+                        // if (id == my_id){
+                        //     continue;
+                        // }
+                        // else{
                             if(!playerDict.ContainsKey(id)){
                                 GameObject otherPlayer = Resources.Load<GameObject>("OtherPlayer");
                                 GameObject clone = Instantiate(otherPlayer, new Vector3(float.Parse(id_pos[1]), float.Parse(id_pos[2]), 0), Quaternion.identity);
                                 playerDict.Add(id, clone);
                             }
                             else{
-                                playerDict[id].transform.position = new Vector3(float.Parse(id_pos[1]), float.Parse(id_pos[2]), 0);
+                                // Debug.Log(id_pos[0] +  id_pos[1] + id_pos[2]);
+                                playerDict[id].transform.GetComponent<NewBehaviourScript>().targetDirection = (new Vector3(float.Parse(id_pos[1]), float.Parse(id_pos[2]), 0));
                             }
-                        }
+                        // }
                     }
                     break;
                 default:
