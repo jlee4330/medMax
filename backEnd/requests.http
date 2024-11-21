@@ -2,7 +2,7 @@ GET http://localhost:7777
 
 ###
 
-GET http://localhost:7777/qna/questions-with-answer/1
+GET http://localhost:7777/qna/questions-with-answers
 
 ###
 
@@ -10,4 +10,20 @@ GET http://localhost:7777/mainPage
 
 ###
 
-GET http://localhost:7777/myPage
+GET http://localhost:7777/myPage/calender?userId=1
+
+###
+
+GET http://localhost:7777/myPage/thirty-day?userId=1
+
+###
+
+GET http://localhost:7777/myPage/seven-day?userId=1
+
+###
+
+GET http://localhost:7777/myPage/together-medi?userId=1
+
+###
+
+GET http://localhost:7777/myPage/full-medi?userId=1
