@@ -27,10 +27,15 @@ app.use('/myPage', myPageRouter);
 app.use('/mainPage', mainPageRouter);
 
 // test
-app.get('/', (req, res) => {
-   const allUsers = pool.query('SELECT * FROM User');
-   res.status(200).send(allUsers);
-})
+app.get('/', async (req, res) => {
+   try {
+     const [allUsers] = await pool.query('SELECT * FROM User');
+     res.status(200).json(allUsers);
+   } catch (error) {
+     console.error('Error fetching users:', error);
+     res.status(500).json({ message: 'Internal Server Error' });
+   }
+ });
 
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server },()=>{
