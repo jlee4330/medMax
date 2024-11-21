@@ -23,14 +23,14 @@ public class Networking : MonoBehaviour
             Debug.Log(GameData.Instance.IsLogin);
 
             if (GameData.Instance.IsLogin){
-                gameSystemScript.user_id = GameData.Instance.UserID;
+                gameSystemScript.my_id = GameData.Instance.UserID;
                 gameSystemScript.room_id = GameData.Instance.RoomID;
 
                 Debug.Log($"Login 성공: UserID = {gameSystemScript.my_id}, RoomID = {gameSystemScript.room_id}");
                 isConnected = true;
             } else{
                 //TODO: get room_id from onBoarding 
-                gameSystemScript.room_id = int.Parse(GameData.Instance.RoomID);
+                gameSystemScript.room_id = GameData.Instance.RoomID;
                 // gameSystemScript.room_id = 1;
                 ws.SendText("new," + gameSystemScript.room_id);
             }
