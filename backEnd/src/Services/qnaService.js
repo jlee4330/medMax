@@ -4,7 +4,7 @@ const pool = require("../mysql.js");
 const createQuestion = async (userId, title, content) => {
   try {
     const [result] = await pool.query(
-      "INSERT INTO Question (user_id, title, content, created_at, is_answered) VALUES (?, ?, ?, NOW(), false)",
+      "INSERT INTO Question (UserId, title, content, created_at, is_answered) VALUES (?, ?, ?, NOW(), false)",
       [userId, title, content]
     );
     return result.insertId;
@@ -15,16 +15,16 @@ const createQuestion = async (userId, title, content) => {
 };
 
 // 답변 생성 함수
-const createAnswer = async (questionId, pharmacistId, answerText) => {
+const createAnswer = async (questionId, userId, pharmacistId, answerContent) => {
   try {
     await pool.query(
-      "INSERT INTO Answer (question_id, pharmacist_id, answer_text, created_at) VALUES (?, ?, ?, NOW())",
-      [questionId, pharmacistId, answerText]
+      "INSERT INTO Answer (QuestionId, UserId, PharmacistId, content, created_at) VALUES (?, ?, ?, NOW())",
+      [questionId, userId, pharmacistId, answerContent]
     );
 
     // 질문 상태 업데이트
     await pool.query(
-      "UPDATE Question SET is_answered = true WHERE id = ?",
+      "UPDATE Question SET is_answered = true WHERE QuestionId = ?",
       [questionId]
     );
   } catch (error) {
@@ -37,7 +37,7 @@ const createAnswer = async (questionId, pharmacistId, answerText) => {
 const getQuestionsWithAnswersByUserId = async (userId) => {
   try {
     const [questions] = await pool.query(
-      "SELECT * FROM Question WHERE user_id = ?",
+      "SELECT * FROM Question WHERE UserId = ?",
       [userId]
     );
 
@@ -45,8 +45,11 @@ const getQuestionsWithAnswersByUserId = async (userId) => {
     const questionsWithAnswers = await Promise.all(
       questions.map(async (question) => {
         const [answers] = await pool.query(
-          "SELECT * FROM Answer WHERE question_id = ?",
-          [question.id]
+          "SELECT Answer.*, Pharmacist.PharmacistName, Pharmacist.PharmacistEmail " +
+          "FROM Answer " +
+          "JOIN Pharmacist ON Answer.PharmacistId = Pharmacist.PharmacistId " +
+          "WHERE Answer.QuestionId = ?",
+          [question.QuestionId]
         );
         return {
           ...question,
