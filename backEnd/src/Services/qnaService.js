@@ -65,8 +65,33 @@ const getQuestionsWithAnswersByUserId = async (userId) => {
   }
 };
 
+const getAllQuestionsWithAnswers = async () => {
+  try {
+    const [questions] = await pool.query(
+      "SELECT * FROM Question",
+    );
+    const questionsWithAnswers = await Promise.all(
+      questions.map(async (question) => {
+        const [answers] = await pool.query(
+          "SELECT Answer.content FROM Answer WHERE Answer.QuestionId = ?",
+          [question.QuestionId]
+        );
+        return {
+          content: question.content,
+          answers: answers,
+        };
+      })
+    );
+    return questionsWithAnswers;
+  } catch (error) {
+    console.error("Error fetching all questions with answers:", error);
+    throw error;
+  }
+};
+
 module.exports = {
   createQuestion,
   createAnswer,
   getQuestionsWithAnswersByUserId,
+  getAllQuestionsWithAnswers,
 };

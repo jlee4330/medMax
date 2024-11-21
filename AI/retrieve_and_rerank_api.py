@@ -4,6 +4,11 @@ import numpy as np
 from fastapi import FastAPI
 from pydantic import BaseModel
 from preprocessing import initialize_bm25, remove_stopwords
+import requests
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
@@ -38,7 +43,7 @@ tokenizer_bge = AutoTokenizer.from_pretrained(model_path_bge)
 model_bge = AutoModelForSequenceClassification.from_pretrained(model_path_bge)
 model_bge.eval()
 
-pairs = [
+pairs_sample = [
     ['아세트아미노펜 복용 전 주의사항이 있나요?', '아세트아미노펜은 과다 복용 시 간 손상을 초래할 수 있습니다.'],
     ['아세트아미노펜을 공복에 먹어도 괜찮나요?', '공복에 복용할 수 있지만, 속이 불편하다면 음식과 함께 복용하는 것이 좋습니다.'],
     ['아세트아미노펜을 알코올과 함께 복용해도 되나요?', '알코올과 함께 복용할 경우 간 손상의 위험이 증가할 수 있습니다.'],
@@ -76,13 +81,31 @@ pairs = [
     ['안녕하세요 약사님, 고혈압 약을 먹고 있는데 감기약을 복용한 이후 혈압이 잘 조절되지 않는 것 같습니다. 어떻게 해야 할까요?', '감기약 복용을 중단하고 혈압약 복용 스케줄을 점검한 뒤 의사나 약사와 상의하세요.']
 ]
 
-bm25 = initialize_bm25(pairs)
+def preprocess_pairs(data):
+    pairs = []
+    for item in data:
+        question = item['content']
+        answer = item['answers'][0]['content']
+        pairs.append([question, answer])
+    return pairs
 
 @app.post("/rerank")
 def retrieve_and_rerank(query_request: QueryRequest):
     question = remove_stopwords(query_request.question)
     top_k = query_request.top_k
+
+    try:
+        response = requests.get("http://127.0.0.1:7777/qna/all-qnas")
+        if response.status_code == 200:
+            data = response.json()
+            logger.info(f"Fetched data: {data}")
+            pairs = preprocess_pairs(data)
+        else:
+            logger.error(f"Failed to fetch data. Status code : {response.status_code}")
+    except Exception as e:
+        logger.error(f"An error occured: {str(e)}")
     
+    bm25 = initialize_bm25(pairs)
     bm25_scores = bm25.get_scores(question)
     top_k_indices = np.argsort(bm25_scores)[-top_k*2:][::-1]
     bm25_top_pairs = [pairs[i] for i in top_k_indices]
