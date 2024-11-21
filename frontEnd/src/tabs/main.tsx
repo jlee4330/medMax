@@ -1,54 +1,190 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import React, { useState } from 'react';
+import { SafeAreaView, StyleSheet, Dimensions, View, Text, Image, TouchableOpacity } from 'react-native';
+import WebView from 'react-native-webview';
+import CockModal from './mainPageComponent/cockModal';  // CockModal을 재사용하거나 새로 만들어서 활용
+import CheckModal from './mainPageComponent/checkModal';
 
-export default function CustomComponent() {
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
+const Webview = () => {
   return (
-    <View style={styles.container}>
-      {/* Group 288915 - 콕 찌르기 */}
-      <View style={styles.group288915}>
-        <View style={styles.intersect} />
-        <Text style={styles.cockText}>콕 찌르기</Text>
-        <Text style={styles.medicationText}>아직 미복용 12명</Text>
+    <SafeAreaView style={styles.container}>
+      <WebView
+        style={styles.webview}
+        source={{ uri: 'http://143.248.200.170:8000/' }}
+      />
+    </SafeAreaView>
+  );
+};
+
+// 메인 컴포넌트
+export default function CustomComponent() {
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [isMedicationModalVisible, setMedicationModalVisible] = useState(false); // 약 복용 체크 모달 상태
+
+  // 마을 정보 컴포넌트
+  const VillageInfo = () => (
+    <View style={styles.group7167}>
+      <Image
+        source={require('../assets/images/capsule.png')}
+        style={styles.group288968}
+        resizeMode="contain"
+      />
+      <View style={styles.textAndBarContainer}>
+        <Text style={styles.villageText}>마을 123</Text>
+        <View style={styles.barGraphRow}>
+          <View style={styles.barGraphContainer}>
+            <View style={[styles.barSegment, { flex: 4, backgroundColor: '#A6A2E9' }]} />
+            <View style={[styles.barSegment, { flex: 2, backgroundColor: '#F5F5FD' }]} />
+          </View>
+          <Text style={styles.percentageText}>67%</Text> {/* 퍼센티지 표시 */}
+        </View>
+      </View>
+    </View>
+  );
+
+  // 콕 찌르기 컴포넌트
+  const PokeButton = () => (
+    <TouchableOpacity
+      style={styles.group288915}
+      onPress={() => setModalVisible(true)}
+    >
+      <View style={styles.intersect}>
         <Image
           source={require('../assets/images/bell.png')}
           style={styles.notificationIcon}
           resizeMode="contain"
         />
       </View>
+      <View style={styles.textContainer}>
+        <Text style={styles.cockText}>콕 찌르기</Text>
+        <Text style={styles.medicationText}>아직 미복용 12명</Text>
+      </View>
+    </TouchableOpacity>
+  );
 
-      {/* Frame 2609176 - 약 복용 체크 */}
-      <View style={styles.frame2609176}>
-        <Image
-          source={require('../assets/images/medication.png')}
-          style={styles.image}
-          resizeMode="contain"
+  // 약 복용 체크 컴포넌트
+  const MedicationCheckButton = () => (
+    <TouchableOpacity
+      style={styles.frame2609176}
+      onPress={() => setMedicationModalVisible(true)} // 약 복용 체크 모달 표시
+    >
+      <Image
+        source={require('../assets/images/medication.png')}
+        style={styles.medicationImage}
+        resizeMode="contain"
+      />
+    </TouchableOpacity>
+  );
+
+  return (
+    <SafeAreaView style={styles.container}>
+      {/* WebView */}
+      <Webview />
+
+      {/* CustomComponent */}
+      <View style={styles.componentContainer}>
+        <VillageInfo />
+        <PokeButton />
+        <MedicationCheckButton />
+
+        {/* CockModal 호출 */}
+        <CockModal
+          visible={isModalVisible}
+          onClose={() => setModalVisible(false)}
+          onConfirm={() => {
+            setModalVisible(false);
+          }}
+        />
+
+        {/* 약 복용 체크 모달 */}
+        <CheckModal
+          visible={isMedicationModalVisible}
+          onClose={() => setMedicationModalVisible(false)}
+          onConfirm={() => {
+            setMedicationModalVisible(false);
+          }}
         />
       </View>
-
-      {/* Group 7167 - 마을 정보 */}
-      <View style={styles.group7167}>
-        <Text style={styles.villageText}>마을 123</Text>
-        <Image
-          source={require('../assets/images/capsule.png')}
-          style={styles.group288968}
-          resizeMode="contain"
-        />
-      </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    position: 'relative',
+  },
+  componentContainer: {
+    flex: 1,
+    position: 'absolute',
+    top: windowHeight * 0.2,
+    width: windowWidth,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  webview: {
+    width: windowWidth,
+    height: windowHeight * 0.7,
+  },
+  group7167: {
+    width: windowWidth * 0.9,
+    height: windowHeight * 0.1,
+    marginTop: -windowHeight * 0.2,
+    marginHorizontal: windowWidth * 0.05,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 15.93,
+    shadowColor: '#E7E7EB',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 1,
+    shadowRadius: 4,
+    elevation: 4,
+    alignItems: 'center',
+    flexDirection: 'row',
+    paddingHorizontal: windowWidth * 0.03,
+  },
+  group288968: {
+    width: windowWidth * 0.15,
+    height: windowHeight * 0.1,
+  },
+  villageText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#4D4D4D',
+    marginTop: windowHeight * 0.01,
+    marginLeft: windowWidth * 0.03
+  },
+  textAndBarContainer: {
+    flex: 1,
+  },
+  barGraphRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 7,
+  },
+  barGraphContainer: {
+    flexDirection: 'row',
+    height: windowHeight * 0.015,
+    width: windowWidth * 0.6,
+    backgroundColor: '#E0E0E0',
+    borderRadius: 5,
+    overflow: 'hidden',
+  },
+  barSegment: {
+    height: '100%',
+  },
+  percentageText: {
+    marginLeft: 10,
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#4D4D4D',
   },
   group288915: {
     position: 'absolute',
-    width: 187,
-    height: 50,
-    left: 16,
-    top: 683.5,
+    width: windowWidth * 0.5,
+    height: windowHeight * 0.06,
+    left: windowWidth * 0.05,
+    top: windowHeight * 0.6,
     backgroundColor: '#FFFFFF',
     borderRadius: 12,
     shadowColor: 'rgba(0, 0, 0, 0.25)',
@@ -56,46 +192,45 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 4,
     elevation: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  intersect: {
+    width: windowWidth * 0.14,
+    height: windowHeight * 0.06,
+    backgroundColor: '#FFDC90',
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textContainer: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    marginLeft: windowWidth * 0.02,
   },
   cockText: {
-    position: 'relative',
-    left: '36%',
-    top: '-80%',
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: '600',
     color: '#FFDC90',
   },
   medicationText: {
-    position: 'relative',
-    left: '36%',
-    top: '-70%',
-    fontSize: 14,
-    fontWeight: '700',
+    fontSize: 12,
+    fontWeight: '400',
     color: '#4D4D4D',
-  },
-  intersect: {
-    position: 'relative',
-    width: 51.19,
-    height: 50,
-    left: 0,
-    backgroundColor: '#FFDC90',
-    borderRadius: 12,
+    marginTop: windowHeight * 0.005,
   },
   notificationIcon: {
-    position: 'relative',
-    width: 24,
-    height: 24,
-    top: '-185%',
-    left: '6%',
+    width: windowWidth * 0.06,
+    height: windowHeight * 0.03,
   },
   frame2609176: {
     position: 'absolute',
-    width: 55,
-    height: 55,
-    left: 322,
-    top: 681,
+    width: windowWidth * 0.15,
+    height: windowHeight * 0.07,
+    left: windowWidth * 0.8,
+    top: windowHeight * 0.6,
     backgroundColor: '#FFDC90',
-    borderRadius: 400,
+    borderRadius: windowWidth * 0.1,
     shadowColor: 'rgba(0, 0, 0, 0.25)',
     shadowOffset: { width: 0, height: 5.33 },
     shadowOpacity: 1,
@@ -104,37 +239,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  image: {
-    width: '196%',
-    height: '196%',
-  },
-  group7167: {
-    position: 'absolute',
-    width: 360,
-    height: 82.32,
-    left: 17,
-    top: 80,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 15.93,
-    shadowColor: '#E7E7EB',
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 1,
-    shadowRadius: 4,
-    elevation: 4,
-  },
-  villageText: {
-    position: 'relative',
-    left: '25%',
-    top: '20%',
-    fontSize: 19.9167,
-    fontWeight: 'bold',
-    color: '#4D4D4D',
-  },
-  group288968: {
-    position: 'absolute',
-    width: 57.66,
-    height: 56,
-    left: '4%',
-    top: '15%',
+  medicationImage: {
+    width: '90%',
+    height: '90%',
   },
 });
