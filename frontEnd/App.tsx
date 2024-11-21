@@ -10,6 +10,9 @@ import { Image } from 'react-native';
 import HomeScreen from './src/tabs/main';
 import SettingsScreen from './src/tabs/mypage';
 import QnAScreen from './src/tabs/qna';
+import WelcomeScreen from './src/tabs/welcome';
+import SurveyScreen from './src/tabs/survey';
+import Survey2Screen from './src/tabs/survey2';
 
 enableScreens();
 
@@ -41,7 +44,7 @@ function App() {
         >
           <Tab.Screen 
             name="Question" 
-            component={QnAScreen}
+            component={Survey2Screen} //여기 바꿔가면서 일단 하고, 라우팅은 StackNavigator 어케 해결해보기 ㅠ
             options={{
               title: '질문하기',
               tabBarIcon: ({ focused }) => (
