@@ -1,4 +1,13 @@
-GET http://localhost:3001
+GET http://localhost:7777
 
 ###
 
+GET http://localhost:7777/qna/questions-with-answer/1
+
+###
+
+GET http://localhost:7777/mainPage
+
+###
+
+GET http://localhost:7777/myPage

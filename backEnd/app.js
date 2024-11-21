@@ -8,13 +8,14 @@ const bodyParser = require('body-parser');
 const qnaRouter = require('./src/Routers/qnaRouter');
 const myPageRouter = require('./src/Routers/myPageRouter');
 const mainPageRouter = require('./src/Routers/mainPageRouter');
+const pool = require("./src/mysql.js");
 
 dotenv.config();
 
 const app = express();
 
-app.set("port", process.env.PORT || 7777);
-app.set("host", process.env.HOST || "143.248.200.7");
+app.set("port", 7777);
+app.set("host", "0.0.0.0");
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -24,6 +25,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/qna', qnaRouter);
 app.use('/myPage', myPageRouter);
 app.use('/mainPage', mainPageRouter);
+
+// test
+app.get('/', (req, res) => {
+   const allUsers = pool.query('SELECT * FROM User');
+   res.status(200).send(allUsers);
+})
 
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server },()=>{
