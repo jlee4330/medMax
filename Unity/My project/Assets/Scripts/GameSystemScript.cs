@@ -9,6 +9,7 @@ public class GameSystemScript : MonoBehaviour
     public Dictionary<int, GameObject> playerDict;
     public int num_of_players;
     public int my_id = 0;
+    public int room_id = 1;
     public Networking networking;
     public WebSocket ws;
     
@@ -29,10 +30,18 @@ public class GameSystemScript : MonoBehaviour
                         string[] id_pos = pos_arr_str.Split(',');
                         
                         int id = int.Parse(id_pos[0]);
-                        // if (id == my_id){
-                        //     continue;
-                        // }
-                        // else{
+                        if (id == my_id){
+                            if(!playerDict.ContainsKey(id)){
+                                GameObject otherPlayer = Resources.Load<GameObject>("player");
+                                GameObject clone = Instantiate(otherPlayer, new Vector3(float.Parse(id_pos[1]), float.Parse(id_pos[2]), 0), Quaternion.identity);
+                                playerDict.Add(id, clone);
+                            }
+                            else{
+                                // Debug.Log(id_pos[0] +  id_pos[1] + id_pos[2]);
+                                playerDict[id].transform.GetComponent<NewBehaviourScript>().targetDirection = (new Vector3(float.Parse(id_pos[1]), float.Parse(id_pos[2]), 0));
+                            }
+                        }
+                        else{
                             if(!playerDict.ContainsKey(id)){
                                 GameObject otherPlayer = Resources.Load<GameObject>("OtherPlayer");
                                 GameObject clone = Instantiate(otherPlayer, new Vector3(float.Parse(id_pos[1]), float.Parse(id_pos[2]), 0), Quaternion.identity);
@@ -42,7 +51,7 @@ public class GameSystemScript : MonoBehaviour
                                 // Debug.Log(id_pos[0] +  id_pos[1] + id_pos[2]);
                                 playerDict[id].transform.GetComponent<NewBehaviourScript>().targetDirection = (new Vector3(float.Parse(id_pos[1]), float.Parse(id_pos[2]), 0));
                             }
-                        // }
+                        }
                     }
                     break;
                 default:
