@@ -17,7 +17,7 @@ const FAQList = [
 
 const SimilarQList = [
   { id: '6', question: '가장 유사한 질문1', content: '작성하신 질문과 비슷한 질문은~1', pharmacist: '박수현 약사', answer: 'AI 파이팅' },
-  { id: '7', question: '가장 유사한 질문2', content: '작성하신 질문과 비슷한 질문은~2', pharmacist: '정예준 약사', answer: '백 연결 할 수 있겠지' },
+  { id: '7', question: '가장 유사한 질문2길게하면길어져', content: '작성하신 질문과 비슷한 질문은~2', pharmacist: '정예준 약사', answer: '백 연결 할 수 있겠지' },
   { id: '8', question: '가장 유사한 질문3', content: '작성하신 질문과 비슷한 질문은~3', pharmacist: '카카오 약사', answer: '물론이지 ㅋㅋ' },
 ];
 
@@ -36,6 +36,24 @@ const AccordionItem = ({ item }) => { //토글로 열고 닫는 걸 accordion이
     </TouchableOpacity>
   ); //question, content, pharmacist, answer 각각의 디자인 추가하기
 };
+
+const ModalAccordionItem = ({ item }) => { //modal용 accordion은 따로 디자인하자!
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <TouchableOpacity onPress={() => setIsOpen(!isOpen)} style={styles.modalItemContainer}>
+      <Text style={styles.modalItemTitle}>{item.question}</Text>
+      {isOpen && (
+        <>
+          <Text style={styles.modalItemContent}>{item.content}</Text>
+          <Text style={styles.modalItemPharmacist}>{item.pharmacist}</Text>
+          <Text style={styles.modalItemAnswer}>{item.answer}</Text>
+        </>
+      )}
+    </TouchableOpacity>
+  );
+};
+
 
 const MyQA = ({ searchQuery }) => {
   const filteredData = MyQList.filter((item) => item.question.includes(searchQuery));
@@ -59,6 +77,19 @@ const FAQ = ({ searchQuery }) => {
   );
 };
 
+const SimilarQ = ({ searchQuery }) => {
+  //얘는 searchQuery가 아니라 input 받은 거 백에 보내서 filter해서 그걸 띄워야.
+  //일단은 있는 데이터 띄운다 치고, 이 const 안 쓰고 바로 FlatList modal의 Step2에 띄우도록 하자..
+  const filteredData = SimilarQList.filter((item) => item.question.includes(searchQuery));
+  return (
+    <FlatList
+      data={filteredData}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => <AccordionItem item={item} />}
+    />
+  );
+};
+
 const App = () => {
   const [index, setIndex] = useState(0);
   const [routes] = useState([
@@ -68,8 +99,9 @@ const App = () => {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [step, setStep] = useState(1); // modal 단계 관리
   const [modalText, setModalText] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
+  // const [selectedCategory, setSelectedCategory] = useState(''); //category 설정 없애고 질문 제목 넣기
 
   const renderScene = SceneMap({
     myQA: () => <MyQA searchQuery={searchQuery} />,
@@ -112,8 +144,11 @@ const App = () => {
         >
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
-              <Text style={styles.modalTitle}>Q&A 작성하기</Text>
-              <View style={styles.categoryContainer}>
+              {/* step을 나눠서 다른 내용 렌더링하자 */}
+              {step === 1 && (
+                <>
+                <Text style={styles.modalTitle}>Q&A 작성하기</Text>
+                {/* <View style={styles.categoryContainer}>
                 <TouchableOpacity
                   style={[styles.categoryButton, selectedCategory === '복용' && styles.categoryButtonSelected]}
                   onPress={() => setSelectedCategory('복용')}
@@ -138,19 +173,39 @@ const App = () => {
                 >
                   <Text style={styles.categoryText}>기타</Text>
                 </TouchableOpacity>
-              </View>
-              <TextInput
-                style={styles.textArea}
-                placeholder="안녕하세요 약사님, 최근에 OOO 약을 처방받았는데..."
-                value={modalText}
-                onChangeText={setModalText}
-                multiline={true}
-              />
-              <View style={styles.modalButtons}>
-                <Button title="취소" onPress={() => setIsModalVisible(false)} />
-                <Button title="다음으로" onPress={() => setIsModalVisible(false)} /> 
-                {/* onPress={handleNextStep} */}
-              </View>
+                </View> */}
+                <TextInput
+                  style={styles.textArea}
+                  placeholder="안녕하세요 약사님, 최근에 OOO 약을 처방받았는데..."
+                  value={modalText}
+                  onChangeText={setModalText}
+                  multiline={true}
+                />
+                <View style={styles.modalButtons}>
+                  <Button title="취소" onPress={() => setIsModalVisible(false)} />
+                  <Button title="다음으로" onPress={() => setStep(2)} /> 
+                </View>
+                </>
+              )}
+
+              {step === 2 && (
+                <>
+                <Text style={styles.modalTitle}>AI 추천</Text>
+                <Text style={styles.modalExplain}>유사한 질문과 답변들을 가져왔어요!</Text>
+                <FlatList
+                  data = {SimilarQList}
+                  keyExtractor={(item) => item.id}
+                  renderItem={({ item }) => <ModalAccordionItem item={item} />}
+                />
+                <View style={styles.modalButtons}>
+                  <Button title="취소" onPress={() => setIsModalVisible(false)} />
+                  <Button title="이전으로" onPress={() => setStep(1)} />
+                  <Button title="쪽지 부치기" onPress={() => setIsModalVisible(false)} />
+                  {/* onPress={handleNextStep} 아니면 handleSubmit()*/}
+                </View>
+                </>
+              )}
+              
             </View>
           </View>
         </Modal>
@@ -185,6 +240,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         backgroundColor: '#f9f9f9',
       },
+    //accordionItem 어케 보여줄 건지
     itemContainer: {
       padding: 15,
       borderBottomWidth: 1,
@@ -207,6 +263,34 @@ const styles = StyleSheet.create({
       marginTop: 10,
       fontSize: 14,
       color: '#555',
+    },
+    //modal은 다르게 띄우자
+    modalItemContainer: {
+      padding: 15,
+      borderBottomWidth: 1,
+      borderBottomColor: '#ccc',
+      width: '100%',
+    },
+    modalItemTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: '#333',
+    },
+    modalItemContent: {
+      marginTop: 5,
+      fontSize: 14,
+      color: '#666',
+    },
+    modalItemPharmacist: {
+      marginTop: 15,
+      fontSize: 14,
+      fontWeight: 'bold',
+      color: '#444',
+    },
+    modalItemAnswer: {
+      marginTop: 5,
+      fontSize: 14,
+      color: '#666',
     },
     floatingButton: {
       position: 'absolute',
@@ -244,7 +328,11 @@ const styles = StyleSheet.create({
     modalTitle: {
       fontSize: 20,
       fontWeight: 'bold',
-      marginBottom: 15,
+      marginBottom: 10,
+    },
+    modalExplain: {
+      fontSize: 15,
+      marginBottom: 10,
     },
     categoryContainer: {
       flexDirection: 'row',
@@ -273,9 +361,10 @@ const styles = StyleSheet.create({
       borderRadius: 5,
       padding: 10,
       textAlignVertical: 'top', // 여러 줄 입력 시 텍스트 위쪽 정렬
-      marginBottom: 15,
+      marginBottom: 5,
     },
     modalButtons: {
+      marginTop: 10,
       flexDirection: 'row',
       justifyContent: 'space-between',
       width: '100%',
