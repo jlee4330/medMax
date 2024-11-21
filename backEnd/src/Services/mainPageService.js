@@ -57,7 +57,7 @@ const getIds = async (uuID) => {
 
         //TODO
         const [result] = await pool.query(
-            //TODO
+            
             `SELECT userId, roomId from Day_medi where UserID = '${uuID}'`
         );
             //TODO
@@ -68,6 +68,23 @@ const getIds = async (uuID) => {
         throw error;
     }
 };
+
+// const getIds = async (uuID) => {
+//     try {
+
+//         //TODO
+//         const [result] = await pool.query(
+//             //TODO
+//             `SELECT userId, roomId from Day_medi where UserID = '${uuID}'`
+//         );
+//             //TODO
+//             return result.map(row => [row.userId, row.roomId]);
+
+//     } catch(error) {
+//         console.error("Error fetching getGoal:", error);
+//         throw error;
+//     }
+// };
 
 module.exports = {
     getCandidate,

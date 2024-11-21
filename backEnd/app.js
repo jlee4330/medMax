@@ -42,56 +42,115 @@ const wss = new WebSocket.Server({ server },()=>{
     console.log('서버시작')
 })
 // Player list 객체 생성
-const playerList = {};
+// const playerListList = {};
+// const playerList = {};
 
-// 플레이어 추가 또는 위치 업데이트 함수
-function updatePlayerPosition(userId, x, y) {
-   // console.log(playerList);
-    playerList[userId] = { x: x, y: y }; // playerList에 userId를 key로 하여 위치 업데이트
+// // 플레이어 추가 또는 위치 업데이트 함수
+// function updatePlayerPosition(playerList, userId, x, y) {
+//    // console.log(playerList);
+//     playerList[userId] = { x: x, y: y }; // playerList에 userId를 key로 하여 위치 업데이트
+// }
+
+// function setRandomPositions(playerList) {
+//    for (let userID in playerList) {
+//        if (playerList.hasOwnProperty(userID)) {
+//            playerList[userID].x = Math.floor(Math.random() * (1 - (-1) + 1)) - 1;
+//            playerList[userID].y = Math.floor(Math.random() * (1 - (-1) + 1)) - 1;
+//        }
+//    }
+// }
+const playerListList = {};
+
+/**
+ * 플레이어의 위치를 업데이트하는 함수
+ * @param {number} roomID - 방 ID
+ * @param {number} UserID - 사용자 ID
+ * @param {number} x - x 좌표
+ * @param {number} y - y 좌표
+ */
+function updatePlayerPosition(roomID, UserID, x, y) {
+    if (playerListList[roomID] && playerListList[roomID][UserID]) {
+        playerListList[roomID][UserID] = { x, y };
+    } else {
+        console.log(`Error: Player ${UserID} does not exist in room ${roomID}`);
+    }
 }
 
-function setRandomPositions(playerList) {
-   for (let userID in playerList) {
-       if (playerList.hasOwnProperty(userID)) {
-           playerList[userID].x = Math.floor(Math.random() * (1 - (-1) + 1)) - 1;
-           playerList[userID].y = Math.floor(Math.random() * (1 - (-1) + 1)) - 1;
+/**
+ * 플레이어 위치를 삽입하는 함수
+ * @param {number} roomID - 방 ID
+ * @param {string} UserID - 사용자 ID
+ * @param {number} x - x 좌표
+ * @param {number} y - y 좌표
+ */
+function insertPlayerPosition(roomID, UserID, x, y) {
+    if (!playerListList[roomID]) {
+        playerListList[roomID] = {}; // 방을 초기화
+    }
+    if (!playerListList[roomID][UserID]) {
+        playerListList[roomID][UserID] = { x, y };
+    } else {
+        console.log(`Error: Player ${UserID} already exists in room ${roomID}`);
+    }
+}
+
+/**
+ * 모든 플레이어의 위치를 랜덤으로 설정하는 함수
+ */
+function setRandomPosition() {
+    for (const roomID in playerListList) {
+        for (const UserID in playerListList[roomID]) {
+            const x = Math.floor(Math.random() * 3) - 1; // 0 ~ 99 사이의 랜덤 값
+            const y = Math.floor(Math.random() * 3) - 1; // 0 ~ 99 사이의 랜덤 값
+            playerListList[roomID][UserID] = { x, y };
+        }
+    }
+}
+function generateUniqueUserID() {
+   const existingIDs = new Set();
+
+   // 모든 roomID와 userID를 순회하며 기존 ID를 수집
+   for (const roomID in playerListList) {
+       for (const userID in playerListList[roomID]) {
+           existingIDs.add(Number(userID)); // userID를 숫자로 변환하여 저장
        }
    }
+
+   // 사용 가능한 가장 작은 정수를 찾기
+   let newUserID = 1; // 시작값
+   while (existingIDs.has(newUserID)) {
+       newUserID++;
+   }
+
+   return newUserID;
 }
 
-// 플레이어 위치 가져오기 함수
-function getPlayerPosition(userId) {
-    return playerList[userId] || null; // 존재하지 않으면 null 반환
-}
+// function convertPositionListToString(positionList) {
+//    // 모든 key-value 쌍을 map으로 변환하여 각 객체를 형식에 맞게 문자열로 변환
+//    const result = Object.keys(positionList).map(id => {
+//        const { x, y } = positionList[id];
+//        return `${id},${x},${y}`;
+//    });
 
-// 플레이어 삭제 함수
-function removePlayer(userId) {
-    delete playerList[userId];
-}
+//    // 각 객체의 문자열을 "/"로 결합하여 최종 문자열 반환
+//    return result.join('/');
+// }
 
-function generateUniqueId() {
-   let id;
-   let count = 1;
+function convertPlayerListListToString(playerListList) {
+   // 각 roomID의 데이터를 변환
+   const result = Object.keys(playerListList).map(roomID => {
+       const positionList = playerListList[roomID];
+       const playerData = Object.keys(positionList).map(userID => {
+           const { x, y } = positionList[userID];
+           return `${userID},${x},${y}`;
+       }).join('/'); // 각 플레이어의 데이터를 "/"로 결합
 
-   do {
-       id = count;
-       count++;
-   } while (playerList[id]); // playerList에 같은 id가 있으면 반복
-
-   return id;
-}
-
-function convertPositionListToString(positionList) {
-   // 모든 key-value 쌍을 map으로 변환하여 각 객체를 형식에 맞게 문자열로 변환
-   const result = Object.keys(positionList).map(id => {
-       const { x, y } = positionList[id];
-       return `${id},${x},${y}`;
+       return `${roomID}#${playerData}`;
    });
 
-   // 각 객체의 문자열을 "/"로 결합하여 최종 문자열 반환
-   return result.join('/');
+   // 각 room의 데이터를 "&"로 결합하여 최종 문자열 반환
+   return result.join('&');
 }
-
 
 wss.on('connection', function connection(ws) {
    const interval = setInterval(() => {
@@ -99,9 +158,10 @@ wss.on('connection', function connection(ws) {
           
          wss.clients.forEach(client => {
             if (client.readyState === WebSocket.OPEN) {
-               setRandomPositions(playerList)
-               console.log(playerList);
-                client.send("allpos" +"/"+ convertPositionListToString(playerList));
+               setRandomPosition()
+               const temp = convertPlayerListListToString(playerListList);
+               console.log(temp);
+               client.send("allpos" +"/"+ temp);
             }
          }
       );
@@ -119,9 +179,10 @@ wss.on('connection', function connection(ws) {
             // console.log('%d의 위치는 x = %f y = %f',its_id,x,y);
             break;
          case "new" :
-            const n_id = generateUniqueId();
+            const n_id = message[1];
+            const room_id = message[2];
             const new_id = "newid" + "," + n_id;
-            updatePlayerPosition(n_id, 0, 0);
+            insertPlayerPosition(room_id, n_id, 0, 0);
             ws.send(new_id);
             break;
          default:
