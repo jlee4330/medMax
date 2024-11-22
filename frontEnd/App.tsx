@@ -12,7 +12,6 @@ import SettingsScreen from './src/tabs/mypage';
 import QnAScreen from './src/tabs/qna';
 import WelcomeScreen from './src/tabs/welcome';
 import SurveyScreen from './src/tabs/survey';
-import Survey2Screen from './src/tabs/survey2';
 
 enableScreens();
 
@@ -43,14 +42,14 @@ function App() {
           }}
         >
           <Tab.Screen 
-            name="Question" 
-            component={Survey2Screen} //여기 바꿔가면서 일단 하고, 라우팅은 StackNavigator 어케 해결해보기 ㅠ
+            name="Question"
+            component={SurveyScreen} //여기 바꿔가면서 일단 하고, 라우팅은 StackNavigator 어케 해결해보기 ㅠ
             options={{
               title: '질문하기',
               tabBarIcon: ({ focused }) => (
                 <Image 
                   source={require('./src/assets/images/icon1.png')}
-                  style={{ 
+                  style={{
                     width: 24, 
                     height: 24,
                     tintColor: focused ? '#6667AB' : '#8E8E93'
