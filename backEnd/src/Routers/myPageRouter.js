@@ -1,5 +1,5 @@
 const express = require("express");
-const { getCalender, getThirtyDay, getSevenDay, getTogetherMedi, getFullMedi } = require("../Services/myPageService");
+const { getCalender, getThirtyDay, getSevenDay, getTogetherMedi, getFullMedi, getQNum } = require("../Services/myPageService");
 
 const myPageRouter = express.Router();
 
@@ -55,6 +55,17 @@ myPageRouter.get("/full-medi", async (req, res) => {
         res.status(200).json(fullMedi);
     } catch (error) {
         res.status(500).json({ error: "Failed to fetch FullMedi" });
+    }
+});
+
+// 질문 개수 조회 API
+myPageRouter.get("/q-num", async (req, res) => {
+    const { userId } = req.query;
+    try {
+        const qNum = await getQNum(userId);
+        res.status(200).json(qNum);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch QNum" });
     }
 });
 

@@ -66,10 +66,24 @@ const getFullMedi = async (userId) => {
     }
 }
 
+const getQNum = async (userId) => {
+    try {
+        const [result] = await pool.query(
+            "SELECT COUNT(QuestionId) AS qNum FROM Question WHERE userId = ?",
+            [userId]
+        );
+        return result.map(row => [row.qNum]);
+    } catch(error) {
+        console.error("Error fetching QNum:", error);
+        throw error;
+    }
+}
+
 module.exports = {
     getCalender,
     getThirtyDay,
     getSevenDay,
     getTogetherMedi,
-    getFullMedi
+    getFullMedi,
+    getQNum
 };
