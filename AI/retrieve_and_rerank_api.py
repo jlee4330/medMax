@@ -95,7 +95,7 @@ def retrieve_and_rerank(query_request: QueryRequest):
     top_k = query_request.top_k
 
     try:
-        response = requests.get("http://127.0.0.1:7777/qna/all-qnas")
+        response = requests.get("http://nodejs-backend:7777/qna/all-qnas")
         if response.status_code == 200:
             data = response.json()
             logger.info(f"Fetched data: {data}")

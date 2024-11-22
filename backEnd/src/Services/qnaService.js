@@ -1,6 +1,6 @@
 const pool = require("../mysql.js");
 
-// 질문 생성 함수
+// 질문 생성
 const createQuestion = async (userId, title, content) => {
   try {
     const [result] = await pool.query(
@@ -14,7 +14,7 @@ const createQuestion = async (userId, title, content) => {
   }
 };
 
-// 답변 생성 함수
+// 답변 생성
 const createAnswer = async (questionId, userId, pharmacistId, answerContent) => {
   try {
     await pool.query(
@@ -33,27 +33,38 @@ const createAnswer = async (questionId, userId, pharmacistId, answerContent) => 
   }
 };
 
-// 질문과 답변 조회 함수
-const getQuestionsWithAnswersByUserId = async (userId) => {
+// 질문과 답변 조회
+const getQuestionsWithAnswers = async (userId = null) => {
   try {
-    const [questions] = await pool.query(
-      "SELECT * FROM Question WHERE UserId = ?",
-      [userId]
-    );
+    const query = userId
+      ? "SELECT * FROM Question WHERE UserId = ?"
+      : "SELECT * FROM Question";
+    const params = userId ? [userId] : [];
 
-    // 각 질문에 대한 답변을 추가
+    const [questions] = await pool.query(query, params);
+
     const questionsWithAnswers = await Promise.all(
       questions.map(async (question) => {
         const [answers] = await pool.query(
-          "SELECT Answer.*, Pharmacist.PharmacistName, Pharmacist.PharmacistEmail " +
+          "SELECT Answer.content, Pharmacist.PharmacistName " +
           "FROM Answer " +
-          "JOIN Pharmacist ON Answer.PharmacistId = Pharmacist.PharmacistId " +
+          "JOIN Pharmacist ON Answer.PharmacistId = Pharmacist.PharmacistId " + 
           "WHERE Answer.QuestionId = ?",
           [question.QuestionId]
         );
+
+        // 답변 여러개일 시
+        const formattedAnswers = answers.map((answer) => ({
+          answer: answer.content,
+          pharmacist: answer.PharmacistName
+        }));
+
         return {
-          ...question,
-          answers: answers
+          id: question.QuestionId,
+          question: question.title,
+          content: question.content,
+          pharmacist: formattedAnswers.length > 0 ? formattedAnswers[0]?.pharmacist : '알 수 없음',
+          answer: formattedAnswers.length > 0 ? formattedAnswers[0]?.answer : '알 수 없음'
         };
       })
     );
@@ -65,33 +76,8 @@ const getQuestionsWithAnswersByUserId = async (userId) => {
   }
 };
 
-const getAllQuestionsWithAnswers = async () => {
-  try {
-    const [questions] = await pool.query(
-      "SELECT * FROM Question",
-    );
-    const questionsWithAnswers = await Promise.all(
-      questions.map(async (question) => {
-        const [answers] = await pool.query(
-          "SELECT Answer.content FROM Answer WHERE Answer.QuestionId = ?",
-          [question.QuestionId]
-        );
-        return {
-          content: question.content,
-          answers: answers,
-        };
-      })
-    );
-    return questionsWithAnswers;
-  } catch (error) {
-    console.error("Error fetching all questions with answers:", error);
-    throw error;
-  }
-};
-
 module.exports = {
   createQuestion,
   createAnswer,
-  getQuestionsWithAnswersByUserId,
-  getAllQuestionsWithAnswers,
+  getQuestionsWithAnswers,
 };

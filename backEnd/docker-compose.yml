@@ -1,0 +1,22 @@
+version: "3.8"
+services:
+  nodejs-backend:
+    image: node:18
+    container_name: nodejs-backend
+    working_dir: /backEnd
+    volumes:
+      - ./:/backEnd
+    ports:
+      - "7777:7777"
+    command: ["node", "app.js"]
+    environment:
+      - NODE_ENV=production
+
+  fastapi-ai:
+    build:
+      context: ../AI
+    container_name: fastapi-ai
+    ports:
+      - "8000:8000"
+    environment:
+      - ENV=production
