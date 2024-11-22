@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, View, Text } from 'react-native';
+import axios from 'axios';
+import config from '../config';
 import styles from './myPageComponents/Styles/trackerStyles';
 import MedicationCalendar from './myPageComponents/MedicationCalendar';
 import ProgressBar from './myPageComponents/ProgressBar';
@@ -7,47 +9,44 @@ import Statistics from './myPageComponents/Statistics';
 import UserGreeting from './myPageComponents/UserGreeting';
 import HorizontalGraph from './myPageComponents/HorizontalGraph';
 
-// Sample data based on your input
-const sampleData: {
-  medicationCounts: number;
-  progress: [number, number][];
-  medicationCalendar: [number, number][];
-  horizontalGraph: [string, number][];
+// Define the data structure for type safety
+interface Data {
+  medicationCalendar: any[]; // Replace `any` with the specific structure of medication calendar
+  progress: any[]; // Replace `any` with the structure of progress data
   statistics: [number, number, number];
-} = {
-  medicationCounts: 3,
-  progress: [
-    [3, 20],
-    [2, 2],
-    [1, 5],
-    [0, 3],
-  ],
-  statistics: [145, 60, 10],
-  medicationCalendar: [
-    [28, 3],
-    [29, 2],
-    [30, 3],
-    [1, 3],
-    [2, 0],
-    [3, 1],
-    [4, 2],
-    [5, 3],
-    [6, 1],
-    [7, 0],
-    [8, 3], // Set this as "today" for demonstration purposes
-  ],
-  horizontalGraph: [
-    ['주영', 8],
-    ['서준', 3],
-    ['지안', 5],
-    ['민호', 2],
-    ['하윤', 4],
-    ['도윤', 3],
-    ['영은', 4],
-  ],
-};
+  horizontalGraph: [string, number][];
+}
 
 const MedicationTracker: React.FC = () => {
+  const [data, setData] = useState<Data | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userId = '123'; // Replace with dynamic user ID as needed
+        const response = await axios.get(`${config.backendUrl}/calender`, {
+          params: { userId },
+        });
+        setData(response.data);
+      } catch (err) {
+        if (axios.isAxiosError(err)) {
+          setError(err.message);
+        } else {
+          setError('An unexpected error occurred');
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) return <Text>Loading...</Text>;
+  if (error) return <Text>Error: {error}</Text>;
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -57,20 +56,19 @@ const MedicationTracker: React.FC = () => {
 
           {/* Calendar Section */}
           <Text style={styles.sectionHeaderText}>복약 달력</Text>
-          <MedicationCalendar medicationData={sampleData.medicationCalendar} />
+          <MedicationCalendar medicationData={data?.medicationCalendar || []} />
 
           {/* Progress Bar Section */}
           <Text style={styles.sectionHeaderText}>복약 비율</Text>
-          <ProgressBar progressData={sampleData.progress} />
+          <ProgressBar progressData={data?.progress || []} />
 
           {/* Statistics Section */}
           <Text style={styles.sectionHeaderText}>이걸뭐라고해야좋을까</Text>
-          <Statistics statisticsData={sampleData.statistics} />
+          <Statistics statisticsData={data?.statistics || [0, 0, 0]} />
 
           {/* Horizontal Graph Section */}
           <Text style={styles.sectionHeaderText}>오늘 나를 찌른 사용자</Text>
-          <HorizontalGraph graphData={sampleData.horizontalGraph} />
-          
+          <HorizontalGraph graphData={data?.horizontalGraph || []} />
         </View>
       </ScrollView>
     </SafeAreaView>
