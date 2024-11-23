@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import sharedStyles from './sharedStyles';
+import sharedStyles from '../../sharedStyles';
 const screenWidth = Dimensions.get('window').width;
 
 const graphStyles = StyleSheet.create({
