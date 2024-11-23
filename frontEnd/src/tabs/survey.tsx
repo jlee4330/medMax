@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { View, Text, TouchableOpacity, SafeAreaView, ScrollView, Dimensions } from 'react-native';
-import { Picker } from '@react-native-picker/picker'; // Add this import for the Picker
+import { Picker } from '@react-native-picker/picker';
 import surveyStyles from './surveyComponents/surveyStyles';
 
 const screenWidth = Dimensions.get('window').width;
