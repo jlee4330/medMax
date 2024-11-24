@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import axios from 'axios';
+// API 호출을 위해 axios를 사용
 import qnaStyles from './qnaComponents/qnaStyle';
 
 // Static data for similar questions
