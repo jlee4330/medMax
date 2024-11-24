@@ -1,11 +1,12 @@
-import React from 'react';
-import { SafeAreaView, ScrollView, View, Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { SafeAreaView, ScrollView, View, Text, ActivityIndicator } from 'react-native';
 import styles from './myPageComponents/Styles/trackerStyles';
 import MedicationCalendar from './myPageComponents/MedicationCalendar';
 import ProgressBar from './myPageComponents/ProgressBar';
 import Statistics from './myPageComponents/Statistics';
 import UserGreeting from './myPageComponents/UserGreeting';
 import HorizontalGraph from './myPageComponents/HorizontalGraph';
+import config from '../config';
 
 // Sample data
 const sampleData: {
@@ -48,6 +49,36 @@ const sampleData: {
 };
 
 const MedicationTracker: React.FC = () => {
+  const [calendarData, setCalendarData] = useState<[number, number][]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const userId = 1; // Replace with dynamic user ID if needed
+  const baseUrl = config.backendUrl;
+
+  useEffect(() => {
+    const fetchCalendarData = async () => {
+      try {
+        const response = await fetch(`${baseUrl}/myPage/calender?userId=${userId}`);
+        const data = await response.json();
+        setCalendarData(data);
+      } catch (error) {
+        console.error('Error fetching calendar data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCalendarData();
+  }, [baseUrl, userId]);
+
+  if (loading) {
+    return (
+      <SafeAreaView style={styles.safeArea}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -57,7 +88,7 @@ const MedicationTracker: React.FC = () => {
 
           {/* Calendar Section */}
           <Text style={styles.sectionHeaderText}>복약 달력</Text>
-          <MedicationCalendar medicationData={sampleData.medicationCalendar} />
+          <MedicationCalendar medicationData={calendarData} />
 
           {/* Progress Bar Section */}
           <Text style={styles.sectionHeaderText}>복약 비율</Text>

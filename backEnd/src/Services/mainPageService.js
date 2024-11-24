@@ -7,7 +7,7 @@ const getCandidate = async (userId, roomId, timeR) => { // 지난주 일요일�
         const [result] = await pool.query(
 
             "SELECT dm.UserID " + 
-            "FROM Day_medi dm " + 
+            "FROM Date_medi dm " + 
             "LEFT JOIN Poke p ON dm.UserID = p.To " +
             "WHERE (" +
             `(dm.medicineTime1 BETWEEN DATE_SUB(STR_TO_DATE('${time}', '%H:%i:%s'), INTERVAL 2 HOUR) AND STR_TO_DATE('${time}', '%H:%i:%s') AND dm.medicineCheck1 = FALSE) OR ` +
@@ -57,7 +57,7 @@ const getIds = async (uuID) => {
         
         const [result] = await pool.query(
             
-            `SELECT userId, roomId from Day_medi where UserID = '${uuID}'`
+            `SELECT userId, roomId from Date_medi where UserID = '${uuID}'`
         );
             
             return result.map(row => [row.userId, row.roomId]);
@@ -71,7 +71,7 @@ const getIds = async (uuID) => {
 const signUp = async (userId, roomId, time1, time2, time3) => {
     try {
         const query = `
-  INSERT INTO day_medi (UserID, NickName, RoomId, Date, medicineTime1, medicineTime2, medicineTime3, medicineCheck1, medicineCheck2, medicineCheck3)
+  INSERT INTO Date_medi (UserID, NickName, RoomId, Date, medicineTime1, medicineTime2, medicineTime3, medicineCheck1, medicineCheck2, medicineCheck3)
   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 `;
 const values = [
@@ -105,7 +105,7 @@ const getUsers = async () => {
 
         const query = `
   SELECT RoomId, GROUP_CONCAT(UserID) AS UserIDs
-  FROM day_medi
+  FROM User
   GROUP BY RoomId;
 `;  
         
@@ -127,7 +127,7 @@ const getUsers = async () => {
 //         //TODO
 //         const [result] = await pool.query(
 //             //TODO
-//             `SELECT userId, roomId from Day_medi where UserID = '${uuID}'`
+//             `SELECT userId, roomId from Date_medi where UserID = '${uuID}'`
 //         );
 //             //TODO
 //             return result.map(row => [row.userId, row.roomId]);

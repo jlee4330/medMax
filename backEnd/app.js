@@ -16,7 +16,7 @@ dotenv.config();
 const app = express();
 
 app.set("port", 7777);
-app.set("host", "143.248.200.89");
+app.set("host", "0.0.0.0");
 
 app.use(cors());
 app.use(bodyParser.json());
