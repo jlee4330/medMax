@@ -5,9 +5,10 @@ import getProgressColor from './helpers/getProgressColor';
 
 interface ProgressBarProps {
   progressData: [number, number][];
+  medicationCounts: number;
 }
 
-const ProgressBar: React.FC<ProgressBarProps> = ({ progressData }) => {
+const ProgressBar: React.FC<ProgressBarProps> = ({ progressData, medicationCounts }) => {
   return (
     <View style={progressBarStyles.container}>
       <View style={progressBarStyles.progressBar}>
@@ -18,19 +19,18 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ progressData }) => {
               progressBarStyles.progressSegment,
               {
                 flex: days,
-                backgroundColor: getProgressColor(count),
+                backgroundColor: getProgressColor(count, medicationCounts),
               },
             ]}
           />
         ))}
       </View>
-      
+
       {/* Legend */}
       <View style={progressBarStyles.legendContainer}>
-        <LegendItem color="#9C98E7" label="3" />
-        <LegendItem color="#BAB7EE" label="2" />
-        <LegendItem color="#D7D6F5" label="1" />
-        <LegendItem color="#F5F5FD" label="0" />
+        {Array.from({ length: medicationCounts + 1 }).map((_, i) => (
+          <LegendItem key={i} color={getProgressColor(i, medicationCounts)} label={`${i}`} />
+        ))}
       </View>
     </View>
   );

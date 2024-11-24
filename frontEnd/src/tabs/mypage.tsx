@@ -124,7 +124,7 @@ const MedicationTracker: React.FC = () => {
           <MedicationCalendar medicationData={calendarData} />
 
           <Text style={styles.sectionHeaderText}>복약 비율</Text>
-          <ProgressBar progressData={progressData} />
+          <ProgressBar progressData={sampleData.progress} medicationCounts={sampleData.nummedi} />
 
           <Text style={styles.sectionHeaderText}>이걸뭐라고해야좋을까</Text>
           {statistics && <Statistics statisticsData={statistics} />}

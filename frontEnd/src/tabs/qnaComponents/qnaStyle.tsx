@@ -6,7 +6,7 @@ const screenWidth = Dimensions.get('window').width;
 const qnaStyles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#FFFFFF', // White background consistent with myPage
+    backgroundColor: '#FFFFFF',
   },
   headerContainer: {
     paddingVertical: 20,
@@ -18,7 +18,7 @@ const qnaStyles = StyleSheet.create({
   headerTitle: {
     fontSize: 24,
     fontWeight: '700',
-    color: '#404335', // Dark text color consistent with myPage
+    color: '#404335',
   },
   searchBar: {
     margin: 16,
@@ -30,9 +30,36 @@ const qnaStyles = StyleSheet.create({
     fontSize: 14,
     color: '#9CA0AB',
   },
+  tabContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    backgroundColor: '#897CDD',
+    paddingVertical: 10,
+    marginBottom: 30,
+  },
+  tabButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#E7E7EB',
+  },
+  activeTabButton: {
+    backgroundColor: '#BAB7EE',
+    borderColor: '#BAB7EE',
+  },
+  tabText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#9CA0AB',
+  },
+  activeTabText: {
+    color: '#FFFFFF',
+  },
   itemContainer: {
     padding: 16,
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
     borderRadius: 12,
     marginBottom: 12,
     alignSelf: 'center',
@@ -117,6 +144,17 @@ const qnaStyles = StyleSheet.create({
     textAlignVertical: 'top',
     backgroundColor: '#F5F5FD',
     marginBottom: 10,
+  },
+  floatingActionButton: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    backgroundColor: '#FFDC90',
+    width: 55,
+    height: 55,
+    borderRadius: 27.5,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

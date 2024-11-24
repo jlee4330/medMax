@@ -1,9 +1,7 @@
-const getProgressColor = (count: number) => {
-    if (count === 3) return '#9C98E7';
-    if (count === 2) return '#BAB7EE';
-    if (count === 1) return '#D7D6F5';
-    return '#F5F5FD';
-  };
-  
-  export default getProgressColor;
-  
+const getProgressColor = (count: number, maxCount: number) => {
+  const colors = ['#F5F5FD', '#D7D6F5', '#BAB7EE', '#9C98E7']; // Add more shades if needed
+  const index = Math.min(count, maxCount); // Ensure count doesn't exceed maxCount
+  return colors[index] || colors[colors.length - 1]; // Fallback to the last color if needed
+};
+
+export default getProgressColor;
