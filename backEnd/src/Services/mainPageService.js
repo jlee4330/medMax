@@ -68,6 +68,27 @@ const getIds = async (uuID) => {
     }
 };
 
+const poke = async (ufrom, uto, when) => {
+    try {
+
+        
+        const [result] = await pool.query(
+            
+            'INSERT INTO poke (`from`, `to`, `when`) VALUES (?, ?, ?);',
+            [ufrom, uto, (new Date(when)).toTimeString().slice(0,8)]
+        );
+            
+            return {message: "poke success"};
+
+    } catch(error) {
+        console.error("Error fetching getGoal:", error);
+        throw error;
+    }
+};
+
+
+
+
 const signUp = async (userId, roomId, time1, time2, time3) => {
 
     try {
@@ -172,5 +193,6 @@ module.exports = {
     getGoal,
     getIds,
     signUp,
-    getUsers
+    getUsers,
+    poke
 };
