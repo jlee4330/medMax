@@ -9,13 +9,14 @@ const qnaRouter = require('./src/Routers/qnaRouter');
 const myPageRouter = require('./src/Routers/myPageRouter');
 const mainPageRouter = require('./src/Routers/mainPageRouter');
 const pool = require("./src/mysql.js");
+const {getUsers } = require("./src/Services/mainPageService");
 
 dotenv.config();
 
 const app = express();
 
 app.set("port", 7777);
-app.set("host", "0.0.0.0");
+app.set("host", "143.248.200.89");
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -60,6 +61,27 @@ const wss = new WebSocket.Server({ server },()=>{
 //    }
 // }
 const playerListList = {};
+
+async function processQueryData(){ //Insert players into PlayerListList
+    const queryResult = await getUsers();
+    queryResult.forEach(({ RoomId, UserIDs }) => {
+        // UserIDs를 쉼표로 나누어 배열로 변환
+        const userIdArray = UserIDs.split(',');
+      
+        userIdArray.forEach((userId) => {
+         
+          const x = 0; 
+          const y = 0; 
+      
+          // insertPlayerPosition 함수 호출
+          insertPlayerPosition(RoomId, userId, x, y);
+        });
+      });
+}
+
+processQueryData();
+
+
 
 /**
  * 플레이어의 위치를 업데이트하는 함수

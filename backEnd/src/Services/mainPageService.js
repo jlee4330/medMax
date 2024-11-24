@@ -5,8 +5,7 @@ const getCandidate = async (userId, roomId, timeR) => { // 지난주 일요일�
         const t = new Date(timeR);
         const time = t.toTimeString().slice(0, 8);;
         const [result] = await pool.query(
-            //TODO
-            // "Select userID from Day_medi"
+
             "SELECT dm.UserID " + 
             "FROM Day_medi dm " + 
             "LEFT JOIN Poke p ON dm.UserID = p.To " +
@@ -23,7 +22,7 @@ const getCandidate = async (userId, roomId, timeR) => { // 지난주 일요일�
             `AND p2.When BETWEEN DATE_SUB(STR_TO_DATE('${time}', '%H:%i:%s'), INTERVAL 2 HOUR) AND STR_TO_DATE('${time}', '%H:%i:%s')) ` +
             "GROUP BY dm.UserID"
         );
-            //TODO
+            
             return result;
 
 
@@ -36,14 +35,14 @@ const getCandidate = async (userId, roomId, timeR) => { // 지난주 일요일�
 const getGoal = async (roomId) => {
     try {
 
-        //TODO
+        
         const [result] = await pool.query(
-            //TODO
+            
             "SELECT mediCount, Count(date) AS dateCount FROM Date_medi WHERE user_id = ? AND date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) GROUP BY mediCount ORDER BY mediCount DESC",
             [roomId]
             
         );
-            //TODO
+            
             return result.map(row => [row.dateCount, row.mediCount]);
 
     } catch(error) {
@@ -55,12 +54,12 @@ const getGoal = async (roomId) => {
 const getIds = async (uuID) => {
     try {
 
-        //TODO
+        
         const [result] = await pool.query(
             
             `SELECT userId, roomId from Day_medi where UserID = '${uuID}'`
         );
-            //TODO
+            
             return result.map(row => [row.userId, row.roomId]);
 
     } catch(error) {
@@ -69,6 +68,59 @@ const getIds = async (uuID) => {
     }
 };
 
+const signUp = async (userId, roomId, time1, time2, time3) => {
+    try {
+        const query = `
+  INSERT INTO day_medi (UserID, NickName, RoomId, Date, medicineTime1, medicineTime2, medicineTime3, medicineCheck1, medicineCheck2, medicineCheck3)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+`;
+const values = [
+    userId,            // UserID
+    userId,            // NickName (UserID와 동일)
+    roomId,            // RoomId
+    null,              // Date
+    (new Date(time1)).toTimeString().slice(0,8),             // medicineTime1
+    (new Date(time2)).toTimeString().slice(0,8),             // medicineTime2
+    (new Date(time3)).toTimeString().slice(0,8),             // medicineTime3
+    false,             // medicineCheck1
+    false,             // medicineCheck2
+    false              // medicineCheck3
+  ];
+        
+        const [result] = await pool.query(
+            
+            query, values
+        );
+            
+            return {success: true }
+
+    } catch(error) {
+        console.error("Error fetching getGoal:", error);
+        throw error;
+    }
+};
+
+const getUsers = async () => {
+    try {
+
+        const query = `
+  SELECT RoomId, GROUP_CONCAT(UserID) AS UserIDs
+  FROM day_medi
+  GROUP BY RoomId;
+`;  
+        
+        const [result] = await pool.query(
+            
+            query
+        );
+            console.log(result);
+            return result;
+
+    } catch(error) {
+        console.error("Error fetching getGoal:", error);
+        throw error;
+    }
+};
 // const getIds = async (uuID) => {
 //     try {
 
@@ -89,5 +141,7 @@ const getIds = async (uuID) => {
 module.exports = {
     getCandidate,
     getGoal,
-    getIds
+    getIds,
+    signUp,
+    getUsers
 };

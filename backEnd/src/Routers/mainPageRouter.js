@@ -1,5 +1,5 @@
 const express = require("express");
-const { getCandidate, getGoal, getIds } = require("../Services/mainPageService");
+const { getCandidate, getGoal, getIds, signUp, getUsers } = require("../Services/mainPageService");
 
 const mainPageRouter = express.Router();
 
@@ -38,6 +38,34 @@ mainPageRouter.get("/getIds", async (req, res) => {
         res.status(500).json({ error: "Failed to fetch goalStatus" });
     }
 });
+
+mainPageRouter.get("/signUp", async (req, res) => {
+    const userId = req.query.userId;
+    const roomId = req.query.roomId;
+    const time1 = req.query.time1;
+    const time2 = req.query.time2;
+    const time3 = req.query.time3;
+
+    try {
+        await signUp(userId, roomId, time1, time2, time3);
+
+        res.status(200).json({message: "sign-up successful"});
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch goalStatus" });
+    }
+});
+
+mainPageRouter.get("/getUsers", async (req, res) => {
+
+    try {
+        const result =  await getUsers();
+
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch goalStatus" });
+    }
+});
+
 
 
 
