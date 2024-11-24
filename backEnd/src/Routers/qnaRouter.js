@@ -32,10 +32,12 @@ qnaRouter.post("/answers", async (req, res) => {
 // 질문과 답변 조회 API
 qnaRouter.get("/all-qnas", async (req, res) => {
   const { userId } = req.query;
+  console.log("Received userId:", userId); //sw-디버깅
   try {
     const questionsWithAnswers = await getQuestionsWithAnswers(userId || null);
     res.status(200).json(questionsWithAnswers);
   } catch (error) {
+    console.error("Error in all-qnas route:", error); //sw-디버깅
     res.status(500).json({ error: "Failed to fetch questions with answers" });
   }
 });

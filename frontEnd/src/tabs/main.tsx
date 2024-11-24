@@ -7,16 +7,17 @@ import CheckModal from './mainPageComponent/checkModal';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const Webview = () => {
-  return (
-    <SafeAreaView style={styles.container}>
-      <WebView
-        style={styles.webview}
-        source={{ uri: 'http://143.248.200.170:8000/' }}
-      />
-    </SafeAreaView>
-  );
-};
+
+// const Webview = () => {
+//   return (
+//     <SafeAreaView style={styles.container}>
+//       <WebView
+//         style={styles.webview}
+//         source={{ uri: 'http://143.248.200.147:8000/' }}
+//       />
+//     </SafeAreaView>
+//   );
+// };
 
 // 메인 컴포넌트
 export default function CustomComponent() {
@@ -81,7 +82,7 @@ export default function CustomComponent() {
   return (
     <SafeAreaView style={styles.container}>
       {/* WebView */}
-      <Webview />
+      {/* <Webview /> */}
 
       {/* CustomComponent */}
       <View style={styles.componentContainer}>
@@ -152,7 +153,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#4D4D4D',
     marginTop: windowHeight * 0.01,
-    marginLeft: windowWidth * 0.03
+    marginLeft: windowWidth * 0.03,
   },
   textAndBarContainer: {
     flex: 1,

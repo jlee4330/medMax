@@ -42,6 +42,7 @@ const getQuestionsWithAnswers = async (userId = null) => {
     const params = userId ? [userId] : [];
 
     const [questions] = await pool.query(query, params);
+    console.log("Questions fetched from DB:", questions); //sw-디버깅
 
     const questionsWithAnswers = await Promise.all(
       questions.map(async (question) => {
@@ -52,6 +53,7 @@ const getQuestionsWithAnswers = async (userId = null) => {
           "WHERE Answer.QuestionId = ?",
           [question.QuestionId]
         );
+        console.log(`Answers for Question ${question.QuestionId}:`, answers); //sw-디버깅
 
         // 답변 여러개일 시
         const formattedAnswers = answers.map((answer) => ({
