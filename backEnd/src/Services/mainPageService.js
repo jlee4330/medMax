@@ -89,8 +89,6 @@ const values = [
             
             query, values
         );
-            
-            return {userID: userId, roomID: roomId }
 
     } catch(error) {
         console.error("Error fetching getGoal:", error);
@@ -122,7 +120,7 @@ const values = [
             query, values
         );
             
-            // return {userID: userId, roomID: roomId }
+            return {userID: userId, roomID: roomId }
 
     } catch(error) {
         console.error("Error fetching getGoal:", error);
