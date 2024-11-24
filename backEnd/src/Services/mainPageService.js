@@ -71,14 +71,14 @@ const getIds = async (uuID) => {
 const signUp = async (userId, roomId, time1, time2, time3) => {
     try {
         const query = `
-  INSERT INTO Date_medi (UserID, NickName, RoomId, Date, medicineTime1, medicineTime2, medicineTime3, medicineCheck1, medicineCheck2, medicineCheck3)
+  INSERT INTO Date_medi (UserID, mediDate, mediCount, RoomId, medicineTime1, medicineTime2, medicineTime3, medicineCheck1, medicineCheck2, medicineCheck3)
   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 `;
 const values = [
     userId,            // UserID
-    userId,            // NickName (UserID와 동일)
-    roomId,            // RoomId
-    null,              // Date
+    null,          // NickName (UserID와 동일)
+    null,            // RoomId
+    roomId,         // Date
     (new Date(time1)).toTimeString().slice(0,8),             // medicineTime1
     (new Date(time2)).toTimeString().slice(0,8),             // medicineTime2
     (new Date(time3)).toTimeString().slice(0,8),             // medicineTime3
