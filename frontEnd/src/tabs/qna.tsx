@@ -7,6 +7,7 @@ import { TabView, SceneMap } from 'react-native-tab-view';
 //두 종류를 옆으로 넘기기 위해서 tab view를 쓸 수 있대 -> 근데 FE에 tab view랑 pager view 설치해야 함 !!
 import axios from 'axios';
 // API 호출을 위해 axios를 사용
+import qnaStyles from './qnaComponents/qnaStyle';
 
 const SimilarQList = [
   { id: '6', question: '가장 유사한 질문1', content: '작성하신 질문과 비슷한 질문은~1', pharmacist: '박수현 약사', answer: 'AI 파이팅' },
