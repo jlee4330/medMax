@@ -1,5 +1,5 @@
 const express = require("express");
-const { getCandidate, getGoal, getIds, signUp, getUsers, poke } = require("../Services/mainPageService");
+const { getCandidate, getGoal, getIds, signUp, getUsers, poke, eatMed } = require("../Services/mainPageService");
 
 const mainPageRouter = express.Router();
 
@@ -73,6 +73,19 @@ mainPageRouter.get("/poke", async (req, res) => {
 
     try {
         const result = await poke(ufrom, uto, when);
+
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch goalStatus" });
+    }
+});
+
+mainPageRouter.get("/eatMed", async (req, res) => {
+    const userId = req.query.userId;
+    const time = req.query.time;
+
+    try {
+        const result = await eatMed(userId, time);
 
         res.status(200).json(result);
     } catch (error) {

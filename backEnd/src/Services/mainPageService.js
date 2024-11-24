@@ -86,7 +86,38 @@ const poke = async (ufrom, uto, when) => {
     }
 };
 
+const eatMed = async (userId, time) => {
+    try {
 
+        
+        const [result] = await pool.query(
+            
+            `
+UPDATE Day_medi
+SET 
+    medicineCheck1 = CASE 
+                        WHEN medicineTime1 = STR_TO_DATE('${(new Date(time)).toTimeString.slice(0,8)}') THEN TRUE 
+                        ELSE medicineCheck1 
+                    END,
+    medicineCheck2 = CASE 
+                        WHEN medicineTime2 = STR_TO_DATE('${(new Date(time)).toTimeString.slice(0,8)}') THEN TRUE 
+                        ELSE medicineCheck2 
+                    END,
+    medicineCheck3 = CASE 
+                        WHEN medicineTime3 = STR_TO_DATE('${(new Date(time)).toTimeString.slice(0,8)}') THEN TRUE 
+                        ELSE medicineCheck3 
+                    END
+WHERE UserID = '${userId}';
+`
+        );
+            
+            return {message: "eatMed success"};
+
+    } catch(error) {
+        console.error("Error fetching getGoal:", error);
+        throw error;
+    }
+};
 
 
 const signUp = async (userId, roomId, time1, time2, time3) => {
@@ -194,5 +225,6 @@ module.exports = {
     getIds,
     signUp,
     getUsers,
-    poke
+    poke,
+    eatMed
 };
