@@ -69,6 +69,36 @@ const getIds = async (uuID) => {
 };
 
 const signUp = async (userId, roomId, time1, time2, time3) => {
+
+    try {
+        const query = `
+  INSERT INTO User (UserID, UserName, RoomId, numMedi, time_first, time_second, time_third)
+  VALUES (?, ?, ?, ?, ?, ?, ?)
+`;
+const values = [
+    userId,            // UserID
+    userId,            // NickName (UserID와 동일)
+    roomId,            // RoomId
+    null,              // Date
+    (new Date(time1)).toTimeString().slice(0,8),             // medicineTime1
+    (new Date(time2)).toTimeString().slice(0,8),             // medicineTime2
+    (new Date(time3)).toTimeString().slice(0,8),             // medicineTime3
+  ];
+        
+        await pool.query(
+            
+            query, values
+        );
+            
+            return {userID: userId, roomID: roomId }
+
+    } catch(error) {
+        console.error("Error fetching getGoal:", error);
+        throw error;
+    }
+
+
+
     try {
         const query = `
   INSERT INTO Date_medi (UserID, mediDate, mediCount, RoomId, medicineTime1, medicineTime2, medicineTime3, medicineCheck1, medicineCheck2, medicineCheck3)
@@ -98,32 +128,7 @@ const values = [
         console.error("Error fetching getGoal:", error);
         throw error;
     }
-    try {
-        const query = `
-  INSERT INTO User (UserID, UserName, RoomId, numMedi, time_first, time_second, time_third)
-  VALUES (?, ?, ?, ?, ?, ?, ?)
-`;
-const values = [
-    userId,            // UserID
-    userId,            // NickName (UserID와 동일)
-    roomId,            // RoomId
-    null,              // Date
-    (new Date(time1)).toTimeString().slice(0,8),             // medicineTime1
-    (new Date(time2)).toTimeString().slice(0,8),             // medicineTime2
-    (new Date(time3)).toTimeString().slice(0,8),             // medicineTime3
-  ];
-        
-        await pool.query(
-            
-            query, values
-        );
-            
-            return {userID: userId, roomID: roomId }
-
-    } catch(error) {
-        console.error("Error fetching getGoal:", error);
-        throw error;
-    }
+   
 };
 
 const getUsers = async () => {
