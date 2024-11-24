@@ -53,17 +53,13 @@ const MedicationTracker: React.FC = () => {
           userNameRes,
           calenderRes,
           progressRes,
-          togetherMediRes,
-          fullMediRes,
-          qNumRes,
+          statisticsRes,
         ] = await Promise.all([
           fetch(`${baseUrl}/myPage/num-medi?userId=${userId}`),
           fetch(`${baseUrl}/myPage/user-name?userId=${userId}`),
           fetch(`${baseUrl}/myPage/calender?userId=${userId}`),
           fetch(`${baseUrl}/myPage/thirty-day?userId=${userId}`),
-          fetch(`${baseUrl}/myPage/together-medi?userId=${userId}`),
-          fetch(`${baseUrl}/myPage/full-medi?userId=${userId}`),
-          fetch(`${baseUrl}/myPage/q-num?userId=${userId}`),
+          fetch(`${baseUrl}/myPage/statistics?userId=${userId}`),
         ]);
 
         const [
@@ -71,17 +67,13 @@ const MedicationTracker: React.FC = () => {
           newUserNameData,
           newCalenderData,
           newProgressData,
-          togetherMediData,
-          fullMediData,
-          qNumData,
+          newStatisticsData,
         ] = await Promise.all([
           userNumMediRes.json(),
           userNameRes.json(),
           calenderRes.json(),
           progressRes.json(),
-          togetherMediRes.json(),
-          fullMediRes.json(),
-          qNumRes.json(),
+          statisticsRes.json(),
         ]);
 
         setUserNumMedi(newUserNumMediData || 0);
@@ -91,11 +83,7 @@ const MedicationTracker: React.FC = () => {
         const processedProgressData = processProgressData(newProgressData, newUserNumMediData);
         setProgressData(processedProgressData);
 
-        setStatistics([
-          togetherMediData || 0,
-          fullMediData || 0,
-          qNumData || 0,
-        ]);
+        setStatistics(newStatisticsData || null);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {

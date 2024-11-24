@@ -91,4 +91,18 @@ myPageRouter.get("/q-num", async (req, res) => {
     }
 });
 
+myPageRouter.get("/statistics", async (req, res) => {
+    const { userId } = req.query;
+    try {
+        const togetherMedi = await getTogetherMedi(userId);
+        const fullMedi = await getFullMedi(userId);
+        const qNum = await getQNum(userId);
+
+        const result = [ togetherMedi[0][0], fullMedi[0][0], qNum[0][0] ];
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch statistics" });
+    }
+});
+
 module.exports = myPageRouter;
