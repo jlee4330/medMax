@@ -10,12 +10,12 @@ import config from '../config';
 
 // Sample data
 const sampleData: {
-  medicationCounts: number;
+  nummedi: number;
   progress: [number, number][];
   horizontalGraph: [string, number][];
   statistics: [number, number, number];
 } = {
-  medicationCounts: 3,
+  nummedi: 3,
   progress: [
     [3, 20],
     [2, 2],
@@ -35,24 +35,67 @@ const sampleData: {
 };
 
 const MedicationTracker: React.FC = () => {
+  const [userNumMedi, setUserNumMedi] = useState(0);
   const [userName, setUserName] = useState('');
   const [calendarData, setCalendarData] = useState<[number, number][]>([]);
+  const [progressData, setProgressData] = useState<[number, number][]>([]);
+  const [statistics, setStatistics] = useState<[number, number, number] | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const userId = 1; // Replace with dynamic user ID if needed
+  const userId = 1;
   const baseUrl = config.backendUrl;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userNameRes = await fetch(`${baseUrl}/myPage/user-name?userId=${userId}`);
-        const calenderRes = await fetch(`${baseUrl}/myPage/calender?userId=${userId}`);
+        const [
+          userNumMediRes,
+          userNameRes,
+          calenderRes,
+          progressRes,
+          togetherMediRes,
+          fullMediRes,
+          qNumRes,
+        ] = await Promise.all([
+          fetch(`${baseUrl}/myPage/num-medi?userId=${userId}`),
+          fetch(`${baseUrl}/myPage/user-name?userId=${userId}`),
+          fetch(`${baseUrl}/myPage/calender?userId=${userId}`),
+          fetch(`${baseUrl}/myPage/thirty-day?userId=${userId}`),
+          fetch(`${baseUrl}/myPage/together-medi?userId=${userId}`),
+          fetch(`${baseUrl}/myPage/full-medi?userId=${userId}`),
+          fetch(`${baseUrl}/myPage/q-num?userId=${userId}`),
+        ]);
 
-        const newUserNameData = await userNameRes.json();
-        const newCalenderData = await calenderRes.json();
+        const [
+          newUserNumMediData,
+          newUserNameData,
+          newCalenderData,
+          newProgressData,
+          togetherMediData,
+          fullMediData,
+          qNumData,
+        ] = await Promise.all([
+          userNumMediRes.json(),
+          userNameRes.json(),
+          calenderRes.json(),
+          progressRes.json(),
+          togetherMediRes.json(),
+          fullMediRes.json(),
+          qNumRes.json(),
+        ]);
 
-        setUserName(newUserNameData);
-        setCalendarData(newCalenderData);
+        setUserNumMedi(newUserNumMediData || 0);
+        setUserName(newUserNameData || 'Unknown User');
+        setCalendarData(newCalenderData || []);
+
+        const processedProgressData = processProgressData(newProgressData, newUserNumMediData);
+        setProgressData(processedProgressData);
+
+        setStatistics([
+          togetherMediData || 0,
+          fullMediData || 0,
+          qNumData || 0,
+        ]);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -75,25 +118,19 @@ const MedicationTracker: React.FC = () => {
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.container}>
-          {/* User Greeting Section */}
           <UserGreeting name={userName} />
 
-          {/* Calendar Section */}
           <Text style={styles.sectionHeaderText}>복약 달력</Text>
           <MedicationCalendar medicationData={calendarData} />
 
-          {/* Progress Bar Section */}
           <Text style={styles.sectionHeaderText}>복약 비율</Text>
-          <ProgressBar progressData={sampleData.progress} />
+          <ProgressBar progressData={progressData} />
 
-          {/* Statistics Section */}
           <Text style={styles.sectionHeaderText}>이걸뭐라고해야좋을까</Text>
-          <Statistics statisticsData={sampleData.statistics} />
+          {statistics && <Statistics statisticsData={statistics} />}
 
-          {/* Horizontal Graph Section */}
           <Text style={styles.sectionHeaderText}>오늘 나를 찌른 사용자</Text>
           <HorizontalGraph graphData={sampleData.horizontalGraph} />
-          
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -101,3 +138,19 @@ const MedicationTracker: React.FC = () => {
 };
 
 export default MedicationTracker;
+
+
+const processProgressData = (data: [number, number][], maxDose: number): [number, number][] => {
+  const processedData: [number, number][] = [];
+  const doseMap = new Map<number, number>();
+
+  data.forEach(([dose, days]) => {
+    doseMap.set(dose, days);
+  });
+
+  for (let dose = maxDose; dose >= 0; dose--) {
+    processedData.push([dose, doseMap.get(dose) || 0]);
+  }
+
+  return processedData;
+};
