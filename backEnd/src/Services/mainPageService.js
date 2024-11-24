@@ -93,7 +93,7 @@ const eatMed = async (userId, time) => {
         const [result] = await pool.query(
             
             `
-UPDATE Day_medi
+UPDATE Date_medi
 SET 
     medicineCheck1 = CASE 
                         WHEN medicineTime1 = '${(new Date(time)).toTimeString().slice(0,8)}' THEN TRUE 
