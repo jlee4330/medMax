@@ -8,7 +8,7 @@ public class Networking : MonoBehaviour
     [SerializeField]
     private GameObject gameobject;
     // Start is called before the first frame update
-    public WebSocket ws = new WebSocket("ws://143.248.200.147:7777");
+    public WebSocket ws = new WebSocket("ws://143.248.200.89:7777");
     public bool isConnected = false;
     private bool isLogin;
     public GameSystemScript gameSystemScript;
@@ -29,10 +29,11 @@ public class Networking : MonoBehaviour
                 Debug.Log($"Login 성공: UserID = {gameSystemScript.my_id}, RoomID = {gameSystemScript.room_id}");
                 isConnected = true;
             } else{
-                //TODO: get room_id from onBoarding 
+                gameSystemScript.my_id = GameData.Instance.UserID;
                 gameSystemScript.room_id = GameData.Instance.RoomID;
                 // gameSystemScript.room_id = 1;
-                ws.SendText("new," + gameSystemScript.room_id);
+                isConnected = true;
+                ws.SendText("new," + "," + gameSystemScript.my_id + "," +gameSystemScript.room_id);
             }
         };
 
@@ -53,8 +54,6 @@ public class Networking : MonoBehaviour
             string[] parts = byteStr.Split(',');
             switch (parts[0]){
                 case "newid":
-                    gameSystemScript.my_id = parts[1];
-                    Debug.Log("my id is" + gameSystemScript.my_id);
                     isConnected = true; // Set to true once connected
                     break;
 

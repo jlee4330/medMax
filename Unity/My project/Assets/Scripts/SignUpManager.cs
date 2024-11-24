@@ -11,7 +11,7 @@ public class SignUpManager : MonoBehaviour
     public InputField medicationTime1InputField; // 복약시간1을 입력받을 InputField
     public InputField medicationTime2InputField; // 복약시간2을 입력받을 InputField
     public InputField medicationTime3InputField; // 복약시간3을 입력받을 InputField
-    private string backendURL = "http://143.248.200.170:7777/mainPage/signUp"; // 회원가입용 백엔드 URL
+    private string backendURL = "http://143.248.200.89:7777/mainPage/signUp"; // 회원가입용 백엔드 URL
 
     public void OnSignUpButtonClicked()
     {
@@ -32,9 +32,9 @@ public class SignUpManager : MonoBehaviour
         }
 
         // 요청할 URL을 쿼리 스트링으로 구성
-        string requestURL = backendURL + "?uID=" + userID + "&rID=" + roomID + 
-                            "&medTime1=" + medicationTime1 + "&medTime2=" + medicationTime2 + 
-                            "&medTime3=" + medicationTime3;
+        string requestURL = backendURL + "?userId=" + userID + "&roomId=" + roomID + 
+                            "&time1=" + medicationTime1 + "&time2=" + medicationTime2 + 
+                            "&time3=" + medicationTime3;
 
         // HTTP 요청 시작
         GameData.Instance.IsLogin = false; // 회원가입 상태로 설정
@@ -76,8 +76,7 @@ public class SignUpManager : MonoBehaviour
             string[] data = response.Split(','); // 쉼표로 분리
 
             string receivedUserID = data[0].Split(':')[1].Trim('\"'); // UserID 추출
-            int receivedRoomID = int.Parse(data[1].Split(':')[1].Trim()); // RoomID 추출
-
+            int receivedRoomID = int.Parse(data[1].Split(':')[1].Trim('\"')); // RoomID 추출
             // GameData에 저장
             if (GameData.Instance == null)
             {
@@ -87,11 +86,9 @@ public class SignUpManager : MonoBehaviour
 
             GameData.Instance.UserID = receivedUserID;
             GameData.Instance.RoomID = receivedRoomID;
-            GameData.Instance.MedicationTime1 = data[2].Split(':')[1].Trim('\"');
-            GameData.Instance.MedicationTime2 = data[3].Split(':')[1].Trim('\"');
-            GameData.Instance.MedicationTime3 = data[4].Split(':')[1].Trim('\"');
-
-            Debug.Log($"UserID: {receivedUserID}, RoomID: {receivedRoomID}, Medication Times: {GameData.Instance.MedicationTime1}, {GameData.Instance.MedicationTime2}, {GameData.Instance.MedicationTime3}");
+            // GameData.Instance.MedicationTime1 = data[2].Split(':')[1].Trim('\"');
+            // GameData.Instance.MedicationTime2 = data[3].Split(':')[1].Trim('\"');
+            // GameData.Instance.MedicationTime3 = data[4].Split(':')[1].Trim('\"');
 
             // Game 씬으로 이동
             SceneManager.LoadScene("MainScene");

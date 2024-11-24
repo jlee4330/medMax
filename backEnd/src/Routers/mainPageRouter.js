@@ -47,9 +47,9 @@ mainPageRouter.get("/signUp", async (req, res) => {
     const time3 = req.query.time3;
 
     try {
-        await signUp(userId, roomId, time1, time2, time3);
+        const result = await signUp(userId, roomId, time1, time2, time3);
 
-        res.status(200).json({message: "sign-up successful"});
+        res.status(200).json(result);
     } catch (error) {
         res.status(500).json({ error: "Failed to fetch goalStatus" });
     }

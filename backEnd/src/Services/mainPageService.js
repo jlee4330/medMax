@@ -92,7 +92,7 @@ const values = [
             query, values
         );
             
-            return {success: true }
+            return {userID: userId, roomID: roomId }
 
     } catch(error) {
         console.error("Error fetching getGoal:", error);

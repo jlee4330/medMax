@@ -122,8 +122,8 @@ function insertPlayerPosition(roomID, UserID, x, y) {
 function setRandomPosition() {
     for (const roomID in playerListList) {
         for (const UserID in playerListList[roomID]) {
-            const x = Math.floor(Math.random() * 3) - 1; // 0 ~ 99 사이의 랜덤 값
-            const y = Math.floor(Math.random() * 3) - 1; // 0 ~ 99 사이의 랜덤 값
+            const x = Math.floor(Math.random() * 4) - 2; // 0 ~ 99 사이의 랜덤 값
+            const y = Math.floor(Math.random() * 8) - 4; // 0 ~ 99 사이의 랜덤 값
             playerListList[roomID][UserID] = { x, y };
         }
     }
@@ -189,7 +189,7 @@ wss.on('connection', function connection(ws) {
       );
 
       }
-  }, 500); // 5000ms (5초) 간격으로 전송
+  }, 1000); // 5000ms (5초) 간격으로 전송
    ws.on('message', (data) => {
       const message = data.toString().split(",");
       const command = message[0];
@@ -201,11 +201,11 @@ wss.on('connection', function connection(ws) {
             // console.log('%d의 위치는 x = %f y = %f',its_id,x,y);
             break;
          case "new" :
-            const n_id = message[1];
-            const room_id = message[2];
-            const new_id = "newid" + "," + n_id;
-            insertPlayerPosition(room_id, n_id, 0, 0);
-            ws.send(new_id);
+            // const n_id = message[1];
+            // const room_id = message[2];
+            // const new_id = "newid" + "," + n_id;
+            processQueryData();
+            // ws.send(new_id);
             break;
          default:
             break;

@@ -7,7 +7,7 @@ using UnityEngine.Networking; // HTTP 요청에 필요
 public class LoginManager : MonoBehaviour
 {
     public InputField userIDInputField; // UserID를 입력받을 InputField
-    private string backendURL = "http://143.248.200.147:7777/mainPage/getIds?uID="; // 백엔드 URL
+    private string backendURL = "http://143.248.200.89:7777/mainPage/getIds?uID="; // 백엔드 URL
 
     public void OnStartButtonClicked()
     {
