@@ -9,20 +9,47 @@ import {
   Modal,
   Image,
   Button,
+  Dimensions,
 } from 'react-native';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import axios from 'axios';
-// API 호출을 위해 axios를 사용
 import qnaStyles from './qnaComponents/qnaStyle';
+const screenWidth = Dimensions.get('window').width;
+
+interface QnAItem {
+  id: string;
+  question: string;
+  content: string;
+  pharmacist: string;
+  answer: string;
+}
+
+interface AccordionItemProps {
+  item: QnAItem;
+}
+
+interface TabBarProps {
+  navigationState: { index: number; routes: { key: string; title: string }[] };
+  position: any;
+}
+
+interface MyQAProps {
+  searchQuery: string;
+  userId: string;
+}
+
+interface FAQProps {
+  searchQuery: string;
+}
 
 // Static data for similar questions
-const SimilarQList = [
+const SimilarQList: QnAItem[] = [
   { id: '6', question: '가장 유사한 질문1', content: '작성하신 질문과 비슷한 질문은~1', pharmacist: '박수현 약사', answer: 'AI 파이팅' },
   { id: '7', question: '가장 유사한 질문2길게하면길어져', content: '작성하신 질문과 비슷한 질문은~2', pharmacist: '정예준 약사', answer: '백 연결 할 수 있겠지' },
   { id: '8', question: '가장 유사한 질문3', content: '작성하신 질문과 비슷한 질문은~3', pharmacist: '카카오 약사', answer: '물론이지 ㅋㅋ' },
 ];
 
-const AccordionItem = ({ item }) => {
+const AccordionItem: React.FC<AccordionItemProps> = ({ item }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -39,8 +66,8 @@ const AccordionItem = ({ item }) => {
   );
 };
 
-const MyQA = ({ searchQuery, userId }) => {
-  const [data, setData] = useState([]);
+const MyQA: React.FC<MyQAProps> = ({ searchQuery, userId }) => {
+  const [data, setData] = useState<QnAItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -74,8 +101,8 @@ const MyQA = ({ searchQuery, userId }) => {
   );
 };
 
-const FAQ = ({ searchQuery }) => {
-  const FAQList = [
+const FAQ: React.FC<FAQProps> = ({ searchQuery }) => {
+  const FAQList: QnAItem[] = [
     { id: '4', question: '이 약, 저한테 부작용 없을까요?', content: '부작용이 있을까요오', pharmacist: '이동건 약사', answer: '그럴수도 아닐수도' },
     { id: '5', question: '저처럼 바쁜 사람에게 약 시간 관리법은?', content: '약 시간 관리법 알려주세요오', pharmacist: '이주영 약사', answer: '제때 드세욥!' },
   ];
@@ -90,9 +117,9 @@ const FAQ = ({ searchQuery }) => {
   );
 };
 
-const App = () => {
-  const [index, setIndex] = useState(0);
-  const [routes] = useState([
+const App: React.FC = () => {
+  const [index, setIndex] = useState<number>(0);
+  const [routes] = useState<{ key: string; title: string }[]>([
     { key: 'myQA', title: '나의 Q&A' },
     { key: 'faq', title: '자주하는 질문' },
   ]);
@@ -108,7 +135,7 @@ const App = () => {
     faq: () => <FAQ searchQuery={searchQuery} />,
   });
 
-  const renderTabBar = (props) => (
+  const renderTabBar = (props: any) => (
     <TabBar
       {...props}
       style={qnaStyles.tabContainer}
@@ -133,7 +160,7 @@ const App = () => {
         navigationState={{ index, routes }}
         renderScene={renderScene}
         onIndexChange={setIndex}
-        initialLayout={{ width: '100%' }}
+        initialLayout={{ width: screenWidth }}
         renderTabBar={renderTabBar}
       />
       <TouchableOpacity

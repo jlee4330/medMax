@@ -156,6 +156,22 @@ const qnaStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  loadingText: {
+    fontSize: 16,
+    color: '#9CA0AB',
+    textAlign: 'center',
+    marginVertical: 20,
+  },
+  titleArea: {
+    width: '100%',
+    height: 40,
+    borderColor: '#E7E7EB',
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 10,
+    backgroundColor: '#F5F5FD',
+    marginBottom: 10,
+  },
 });
 
 export default qnaStyles;
