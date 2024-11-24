@@ -11,6 +11,21 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 app = FastAPI()
+cached_data = None
+
+# 데이터 초기화
+def initialize_data():
+    global cached_data
+    try:
+        response = requests.get("http://nodejs-backend:7777/qna/all-qnas")
+        if response.status_code == 200:
+            cached_data = response.json()  # 데이터 캐싱
+            logger.info("Data successfully cached.")
+        else:
+            logger.error(f"Failed to fetch data. Status code: {response.status_code}")
+    except Exception as e:
+        logger.error(f"An error occurred: {str(e)}")
+
 
 # API 요청 형식
 class QueryRequest(BaseModel):
@@ -51,22 +66,18 @@ def preprocess_pairs(data):
         pairs.append([question, answer])
     return pairs
 
+@app.on_event("startup")
+def on_startup():
+    initialize_data()
+
 @app.post("/rerank")
 def retrieve_and_rerank(query_request: QueryRequest):
+    if cached_data is None:
+        initialize_data()
     question = remove_stopwords(query_request.question)
     top_k = query_request.top_k
-
-    try:
-        response = requests.get("http://nodejs-backend:7777/qna/all-qnas")
-        if response.status_code == 200:
-            data = response.json()
-            logger.info(f"Fetched data: {data}")
-            pairs = preprocess_pairs(data)
-        else:
-            logger.error(f"Failed to fetch data. Status code : {response.status_code}")
-    except Exception as e:
-        logger.error(f"An error occured: {str(e)}")
     
+    pairs = preprocess_pairs(cached_data)
     bm25 = initialize_bm25(pairs)
     bm25_scores = bm25.get_scores(question)
     top_k_indices = np.argsort(bm25_scores)[-top_k*2:][::-1]
