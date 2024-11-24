@@ -96,15 +96,15 @@ const eatMed = async (userId, time) => {
 UPDATE Day_medi
 SET 
     medicineCheck1 = CASE 
-                        WHEN medicineTime1 = STR_TO_DATE('${(new Date(time)).toTimeString.slice(0,8)}') THEN TRUE 
+                        WHEN medicineTime1 = STR_TO_DATE('${(new Date(time)).toTimeString().slice(0,8)}') THEN TRUE 
                         ELSE medicineCheck1 
                     END,
     medicineCheck2 = CASE 
-                        WHEN medicineTime2 = STR_TO_DATE('${(new Date(time)).toTimeString.slice(0,8)}') THEN TRUE 
+                        WHEN medicineTime2 = STR_TO_DATE('${(new Date(time)).toTimeString().slice(0,8)}') THEN TRUE 
                         ELSE medicineCheck2 
                     END,
     medicineCheck3 = CASE 
-                        WHEN medicineTime3 = STR_TO_DATE('${(new Date(time)).toTimeString.slice(0,8)}') THEN TRUE 
+                        WHEN medicineTime3 = STR_TO_DATE('${(new Date(time)).toTimeString().slice(0,8)}') THEN TRUE 
                         ELSE medicineCheck3 
                     END
 WHERE UserID = '${userId}';
