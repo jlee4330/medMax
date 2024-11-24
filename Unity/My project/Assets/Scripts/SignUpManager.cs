@@ -11,7 +11,7 @@ public class SignUpManager : MonoBehaviour
     public InputField medicationTime1InputField; // 복약시간1을 입력받을 InputField
     public InputField medicationTime2InputField; // 복약시간2을 입력받을 InputField
     public InputField medicationTime3InputField; // 복약시간3을 입력받을 InputField
-    private string backendURL = "http://143.248.200.89:7777/mainPage/signUp"; // 회원가입용 백엔드 URL
+    private string backendURL = "http://3.35.193.176:7777/mainPage/signUp"; // 회원가입용 백엔드 URL
 
     public void OnSignUpButtonClicked()
     {
