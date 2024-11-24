@@ -12,7 +12,6 @@ import config from '../config';
 const sampleData: {
   medicationCounts: number;
   progress: [number, number][];
-  medicationCalendar: [number, number][];
   horizontalGraph: [string, number][];
   statistics: [number, number, number];
 } = {
@@ -24,19 +23,6 @@ const sampleData: {
     [0, 3],
   ],
   statistics: [145, 60, 10],
-  medicationCalendar: [
-    [28, 3],
-    [29, 2],
-    [30, 3],
-    [1, 3],
-    [2, 0],
-    [3, 1],
-    [4, 2],
-    [5, 3],
-    [6, 1],
-    [7, 0],
-    [8, 3], // Set this as "today" for demonstration purposes
-  ],
   horizontalGraph: [
     ['주영', 8],
     ['서준', 3],
@@ -49,6 +35,7 @@ const sampleData: {
 };
 
 const MedicationTracker: React.FC = () => {
+  const [userName, setUserName] = useState('');
   const [calendarData, setCalendarData] = useState<[number, number][]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -56,19 +43,24 @@ const MedicationTracker: React.FC = () => {
   const baseUrl = config.backendUrl;
 
   useEffect(() => {
-    const fetchCalendarData = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch(`${baseUrl}/myPage/calender?userId=${userId}`);
-        const data = await response.json();
-        setCalendarData(data);
+        const userNameRes = await fetch(`${baseUrl}/myPage/user-name?userId=${userId}`);
+        const calenderRes = await fetch(`${baseUrl}/myPage/calender?userId=${userId}`);
+
+        const newUserNameData = await userNameRes.json();
+        const newCalenderData = await calenderRes.json();
+
+        setUserName(newUserNameData);
+        setCalendarData(newCalenderData);
       } catch (error) {
-        console.error('Error fetching calendar data:', error);
+        console.error('Error fetching data:', error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchCalendarData();
+    fetchData();
   }, [baseUrl, userId]);
 
   if (loading) {
@@ -84,7 +76,7 @@ const MedicationTracker: React.FC = () => {
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.container}>
           {/* User Greeting Section */}
-          <UserGreeting name="jlee4330" />
+          <UserGreeting name={userName} />
 
           {/* Calendar Section */}
           <Text style={styles.sectionHeaderText}>복약 달력</Text>

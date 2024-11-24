@@ -1,6 +1,19 @@
 const { get } = require("http");
 const pool = require("../mysql.js");
 
+const getUserName = async (userId) => {
+    try {
+        const [result] = await pool.query(
+            "SELECT UserName FROM User WHERE userId = ?",
+            [userId]
+        );
+        return result.map(row => [row.UserName]);
+    } catch(error) {
+        console.error("Error fetching UserName:", error);
+        throw error;
+    }
+};
+
 const getCalender = async (userId) => { // 지난주 일요일부터 오늘까지의 복약 횟수를 가져오는 함수
     try {
         const [result] = await pool.query(
@@ -80,6 +93,7 @@ const getQNum = async (userId) => {
 }
 
 module.exports = {
+    getUserName,
     getCalender,
     getThirtyDay,
     getSevenDay,

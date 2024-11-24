@@ -2,6 +2,10 @@ GET http://localhost:7777
 
 ###
 
+GET http://localhost:7777/myPage/user-name?userId=1
+
+###
+
 GET http://localhost:7777/myPage/calender?userId=1
 
 ###

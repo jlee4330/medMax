@@ -1,7 +1,18 @@
 const express = require("express");
-const { getCalender, getThirtyDay, getSevenDay, getTogetherMedi, getFullMedi, getQNum } = require("../Services/myPageService");
+const { getUserName, getCalender, getThirtyDay, getSevenDay, getTogetherMedi, getFullMedi, getQNum } = require("../Services/myPageService");
 
 const myPageRouter = express.Router();
+
+// 사용자 이름 조회 API
+myPageRouter.get("/user-name", async (req, res) => {
+    const { userId } = req.query;
+    try {
+        const userName = await getUserName(userId);
+        res.status(200).json(userName);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch userName" });
+    }
+});
 
 // 캘린더 조회 API
 myPageRouter.get("/calender", async (req, res) => {
