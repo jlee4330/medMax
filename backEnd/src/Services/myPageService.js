@@ -1,6 +1,19 @@
 const { get } = require("http");
 const pool = require("../mysql.js");
 
+const getUserNumMedi = async (userId) => {
+    try {
+        const [result] = await pool.query(
+            "SELECT numMedi FROM User WHERE userId = ?",
+            [userId]
+        );
+        return result.map(row => [row.numMedi]);
+    } catch(error) {
+        console.error("Error fetching numMedi:", error);
+        throw error;
+    }
+};
+
 const getUserName = async (userId) => {
     try {
         const [result] = await pool.query(
@@ -17,7 +30,7 @@ const getUserName = async (userId) => {
 const getCalender = async (userId) => { // 지난주 일요일부터 오늘까지의 복약 횟수를 가져오는 함수
     try {
         const [result] = await pool.query(
-            "SELECT DATE_FORMAT(mediDate, '%d') AS mediDate, mediCount FROM Date_medi WHERE userId = ? AND mediDate >= DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) + 8 DAY) AND mediDate <= CURDATE();",
+            "SELECT DATE_FORMAT(mediDate, '%d') AS mediDate, mediCount FROM Date_medi WHERE userId = ? AND mediDate >= DATE_SUB(CURDATE(), INTERVAL (CASE WHEN WEEKDAY(CURDATE()) = 6 THEN 7 ELSE WEEKDAY(CURDATE()) + 1 END) DAY) AND mediDate <= CURDATE()",
             [userId]
         );
         return result.map(row => [row.mediDate, row.mediCount]);
@@ -93,6 +106,7 @@ const getQNum = async (userId) => {
 }
 
 module.exports = {
+    getUserNumMedi,
     getUserName,
     getCalender,
     getThirtyDay,

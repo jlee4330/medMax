@@ -1,7 +1,18 @@
 const express = require("express");
-const { getUserName, getCalender, getThirtyDay, getSevenDay, getTogetherMedi, getFullMedi, getQNum } = require("../Services/myPageService");
+const { getUserNumMedi, getUserName, getCalender, getThirtyDay, getSevenDay, getTogetherMedi, getFullMedi, getQNum } = require("../Services/myPageService");
 
 const myPageRouter = express.Router();
+
+// 하루 복약 횟수 조회 API
+myPageRouter.get("/num-medi", async (req, res) => {
+    const { userId } = req.query;
+    try {
+        const numMedi = await getUserNumMedi(userId);
+        res.status(200).json(numMedi);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch numMedi" });
+    }
+});
 
 // 사용자 이름 조회 API
 myPageRouter.get("/user-name", async (req, res) => {
