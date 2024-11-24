@@ -57,7 +57,7 @@ const getIds = async (uuID) => {
         
         const [result] = await pool.query(
             
-            `SELECT userId, roomId from Date_medi where UserID = '${uuID}'`
+            `SELECT userId, roomId from User where UserID = '${uuID}'`
         );
             
             return result.map(row => [row.userId, row.roomId]);
@@ -87,7 +87,33 @@ const values = [
     false              // medicineCheck3
   ];
         
-        const [result] = await pool.query(
+        await pool.query(
+            
+            query, values
+        );
+            
+            // return {userID: userId, roomID: roomId }
+
+    } catch(error) {
+        console.error("Error fetching getGoal:", error);
+        throw error;
+    }
+    try {
+        const query = `
+  INSERT INTO User (UserID, UserName, RoomId, numMedi, time_first, time_second, time_third)
+  VALUES (?, ?, ?, ?, ?, ?, ?)
+`;
+const values = [
+    userId,            // UserID
+    userId,            // NickName (UserID와 동일)
+    roomId,            // RoomId
+    null,              // Date
+    (new Date(time1)).toTimeString().slice(0,8),             // medicineTime1
+    (new Date(time2)).toTimeString().slice(0,8),             // medicineTime2
+    (new Date(time3)).toTimeString().slice(0,8),             // medicineTime3
+  ];
+        
+        await pool.query(
             
             query, values
         );
