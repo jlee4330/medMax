@@ -13,8 +13,7 @@ services:
       - NODE_ENV=production
 
   fastapi-ai:
-    build:
-      context: ../AI
+    image: maple0729/backend-fastapi-ai:latest
     container_name: fastapi-ai
     ports:
       - "8000:8000"

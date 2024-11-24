@@ -85,7 +85,7 @@ def preprocess_pairs(data):
     pairs = []
     for item in data:
         question = item['content']
-        answer = item['answers'][0]['content']
+        answer = item['answer']
         pairs.append([question, answer])
     return pairs
 
