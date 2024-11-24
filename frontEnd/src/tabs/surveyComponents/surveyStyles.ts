@@ -12,11 +12,26 @@ const surveyStyles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 12,
     padding: 20,
-    width: screenWidth * 0.9,
     alignSelf: 'center',
-    justifyContent: 'center',
     alignItems: 'center',
     ...sharedStyles.floatingShadow,
+  },
+  welcomeText: {
+    fontSize: 20,
+    fontWeight: '600',
+    textAlign: 'center',
+    color: '#404335',
+  },
+  inputBox: {
+    width: screenWidth * 0.8,
+    height: 50,
+    borderColor: '#E7E7EB',
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 15,
+    backgroundColor: '#F5F5FD',
+    fontSize: 16,
+    color: '#404335',
   },
   questionText: {
     fontSize: 18,
@@ -31,15 +46,15 @@ const surveyStyles = StyleSheet.create({
   answerButton: {
     backgroundColor: '#F5F5FD',
     paddingVertical: 12,
-    paddingHorizontal: 15,
-    width: screenWidth * 0.7,
+    width: screenWidth * 0.7, // Ensure answer buttons are slightly narrower
     borderRadius: 8,
     marginBottom: 10,
     borderWidth: 1,
-    borderColor: 'transparent', // just in case...
+    borderColor: 'transparent',
+    ...sharedStyles.floatingShadow,
   },
   selectedAnswer: {
-    backgroundColor: '#6A5ACD',
+    backgroundColor: '#897CDD',
     borderColor: '#6A5ACD',
     borderWidth: 2,
   },
@@ -51,15 +66,6 @@ const surveyStyles = StyleSheet.create({
   selectedAnswerText: {
     color: 'white',
   },
-  timePicker: {
-    width: screenWidth * 0.8,
-    height: 200,
-    alignSelf: 'center',
-    backgroundColor: 'white',
-    borderRadius: 8,
-    marginTop: 20,
-    ...sharedStyles.floatingShadow,
-  },
   nextButton: {
     backgroundColor: '#9C98E7',
     paddingVertical: 15,
@@ -69,7 +75,7 @@ const surveyStyles = StyleSheet.create({
     alignSelf: 'center',
     width: screenWidth * 0.9,
   },
-  activatedButton: {
+  completeButton: {
     backgroundColor: '#6A5ACD',
   },
   nextButtonText: {
@@ -78,20 +84,58 @@ const surveyStyles = StyleSheet.create({
     fontWeight: '600',
   },
   previousButton: {
-    backgroundColor: '#F5F5FD',
+    backgroundColor: '#E7E7EB',
     paddingVertical: 15,
     borderRadius: 8,
-    marginBottom: 10,
     alignItems: 'center',
     alignSelf: 'center',
     width: screenWidth * 0.9,
-    borderColor: '#CCC',
-    borderWidth: 1,
   },
   previousButtonText: {
     color: '#9CA0AB',
     fontSize: 16,
+    fontWeight: '600',
+  },
+  nextButtonActive: {
+    backgroundColor: '#9C98E7',
+  },
+  nextButtonInactive: {
+    backgroundColor: '#E7E7EB',
+  },
+  greetingContainer: {
+    width : screenWidth * 0.8,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    alignSelf: 'center',
+  },
+  textContainer: {
+    marginBottom: 20,
+    alignItems: 'center',
+    alignSelf: 'center',
+  },
+  imageContainer: {
+    width: screenWidth * 0.7,
+    height: screenWidth * 0.7,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+  image: {
+    width: screenWidth * 0.7,
+    height: screenWidth * 0.7,
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+  buttonContainer: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 20,
+    paddingHorizontal: 20,
   },
 });
+
 
 export default surveyStyles;

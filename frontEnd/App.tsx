@@ -43,7 +43,7 @@ function App() {
         >
           <Tab.Screen 
             name="Question"
-            component={QnAScreen} //여기 바꿔가면서 일단 하고, 라우팅은 StackNavigator 어케 해결해보기 ㅠ
+            component={SurveyScreen} //여기 바꿔가면서 일단 하고, 라우팅은 StackNavigator 어케 해결해보기 ㅠ
             options={{
               title: '질문하기',
               tabBarIcon: ({ focused }) => (
