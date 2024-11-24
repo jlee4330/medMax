@@ -8,7 +8,7 @@ public class Networking : MonoBehaviour
     [SerializeField]
     private GameObject gameobject;
     // Start is called before the first frame update
-    public WebSocket ws = new WebSocket("ws://143.248.200.170:7777");
+    public WebSocket ws = new WebSocket("ws://143.248.200.147:7777");
     public bool isConnected = false;
     private bool isLogin;
     public GameSystemScript gameSystemScript;

@@ -9,7 +9,7 @@ public class NewBehaviourScript : MonoBehaviour
     public GameSystemScript gameSystemScript;
     public Networking networking;
 
-    public float moveSpeed = 1.5f; // 이동 속도
+    public float moveSpeed = 5.0f; // 이동 속도
     public float changeDirectionInterval = 1.5f; // 방향 변경 간격
     public Vector3 targetDirection = new Vector3(0,0,0); // 이동할 목표 방향
     private float timeSinceChange = 0f; // 마지막 방향 변경 이후 경과 시간
@@ -38,7 +38,16 @@ public class NewBehaviourScript : MonoBehaviour
     //     }
 
     //     // 자연스러운 움직임을 위해 Lerp로 방향을 전환
-        rigid2D.velocity = targetDirection * moveSpeed;
+        Vector3 direction = (targetDirection - transform.position).normalized;
+
+            // Rigidbody에 속도 설정
+            rigid2D.velocity = direction * moveSpeed;
+
+            // 목표 위치에 도달하면 속도 0
+            if (Vector3.Distance(transform.position, targetDirection) < 0.1f)
+            {
+                rigid2D.velocity = Vector3.zero;
+            }
     //     // float x = Input.GetAxisRaw("Horizontal");
     //     // float y = Input.GetAxisRaw("Vertical");
     //     // moveDirection = new Vector3(x, y, 0);

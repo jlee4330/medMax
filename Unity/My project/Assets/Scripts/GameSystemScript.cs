@@ -48,8 +48,8 @@ public class GameSystemScript : MonoBehaviour
                                 playerDict.Add(id, clone);
                             }
                             else{
-                                // Debug.Log(id_pos[0] +  id_pos[1] + id_pos[2]);
                                 playerDict[id].transform.GetComponent<NewBehaviourScript>().targetDirection = (new Vector3(float.Parse(playerInfo[1]), float.Parse(playerInfo[2]), 0));
+                                
                             }
                         }
                         else{
@@ -59,7 +59,7 @@ public class GameSystemScript : MonoBehaviour
                                 playerDict.Add(id, clone);
                             }
                             else{
-                                // Debug.Log(id_pos[0] +  id_pos[1] + id_pos[2]);
+                                
                                 playerDict[id].transform.GetComponent<NewBehaviourScript>().targetDirection = (new Vector3(float.Parse(playerInfo[1]), float.Parse(playerInfo[2]), 0));
                             }
                         }
@@ -83,7 +83,6 @@ public class GameSystemScript : MonoBehaviour
             string[] pos_arr_all = byteStr.Split('/');
             switch (pos_arr_all[0]){
                 case "allpos":
-                    Debug.Log(byteStr);
                     changePlayerPosition(byteStr.Substring(7), room_id);
                     // foreach(string pos_arr_str in pos_arr_all){
                     //     if (pos_arr_str == "allpos") continue;
