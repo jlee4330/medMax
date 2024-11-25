@@ -7,11 +7,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { enableScreens } from 'react-native-screens';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Image } from 'react-native';
+import { Image, View } from 'react-native';
 
 import HomeScreen from './src/tabs/main';
 import SettingsScreen from './src/tabs/mypage';
 import QnAScreen from './src/tabs/qna';
+//import WelcomeScreen from './src/tabs/welcome';
 import SurveyScreen from './src/tabs/survey';
 import DeviceInfo from 'react-native-device-info';
 import axios from 'axios';
@@ -100,41 +101,42 @@ function TabNavigator() {
 
 
 function App() {
-  const [initialRoute, setInitialRoute] = useState(null);
+  const [initialRoute, setInitialRoute] = useState<boolean | null>(null);
   useEffect(() => {
     const checkDeviceId = async () => {
-      try {
-        const deviceId : string = DeviceInfo.getDeviceId();
-        console.log("Device ID:", deviceId);
-        const response = await axios.get(`http://10.0.2.2:7777/mainPage/getIds`, 
-          { params: { 
-            uID: deviceId 
-          } }
-        );
-        const result = response.data;
-        console.log("API response:", result);
-        if (result && result.length > 0) {
-          console.log("hello");
-          setInitialRoute("MainTabs");
-        } else {
-          setInitialRoute("Survey");
-        }
-      } catch (error) {
-        console.error("Error checking device ID:", error);
-        setInitialRoute("Survey");
-      }
+      // try {
+      //   const deviceId : string = DeviceInfo.getDeviceId();
+      //   console.log("Device ID:", deviceId);
+      //   const response = await axios.get(`http://10.0.2.2:7777/mainPage/getIds`, 
+      //     { params: { 
+      //       uID: deviceId 
+      //     } }
+      //   );
+      //   const result = response.data;
+      //   if (result && result.length > 0) {
+      //     setInitialRoute(true);
+      //   } else {
+      //     setInitialRoute(false);
+      //   }
+      // } catch (error) {
+      //   console.error("Error checking device ID:", error);
+      //   setInitialRoute(false);
+      // }
+      setInitialRoute(false);
     };
     checkDeviceId();
   }, []);
 
   if (initialRoute === null) {
-    return null;
+    return (
+      <View style={{ flex: 1, backgroundColor: 'white' }} />
+    );
   }
 
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName={initialRoute}>
+        <Stack.Navigator initialRouteName={initialRoute ? "MainTabs" : "Survey"}>
           {/* SurveyScreen을 첫 화면으로 */}
           <Stack.Screen
             name="Survey"
@@ -154,4 +156,5 @@ function App() {
 }
 
 export default App;
+
 

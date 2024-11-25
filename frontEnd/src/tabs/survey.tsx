@@ -114,20 +114,20 @@ const Survey = () => {
                             // const time1 = '2024-11-25T08:00:00';
                             // const time2 = '2024-11-25T14:00:00';
                             // const time3 = '2024-11-25T20:00:00';
-                            const response = await axios.get(`${config.backendUrl}/mainPage/signUp`, {
-                                params: {
-                                    userId: UUID,
-                                    roomId: roomId,
-                                    time1: times[0] || null,
-                                    time2: times[1] || null,
-                                    time3: times[2] || null,
+                            // const response = await axios.get(`${config.backendUrl}/mainPage/signUp`, {
+                                // params: {
+                                    // userId: UUID,
+                                    // roomId: roomId,
+                                    // time1: times[0] || null,
+                                    // time2: times[1] || null,
+                                    // time3: times[2] || null,
                                     // 아래는 기존 코드
                                     // time1: time1,
                                     // time2: time2,
                                     // time3: time3,
                                 }
-                            });
-                            console.log('데이터 전송 성공:', response.data);
+                            // });
+                            // console.log('데이터 전송 성공:', response.data);
                             navigation.navigate('MainTabs');
                         } catch (error) {
                             console.error('데이터 전송 실패:', error);
