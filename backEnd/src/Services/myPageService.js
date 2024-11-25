@@ -105,6 +105,19 @@ const getQNum = async (userId) => {
     }
 }
 
+const getPokers = async (userId) => {
+    try {
+        const [result] = await pool.query(
+            "SELECT pokefrom, COUNT(PokeID) AS pokeNum FROM poke WHERE poketo = ? GROUP BY pokefrom",
+            [userId]
+        );
+        return result.map(row => [row.pokefrom, row.pokeNum]);
+    } catch(error) {
+        console.error("Error fetching Pokes:", error);
+        throw error;
+    }
+}
+
 module.exports = {
     getUserNumMedi,
     getUserName,
@@ -113,5 +126,6 @@ module.exports = {
     getSevenDay,
     getTogetherMedi,
     getFullMedi,
-    getQNum
+    getQNum,
+    getPokers
 };

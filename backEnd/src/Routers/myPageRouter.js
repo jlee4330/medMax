@@ -1,5 +1,5 @@
 const express = require("express");
-const { getUserNumMedi, getUserName, getCalender, getThirtyDay, getSevenDay, getTogetherMedi, getFullMedi, getQNum } = require("../Services/myPageService");
+const { getUserNumMedi, getUserName, getCalender, getThirtyDay, getSevenDay, getTogetherMedi, getFullMedi, getQNum, getPokers } = require("../Services/myPageService");
 
 const myPageRouter = express.Router();
 
@@ -102,6 +102,16 @@ myPageRouter.get("/statistics", async (req, res) => {
         res.status(200).json(result);
     } catch (error) {
         res.status(500).json({ error: "Failed to fetch statistics" });
+    }
+});
+
+myPageRouter.get("/pokers", async (req, res) => {
+    const { userId } = req.query;
+    try {
+        const pokers = await getPokers(userId);
+        res.status(200).json(pokers);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch pokers" });
     }
 });
 

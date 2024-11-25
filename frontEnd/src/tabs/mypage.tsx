@@ -40,6 +40,7 @@ const MedicationTracker: React.FC = () => {
   const [calendarData, setCalendarData] = useState<[number, number][]>([]);
   const [progressData, setProgressData] = useState<[number, number][]>([]);
   const [statistics, setStatistics] = useState<[number, number, number] | null>(null);
+  const [horizontalGraphData, setHorizontalGraphData] = useState<[string, number][]>([]);
   const [loading, setLoading] = useState(true);
 
   const userId = 1;
@@ -54,12 +55,14 @@ const MedicationTracker: React.FC = () => {
           calenderRes,
           progressRes,
           statisticsRes,
+          horizontalGraphRes,
         ] = await Promise.all([
           fetch(`${baseUrl}/myPage/num-medi?userId=${userId}`),
           fetch(`${baseUrl}/myPage/user-name?userId=${userId}`),
           fetch(`${baseUrl}/myPage/calender?userId=${userId}`),
           fetch(`${baseUrl}/myPage/thirty-day?userId=${userId}`),
           fetch(`${baseUrl}/myPage/statistics?userId=${userId}`),
+          fetch(`${baseUrl}/myPage/pokers?userId=${userId}`),
         ]);
 
         const [
@@ -68,22 +71,26 @@ const MedicationTracker: React.FC = () => {
           newCalenderData,
           newProgressData,
           newStatisticsData,
+          newHorizontalGraphData,
         ] = await Promise.all([
           userNumMediRes.json(),
           userNameRes.json(),
           calenderRes.json(),
           progressRes.json(),
           statisticsRes.json(),
+          horizontalGraphRes.json(),
         ]);
 
         setUserNumMedi(newUserNumMediData || 0);
         setUserName(newUserNameData || 'Unknown User');
-        setCalendarData(newCalenderData || []);
+        const now = new Date();
+        setCalendarData(newCalenderData?.length ? newCalenderData : [[now.getDate(), 0]]);
 
         const processedProgressData = processProgressData(newProgressData, newUserNumMediData);
         setProgressData(processedProgressData);
 
         setStatistics(newStatisticsData || null);
+        setHorizontalGraphData(newHorizontalGraphData || []);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -112,13 +119,13 @@ const MedicationTracker: React.FC = () => {
           <MedicationCalendar medicationData={calendarData} />
 
           <Text style={styles.sectionHeaderText}>복약 비율</Text>
-          <ProgressBar progressData={sampleData.progress} medicationCounts={sampleData.nummedi} />
+          <ProgressBar progressData={progressData} medicationCounts={userNumMedi} />
 
           <Text style={styles.sectionHeaderText}>이걸뭐라고해야좋을까</Text>
           {statistics && <Statistics statisticsData={statistics} />}
 
           <Text style={styles.sectionHeaderText}>오늘 나를 찌른 사용자</Text>
-          <HorizontalGraph graphData={sampleData.horizontalGraph} />
+          <HorizontalGraph graphData={horizontalGraphData} />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -128,7 +135,7 @@ const MedicationTracker: React.FC = () => {
 export default MedicationTracker;
 
 
-const processProgressData = (data: [number, number][], maxDose: number): [number, number][] => {
+const processProgressData = (data: [number, number][], numMedi: number): [number, number][] => {
   const processedData: [number, number][] = [];
   const doseMap = new Map<number, number>();
 
@@ -136,7 +143,7 @@ const processProgressData = (data: [number, number][], maxDose: number): [number
     doseMap.set(dose, days);
   });
 
-  for (let dose = maxDose; dose >= 0; dose--) {
+  for (let dose = numMedi; dose >= 0; dose--) {
     processedData.push([dose, doseMap.get(dose) || 0]);
   }
 
