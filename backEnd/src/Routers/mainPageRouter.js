@@ -1,5 +1,5 @@
 const express = require("express");
-const { getCandidate, getIds, signUp, getUsers, poke, eatMed, progre, getRIdMedTime } = require("../Services/mainPageService");
+const { getCandidate, getIds, signUp, getUsers, poke, eatMed, progre, getRIdMedTime, checkMed } = require("../Services/mainPageService");
 
 const mainPageRouter = express.Router();
 
@@ -100,6 +100,18 @@ mainPageRouter.get("/info", async (req, res) => {
 
     try {
         const result = await getRIdMedTime(userId);
+
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch progressStatus" });
+    }
+});
+
+mainPageRouter.get("/checkMed", async (req, res) => {
+    const userId = req.query.userId;
+
+    try {
+        const result = await checkMed(userId);
 
         res.status(200).json(result);
     } catch (error) {

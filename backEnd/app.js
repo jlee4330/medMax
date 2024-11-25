@@ -42,24 +42,32 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({ server },()=>{
     console.log('서버시작')
 })
-// Player list 객체 생성
-// const playerListList = {};
-// const playerList = {};
 
-// // 플레이어 추가 또는 위치 업데이트 함수
-// function updatePlayerPosition(playerList, userId, x, y) {
-//    // console.log(playerList);
-//     playerList[userId] = { x: x, y: y }; // playerList에 userId를 key로 하여 위치 업데이트
-// }
+//HTTP server for WebGL
+// const { exec } = require('child_process'); // child_process 모듈을 가져옵니다
+// const path = require('path');
 
-// function setRandomPositions(playerList) {
-//    for (let userID in playerList) {
-//        if (playerList.hasOwnProperty(userID)) {
-//            playerList[userID].x = Math.floor(Math.random() * (1 - (-1) + 1)) - 1;
-//            playerList[userID].y = Math.floor(Math.random() * (1 - (-1) + 1)) - 1;
-//        }
-//    }
-// }
+// // HTTP 서버를 실행할 디렉토리와 포트를 설정
+// const directory = path.join(__dirname, 'your-html-directory'); // HTML 파일이 있는 디렉토리 경로
+// const port = 8000;
+
+// http-server 실행 명령어
+// const command = `http-server ${directory} -p ${port}`;
+
+// // 명령 실행
+// exec(command, (error, stdout, stderr) => {
+//     if (error) {
+//         console.error(`Error starting http-server: ${error.message}`);
+//         return;
+//     }
+//     if (stderr) {
+//         console.error(`http-server stderr: ${stderr}`);
+//         return;
+//     }
+//     console.log(`http-server started on port ${port}`);
+//     console.log(stdout);
+// });
+
 const playerListList = {};
 
 async function processQueryData(){ //Insert players into PlayerListList
@@ -73,7 +81,6 @@ async function processQueryData(){ //Insert players into PlayerListList
           const x = 0; 
           const y = 0; 
       
-          // insertPlayerPosition 함수 호출
           insertPlayerPosition(RoomId, userId, x, y);
         });
       });
@@ -147,17 +154,6 @@ function generateUniqueUserID() {
    return newUserID;
 }
 
-// function convertPositionListToString(positionList) {
-//    // 모든 key-value 쌍을 map으로 변환하여 각 객체를 형식에 맞게 문자열로 변환
-//    const result = Object.keys(positionList).map(id => {
-//        const { x, y } = positionList[id];
-//        return `${id},${x},${y}`;
-//    });
-
-//    // 각 객체의 문자열을 "/"로 결합하여 최종 문자열 반환
-//    return result.join('/');
-// }
-
 function convertPlayerListListToString(playerListList) {
    // 각 roomID의 데이터를 변환
    const result = Object.keys(playerListList).map(roomID => {
@@ -198,14 +194,9 @@ wss.on('connection', function connection(ws) {
             const its_id = parseInt(message[1]);
             const x = parseFloat(message[2]);
             const y = parseFloat(message[3]);
-            // console.log('%d의 위치는 x = %f y = %f',its_id,x,y);
             break;
          case "new" :
-            // const n_id = message[1];
-            // const room_id = message[2];
-            // const new_id = "newid" + "," + n_id;
             processQueryData();
-            // ws.send(new_id);
             break;
          default:
             break;

@@ -193,6 +193,37 @@ const getRIdMedTime = async (userId) => {
             
             query
         );
+
+        
+            console.log(result);
+            return result;
+
+    } catch(error) {
+        console.error("Error fetching getGoal:", error);
+        throw error;
+    }
+};
+
+const checkMed = async (userId) => {
+    try {
+
+        const query = `
+        SELECT 
+            medicineCheck1,
+            medicineCheck2,
+            medicineCheck3
+        FROM Date_medi
+        WHERE UserID = '${userId}'
+        ORDER BY recordID DESC
+        LIMIT 1;
+        `;  
+        
+        const [result] = await pool.query(
+            
+            query
+        );
+
+        
             console.log(result);
             return result;
 
@@ -265,5 +296,6 @@ module.exports = {
     poke,
     eatMed,
     progre,
-    getRIdMedTime
+    getRIdMedTime,
+    checkMed
 };
