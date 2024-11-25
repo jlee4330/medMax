@@ -8,7 +8,7 @@ const getCandidate = async (userId, roomId, timeR) => { // 지난주 일요일�
 
             "SELECT dm.UserID " + 
             "FROM Date_medi dm " + 
-            "LEFT JOIN Poke p ON dm.UserID = p.poketo " +
+            "LEFT JOIN poke p ON dm.UserID = p.poketo " +
             "WHERE (" +
             `(dm.medicineTime1 BETWEEN DATE_SUB(STR_TO_DATE('${time}', '%H:%i:%s'), INTERVAL 2 HOUR) AND STR_TO_DATE('${time}', '%H:%i:%s') AND dm.medicineCheck1 = FALSE) OR ` +
             `(dm.medicineTime2 BETWEEN DATE_SUB(STR_TO_DATE('${time}', '%H:%i:%s'), INTERVAL 2 HOUR) AND STR_TO_DATE('${time}', '%H:%i:%s') AND dm.medicineCheck2 = FALSE) OR ` +
@@ -16,7 +16,7 @@ const getCandidate = async (userId, roomId, timeR) => { // 지난주 일요일�
             `AND dm.RoomId = ${roomId} ` +
             "AND NOT EXISTS (" +
             "SELECT 1 " +
-            "FROM Poke p2 " +
+            "FROM poke p2 " +
             `WHERE p2.pokefrom = '${userId}' ` +
             "AND p2.poketo = dm.UserID " +
             `AND p2.When BETWEEN DATE_SUB(STR_TO_DATE('${time}', '%H:%i:%s'), INTERVAL 2 HOUR) AND STR_TO_DATE('${time}', '%H:%i:%s')) ` +
