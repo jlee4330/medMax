@@ -1,28 +1,30 @@
 import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, Dimensions, View, Text, Image, TouchableOpacity } from 'react-native';
 import WebView from 'react-native-webview';
-import CockModal from './mainPageComponent/cockModal';  // CockModal을 재사용하거나 새로 만들어서 활용
+import CockModal from './mainPageComponent/cockModal'; 
 import CheckModal from './mainPageComponent/checkModal';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 
-// const Webview = () => {
-//   return (
-//     <SafeAreaView style={styles.container}>
-//       <WebView
-//         style={styles.webview}
-//         source={{ uri: 'http://143.248.200.147:8000/' }}
-//       />
-//     </SafeAreaView>
-//   );
-// };
+const Webview = () => {
+  return (
+    <SafeAreaView style={styles.container}>
+      <WebView
+        style={styles.webview}
+        source={{ uri: 'http://3.35.193.176:8000/'}}
+      />
+    </SafeAreaView>
+  );
+};
 
 // 메인 컴포넌트
 export default function CustomComponent() {
   const [isModalVisible, setModalVisible] = useState(false);
   const [isMedicationModalVisible, setMedicationModalVisible] = useState(false); // 약 복용 체크 모달 상태
+  const userID = 'user123'; // 부여받은 userID (예시)
+  const roomID = 1; // 현재 방 ID (int 형식)
 
   // 마을 정보 컴포넌트
   const VillageInfo = () => (
@@ -82,7 +84,7 @@ export default function CustomComponent() {
   return (
     <SafeAreaView style={styles.container}>
       {/* WebView */}
-      {/* <Webview /> */}
+      <Webview />
 
       {/* CustomComponent */}
       <View style={styles.componentContainer}>
@@ -93,6 +95,8 @@ export default function CustomComponent() {
         {/* CockModal 호출 */}
         <CockModal
           visible={isModalVisible}
+          userID={userID} // userID 전달
+          roomID={roomID} // roomID 전달
           onClose={() => setModalVisible(false)}
           onConfirm={() => {
             setModalVisible(false);
@@ -102,6 +106,8 @@ export default function CustomComponent() {
         {/* 약 복용 체크 모달 */}
         <CheckModal
           visible={isMedicationModalVisible}
+          userID={userID} // userID 전달
+          roomID={roomID} // roomID 전달
           onClose={() => setMedicationModalVisible(false)}
           onConfirm={() => {
             setMedicationModalVisible(false);

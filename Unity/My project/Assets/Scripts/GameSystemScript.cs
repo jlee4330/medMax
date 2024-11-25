@@ -46,6 +46,10 @@ public class GameSystemScript : MonoBehaviour
                                 GameObject otherPlayer = Resources.Load<GameObject>("player");
                                 GameObject clone = Instantiate(otherPlayer, new Vector3(float.Parse(playerInfo[1]), float.Parse(playerInfo[2]), 0), Quaternion.identity);
                                 playerDict.Add(id, clone);
+
+                                // // PlayerClick 추가 및 Canvas Prefab 연결
+                                // var playerClick = clone.AddComponent<PlayerClick>();
+                                // playerClick.canvasPrefab = Resources.Load<GameObject>("Emoji"); // Prefab 연결
                             }
                             else{
                                 playerDict[id].transform.GetComponent<NewBehaviourScript>().targetDirection = (new Vector3(float.Parse(playerInfo[1]), float.Parse(playerInfo[2]), 0));

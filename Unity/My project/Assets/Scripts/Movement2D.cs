@@ -8,6 +8,8 @@ public class NewBehaviourScript : MonoBehaviour
     public WebSocket ws;
     public GameSystemScript gameSystemScript;
     public Networking networking;
+    public SpriteRenderer spriteRenderer; 
+    public Sprite[] directionSprites;
 
     public float moveSpeed = 5.0f; // 이동 속도
     public float changeDirectionInterval = 1.5f; // 방향 변경 간격
@@ -22,6 +24,12 @@ public class NewBehaviourScript : MonoBehaviour
         // ws = networking.ws;
         // targetDirection = GetRandomDirection();
         // SetRandomInterval();
+        spriteRenderer = GetComponent<SpriteRenderer>(); // SpriteRenderer 가져오기
+        // spriteRenderer가 없으면 에러 메시지 출력
+        if (spriteRenderer == null)
+        {
+            Debug.LogError("Player Object에 SpriteRenderer가 없습니다!");
+        }
     }
 
     
@@ -57,6 +65,26 @@ public class NewBehaviourScript : MonoBehaviour
     //         string message = "pos" + "," + gameSystemScript.my_id + "," + transform.position.x + "," + transform.position.y;
     //         await ws.SendText(message);
     //     }
+        UpdateSprite(direction);
+    }
+    void UpdateSprite(Vector3 direction)
+    {
+        if (direction.y > 0.5f) // 위쪽
+        {
+            spriteRenderer.sprite = directionSprites[0];
+        }
+        else if (direction.y < -0.5f) // 아래쪽
+        {
+            spriteRenderer.sprite = directionSprites[1];
+        }
+        else if (direction.x > 0.5f) // 오른쪽
+        {
+            spriteRenderer.sprite = directionSprites[2];
+        }
+        else if (direction.x < -0.5f) // 왼쪽
+        {
+            spriteRenderer.sprite = directionSprites[3];
+        }
     }
     Vector3 GetRandomDirection()
     {

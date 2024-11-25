@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2103854830343946161}
   - component: {fileID: 223725358130367504}
   - component: {fileID: 3206959194788676659}
+  - component: {fileID: 8757287749973543487}
   m_Layer: 0
   m_Name: player
   m_TagString: Untagged
@@ -101,6 +102,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameSystemScript: {fileID: 0}
   networking: {fileID: 0}
+  spriteRenderer: {fileID: 0}
+  directionSprites:
+  - {fileID: 1332897968, guid: bdd6d0f9610b94523903a41c35747d60, type: 3}
+  - {fileID: -1511595728, guid: bdd6d0f9610b94523903a41c35747d60, type: 3}
+  - {fileID: -881202849, guid: bdd6d0f9610b94523903a41c35747d60, type: 3}
+  - {fileID: -1149677636, guid: bdd6d0f9610b94523903a41c35747d60, type: 3}
   moveSpeed: 5
   changeDirectionInterval: 1.5
   targetDirection: {x: 0, y: 0, z: 0}
@@ -166,3 +173,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &8757287749973543487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5994702482184214641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91b39eb1cf1ec443f88c2187964bb4db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonSprites:
+  - {fileID: 21300000, guid: fb3e6e955210f42eb8289405bf5801ec, type: 3}
+  - {fileID: 21300000, guid: 1d9d6271656534012bdd5bdba201c0cb, type: 3}
+  - {fileID: 21300000, guid: 6f57b93f674b0478ba3b938d497a123e, type: 3}
+  - {fileID: 21300000, guid: d85e2a945c1494004b5dc950a4776dbd, type: 3}
+  - {fileID: 21300000, guid: 188be9cb500cb4cf8b640669a343a283, type: 3}
+  - {fileID: 21300000, guid: 3d8190f00c0eb4998af63ffbe2d49a15, type: 3}
+  - {fileID: 21300000, guid: c8f4a640541764192a7bcd88e75b923c, type: 3}
+  - {fileID: 21300000, guid: 12ddbe80598be4bcc97e656dc9beb5bb, type: 3}
+  - {fileID: 21300000, guid: b08ea7f059c2f474aae7ea23f7f47e60, type: 3}
