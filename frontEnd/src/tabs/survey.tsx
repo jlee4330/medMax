@@ -108,23 +108,30 @@ const Survey = () => {
                         try {
                             const roomId = getRoomId();
                             // userName 받아서 넘기는 거 추가해야
-                            const times = selectedAnswers[4] || [];
+                            const times = selectedAnswers[3] || [];
+                            const medi_count = selectedAnswers[2].replace("회", "");
+                            console.log(userName);
+                            console.log(UUID);
+                            console.log(medi_count);
                             // 원하는 타입으로 들어오는지 체크하고, 아니라면 변형
                             // 아래는 기존 코드
                             // const time1 = '2024-11-25T08:00:00';
                             // const time2 = '2024-11-25T14:00:00';
                             // const time3 = '2024-11-25T20:00:00';
-                            // const response = await axios.get(`${config.backendUrl}/mainPage/signUp`, {
-                                // params: {
-                                    // userId: UUID,
-                                    // roomId: roomId,
-                                    // time1: times[0] || null,
-                                    // time2: times[1] || null,
-                                    // time3: times[2] || null,
-                                    // 아래는 기존 코드
-                                    // time1: time1,
-                                    // time2: time2,
-                                    // time3: time3,
+
+                            const baseDate = "2024-11-26";
+                            const time1 = times[0] ? `${baseDate}T${times[0].replace("시", "").padStart(2, '0')}:00:00` : null;
+                            const time2 = times[1] ? `${baseDate}T${times[1].replace("시", "").padStart(2, '0')}:00:00` : null;
+                            const time3 = times[2] ? `${baseDate}T${times[2].replace("시", "").padStart(2, '0')}:00:00` : null;
+                            // const response = await axios.get(`http://10.0.2.2:7777/mainPage/signUp`, {
+                            //     params: {
+                            //         userId: UUID,
+                            //         userName: userName,
+                            //         roomId: roomId,
+                            //         numMedi: medi_count,
+                            //         time1: time1,
+                            //         time2: time2,
+                            //         time3: time3,
                             //    }
                             // });
                             // console.log('데이터 전송 성공:', response.data);

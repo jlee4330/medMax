@@ -31,13 +31,15 @@ mainPageRouter.get("/getIds", async (req, res) => {
 
 mainPageRouter.get("/signUp", async (req, res) => {
     const userId = req.query.userId;
+    const userName = req.query.userName;
     const roomId = req.query.roomId;
+    const numMedi = req.query.numMedi;
     const time1 = req.query.time1;
     const time2 = req.query.time2;
     const time3 = req.query.time3;
 
     try {
-        const result = await signUp(userId, roomId, time1, time2, time3);
+        const result = await signUp(userId, userName, roomId, numMedi, time1, time2, time3);
 
         res.status(200).json(result);
     } catch (error) {
