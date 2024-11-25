@@ -74,7 +74,7 @@ const poke = async (ufrom, uto, when) => {
         
         const [result] = await pool.query(
             
-            'INSERT INTO poke (`from`, `to`, `when`) VALUES (?, ?, ?);',
+            'INSERT INTO poke (`pokefrom`, `poketo`, `when`) VALUES (?, ?, ?);',
             [ufrom, uto, (new Date(when)).toTimeString().slice(0,8)]
         );
             
@@ -124,18 +124,18 @@ const signUp = async (userId, roomId, time1, time2, time3) => {
 
     try {
         const query = `
-  INSERT INTO User (UserID, UserName, RoomId, numMedi, time_first, time_second, time_third)
-  VALUES (?, ?, ?, ?, ?, ?, ?)
-`;
-const values = [
-    userId,            // UserID
-    userId,            // NickName (UserID와 동일)
-    roomId,            // RoomId
-    null,              // Date
-    (new Date(time1)).toTimeString().slice(0,8),             // medicineTime1
-    (new Date(time2)).toTimeString().slice(0,8),             // medicineTime2
-    (new Date(time3)).toTimeString().slice(0,8),             // medicineTime3
-  ];
+            INSERT INTO User (UserID, UserName, RoomId, numMedi, time_first, time_second, time_third)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            `;
+    const values = [
+        userId,            // UserID
+        userId,            // NickName (UserID와 동일)
+        roomId,            // RoomId
+        null,              // Date
+        (new Date(time1)).toTimeString().slice(0,8),             // medicineTime1
+        (new Date(time2)).toTimeString().slice(0,8),             // medicineTime2
+        (new Date(time3)).toTimeString().slice(0,8),             // medicineTime3
+    ];
         
         await pool.query(
             
@@ -146,9 +146,6 @@ const values = [
         console.error("Error fetching getGoal:", error);
         throw error;
     }
-
-
-
     try {
         const query = `
   INSERT INTO Date_medi (UserID, mediDate, mediCount, RoomId, medicineTime1, medicineTime2, medicineTime3, medicineCheck1, medicineCheck2, medicineCheck3)
@@ -182,6 +179,50 @@ const values = [
 };
 
 const getUsers = async () => {
+    try {
+
+        const query = `
+  SELECT RoomId, GROUP_CONCAT(UserID) AS UserIDs
+  FROM User
+  GROUP BY RoomId;
+`;  
+        
+        const [result] = await pool.query(
+            
+            query
+        );
+            console.log(result);
+            return result;
+
+    } catch(error) {
+        console.error("Error fetching getGoal:", error);
+        throw error;
+    }
+};
+
+const getMedTime = async (userId) => {
+    try {
+
+        const query = `
+  SELECT RoomId, GROUP_CONCAT(UserID) AS UserIDs
+  FROM User
+  GROUP BY RoomId;
+`;  
+        
+        const [result] = await pool.query(
+            
+            query
+        );
+            console.log(result);
+            return result;
+
+    } catch(error) {
+        console.error("Error fetching getGoal:", error);
+        throw error;
+    }
+};
+
+const progre = async () => {
     try {
 
         const query = `
