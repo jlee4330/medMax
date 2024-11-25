@@ -3,7 +3,7 @@ import { SafeAreaView, View, Text, TouchableOpacity, TextInput, Image, ScrollVie
 import { useNavigation } from '@react-navigation/native';
 import surveyStyles from './surveyComponents/surveyStyles';
 import axios from 'axios';
-import uuid from 'react-native-uuid';
+import DeviceInfo from 'react-native-device-info';
 import config from '../config';
 
 const screenWidth = Dimensions.get('window').width;
@@ -38,7 +38,7 @@ const Survey = () => {
     const [selectedAnswers, setSelectedAnswers] = useState<Record<number, string | undefined>>({});
     const scrollViewRef = useRef<ScrollView>(null);
     const navigation = useNavigation();
-    const UUID = uuid.v4();
+    const UUID: string = DeviceInfo.getDeviceId();
 
     const handleAnswerSelection = (answer: string) => {
         setSelectedAnswers((prev) => ({
@@ -76,7 +76,7 @@ const Survey = () => {
                             const time1 = '2024-11-25T08:00:00';
                             const time2 = '2024-11-25T14:00:00';
                             const time3 = '2024-11-25T20:00:00';
-                            const response = await axios.get(`${config.backendUrl}/mainPage/signUp`, {
+                            const response = await axios.get(`http://10.0.2.2:7777/mainPage/signUp`, {
                                 params: {
                                     userId: UUID,
                                     roomId: roomId,
@@ -181,3 +181,4 @@ const Survey = () => {
 };
 
 export default Survey;
+

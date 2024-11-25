@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -14,6 +14,8 @@ import SettingsScreen from './src/tabs/mypage';
 import QnAScreen from './src/tabs/qna';
 //import WelcomeScreen from './src/tabs/welcome';
 import SurveyScreen from './src/tabs/survey';
+import DeviceInfo from 'react-native-device-info';
+import axios from 'axios';
 
 enableScreens();
 
@@ -96,11 +98,44 @@ function TabNavigator() {
         </Tab.Navigator>
   );
 }
+
+
 function App() {
+  const [initialRoute, setInitialRoute] = useState(null);
+  useEffect(() => {
+    const checkDeviceId = async () => {
+      try {
+        const deviceId : string = DeviceInfo.getDeviceId();
+        console.log("Device ID:", deviceId);
+        const response = await axios.get(`http://10.0.2.2:7777/mainPage/getIds`, 
+          { params: { 
+            uID: deviceId 
+          } }
+        );
+        const result = response.data;
+        console.log("API response:", result);
+        if (result && result.length > 0) {
+          console.log("hello");
+          setInitialRoute("MainTabs");
+        } else {
+          setInitialRoute("Survey");
+        }
+      } catch (error) {
+        console.error("Error checking device ID:", error);
+        setInitialRoute("Survey");
+      }
+    };
+    checkDeviceId();
+  }, []);
+
+  if (initialRoute === null) {
+    return null;
+  }
+
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Survey">
+        <Stack.Navigator initialRouteName={initialRoute}>
           {/* SurveyScreen을 첫 화면으로 */}
           <Stack.Screen
             name="Survey"
@@ -120,3 +155,4 @@ function App() {
 }
 
 export default App;
+
