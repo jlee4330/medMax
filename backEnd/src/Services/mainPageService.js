@@ -8,7 +8,7 @@ const getCandidate = async (userId, roomId, timeR) => { // 지난주 일요일�
 
             "SELECT dm.UserID " + 
             "FROM Date_medi dm " + 
-            "LEFT JOIN Poke p ON dm.UserID = p.To " +
+            "LEFT JOIN Poke p ON dm.UserID = p.poketo " +
             "WHERE (" +
             `(dm.medicineTime1 BETWEEN DATE_SUB(STR_TO_DATE('${time}', '%H:%i:%s'), INTERVAL 2 HOUR) AND STR_TO_DATE('${time}', '%H:%i:%s') AND dm.medicineCheck1 = FALSE) OR ` +
             `(dm.medicineTime2 BETWEEN DATE_SUB(STR_TO_DATE('${time}', '%H:%i:%s'), INTERVAL 2 HOUR) AND STR_TO_DATE('${time}', '%H:%i:%s') AND dm.medicineCheck2 = FALSE) OR ` +
@@ -17,8 +17,8 @@ const getCandidate = async (userId, roomId, timeR) => { // 지난주 일요일�
             "AND NOT EXISTS (" +
             "SELECT 1 " +
             "FROM Poke p2 " +
-            `WHERE p2.From = '${userId}' ` +
-            "AND p2.To = dm.UserID " +
+            `WHERE p2.pokefrom = '${userId}' ` +
+            "AND p2.poketo = dm.UserID " +
             `AND p2.When BETWEEN DATE_SUB(STR_TO_DATE('${time}', '%H:%i:%s'), INTERVAL 2 HOUR) AND STR_TO_DATE('${time}', '%H:%i:%s')) ` +
             "GROUP BY dm.UserID"
         );
@@ -182,13 +182,11 @@ const getUsers = async () => {
     }
 };
 
-const getMedTime = async (userId) => {
+const getRIdMedTime = async (userId) => {
     try {
 
         const query = `
-  SELECT RoomId, GROUP_CONCAT(UserID) AS UserIDs
-  FROM User
-  GROUP BY RoomId;
+  Select RoomId, time_first, time_second, time_third from User where UserId = '${userId}'
 `;  
         
         const [result] = await pool.query(
@@ -266,5 +264,6 @@ module.exports = {
     getUsers,
     poke,
     eatMed,
-    progre
+    progre,
+    getRIdMedTime
 };
