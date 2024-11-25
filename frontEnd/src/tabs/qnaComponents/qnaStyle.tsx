@@ -112,6 +112,34 @@ const qnaStyles = StyleSheet.create({
     marginBottom: 10,
     color: '#9CA0AB',
   },
+  //modal은 accordionItem 다르게 띄우자
+  modalItemContainer: {
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+    width: '100%',
+  },
+  modalItemTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  modalItemContent: {
+    marginTop: 5,
+    fontSize: 14,
+    color: '#666',
+  },
+  modalItemPharmacist: {
+    marginTop: 15,
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#444',
+  },
+  modalItemAnswer: {
+    marginTop: 5,
+    fontSize: 14,
+    color: '#666',
+  },
   floatingButton: {
     position: 'absolute',
     bottom: 20,

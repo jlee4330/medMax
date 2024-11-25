@@ -11,6 +11,7 @@ import {
   Button,
   Dimensions,
 } from 'react-native';
+//icon 도입하면 image 대신 icon library를 불러서 쓰자
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import axios from 'axios';
 import qnaStyles from './qnaComponents/qnaStyle';
@@ -66,7 +67,26 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ item }) => {
     </TouchableOpacity>
   );
 };
+//qna화면에 뜨는 accordionItem이랑 modal에서 유사질문 추천의 accordionItem이랑 같으니까 조금 어색해서
+//modalAccordionItem을 따로 만들어서 다른 디자인을 적용합시다 !
+const ModalAccordionItem: React.FC<AccordionItemProps> = ({ item }) => {
+  const [isOpen, setIsOpen] = useState(false);
 
+  return (
+    <TouchableOpacity onPress={() => setIsOpen(!isOpen)} style={qnaStyles.modalItemContainer}>
+      <Text style={qnaStyles.modalItemTitle}>{item.question}</Text>
+      {isOpen && (
+        <>
+          <Text style={qnaStyles.modalItemContent}>{item.content}</Text>
+          <Text style={qnaStyles.modalItemPharmacist}>{item.pharmacist}</Text>
+          <Text style={qnaStyles.modalItemAnswer}>{item.answer}</Text>
+        </>
+      )}
+    </TouchableOpacity>
+  );
+};
+
+//userID - 일단은 지정으로 하기
 const MyQA: React.FC<MyQAProps> = ({ searchQuery, userId }) => {
   const [data, setData] = useState<QnAItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -77,6 +97,7 @@ const MyQA: React.FC<MyQAProps> = ({ searchQuery, userId }) => {
         const response = await axios.get('${config.backendUrl}:7777/qna/all-qnas', {
           params: { userId },
         });
+        console.log("Response data:", response.data);
         setData(response.data);
       } catch (error) {
         console.error('Failed to fetch data:', error);
@@ -103,12 +124,28 @@ const MyQA: React.FC<MyQAProps> = ({ searchQuery, userId }) => {
 };
 
 const FAQ: React.FC<FAQProps> = ({ searchQuery }) => {
+  //일단은 백연결 전 더미데이터
   const FAQList: QnAItem[] = [
     { id: '4', question: '이 약, 저한테 부작용 없을까요?', content: '부작용이 있을까요오', pharmacist: '이동건 약사', answer: '그럴수도 아닐수도' },
     { id: '5', question: '저처럼 바쁜 사람에게 약 시간 관리법은?', content: '약 시간 관리법 알려주세요오', pharmacist: '이주영 약사', answer: '제때 드세욥!' },
   ];
 
+  //백 연결되면 아래의 FAQList -> data로 바꾸기
   const filteredData = FAQList.filter((item) => item.question.includes(searchQuery));
+  return (
+    <FlatList
+      data={filteredData}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => <AccordionItem item={item} />}
+    />
+  );
+};
+
+const SimilarQ = ({ searchQuery }) => {
+  //얘는 searchQuery가 아니라 input 받은 거 백(AI)에 보내서 filter해서 그걸 띄워야.
+  //일단은 더미 데이터 띄운다 치고
+  //이 const 안 쓰고 아래 코드에서 바로 modal의 Step2에 Flatlist 띄우도록 하자..
+  const filteredData = SimilarQList.filter((item) => item.question.includes(searchQuery));
   return (
     <FlatList
       data={filteredData}
@@ -170,6 +207,7 @@ const App: React.FC = () => {
       >
         <Image
           source={require('../assets/images/medication.png')}
+          // 플로팅 버튼에 일단은 이미지 사용, 추후 적절한 아이콘으로 변경 예정
           style={qnaStyles.image}
           resizeMode="contain"
         />
@@ -207,15 +245,17 @@ const App: React.FC = () => {
             {step === 2 && (
               <>
                 <Text style={qnaStyles.modalTitle}>AI 추천</Text>
+                <Text style={qnaStyles.modalExplain}>유사한 질문과 답변들을 가져왔어요!</Text>
                 <FlatList
                   data={SimilarQList}
                   keyExtractor={(item) => item.id}
-                  renderItem={({ item }) => <AccordionItem item={item} />}
+                  renderItem={({ item }) => <ModalAccordionItem item={item} />}
                 />
                 <View style={qnaStyles.modalButtons}>
                   <Button title="취소" onPress={() => setIsModalVisible(false)} />
                   <Button title="이전으로" onPress={() => setStep(1)} />
                   <Button title="쪽지 부치기" onPress={() => setIsModalVisible(false)} />
+                  {/* onPress={handleNextStep} 아니면 handleSubmit() 하면서 DB에 추가되게*/}
                 </View>
               </>
             )}

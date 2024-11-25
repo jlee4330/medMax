@@ -7,7 +7,6 @@ import CheckModal from './mainPageComponent/checkModal';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-
 const Webview = () => {
   return (
     <SafeAreaView style={styles.container}>
