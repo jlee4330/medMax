@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SafeAreaView, StyleSheet, Dimensions, View, Text, Image, TouchableOpacity } from 'react-native';
 import WebView from 'react-native-webview';
 import CockModal from './mainPageComponent/cockModal'; 
@@ -12,7 +12,7 @@ const Webview = () => {
     <SafeAreaView style={styles.container}>
       <WebView
         style={styles.webview}
-        source={{ uri: 'http://3.35.193.176:8000/'}}
+        source={{ uri: 'http://3.35.193.176:8080/' }}
       />
     </SafeAreaView>
   );
@@ -22,8 +22,54 @@ const Webview = () => {
 export default function CustomComponent() {
   const [isModalVisible, setModalVisible] = useState(false);
   const [isMedicationModalVisible, setMedicationModalVisible] = useState(false); // 약 복용 체크 모달 상태
-  const userID = 'user123'; // 부여받은 userID (예시)
-  const roomID = 1; // 현재 방 ID (int 형식)
+  const [roomID, setRoomID] = useState<number | null>(null); // roomID 상태
+  const [times, setTimes] = useState<string[]>([]); // 복약 시간 상태
+  const [progress, setProgress] = useState(0); // 진행률 값
+  const userID = 'user3'; // 부여받은 userID (예시)
+
+  // 서버에서 roomID와 times를 가져오는 useEffect
+  useEffect(() => {
+    const fetchRoomInfo = async () => {
+      try {
+        const response = await fetch(`http://3.35.193.176:7777/mainpage/info?userId=${userID}`);
+        const data = await response.json();
+        
+        if (data && data[0]) {
+          const { RoomId, time_first, time_second, time_third } = data[0];
+          setRoomID(RoomId); // RoomId 상태 설정
+          setTimes([time_first, time_second, time_third]); // times 배열 상태 설정
+        } else {
+          console.error('Invalid response data');
+        }
+      } catch (error) {
+        console.error('Failed to fetch room info:', error);
+      }
+    };
+
+    fetchRoomInfo();
+  }, [userID]);
+
+  // API 호출을 통해 진행률 값을 가져오는 useEffect
+  useEffect(() => {
+    const fetchProgress = async () => {
+      try {
+        const response = await fetch(`http://3.35.193.176:7777/mainpage/progress?roomId=${roomID}`);
+        console.log('API Response:', response); // 응답 로그
+        const data = await response.json();
+        console.log('Data from API:', data); // 응답 데이터 로그
+        // TotalCheck 값을 progress 상태에 설정
+        if (data && data[0] && data[0].TotalCheck !== undefined) {
+          setProgress(data[0].TotalCheck); // TotalCheck 값을 progress에 설정
+        } else {
+          console.error('No TotalCheck value in response');
+        }
+      } catch (error) {
+        console.error('Failed to fetch progress:', error);
+      } 
+    };
+
+    fetchProgress();
+  }, [roomID]); // roomID가 변경되면 다시 호출
 
   // 마을 정보 컴포넌트
   const VillageInfo = () => (
@@ -37,10 +83,10 @@ export default function CustomComponent() {
         <Text style={styles.villageText}>마을 123</Text>
         <View style={styles.barGraphRow}>
           <View style={styles.barGraphContainer}>
-            <View style={[styles.barSegment, { flex: 4, backgroundColor: '#A6A2E9' }]} />
-            <View style={[styles.barSegment, { flex: 2, backgroundColor: '#F5F5FD' }]} />
+            <View style={[styles.barSegment, { flex: progress / 10, backgroundColor: '#A6A2E9' }]} />
+            <View style={[styles.barSegment, { flex: (100 - progress) / 10, backgroundColor: '#F5F5FD' }]} />
           </View>
-          <Text style={styles.percentageText}>67%</Text> {/* 퍼센티지 표시 */}
+          <Text style={styles.percentageText}>{progress}%</Text> {/* 퍼센티지 표시 */}
         </View>
       </View>
     </View>
@@ -61,7 +107,7 @@ export default function CustomComponent() {
       </View>
       <View style={styles.textContainer}>
         <Text style={styles.cockText}>콕 찌르기</Text>
-        <Text style={styles.medicationText}>아직 미복용 12명</Text>
+        <Text style={styles.medicationText}>복약을 응원해 주세요! </Text>
       </View>
     </TouchableOpacity>
   );
@@ -107,6 +153,7 @@ export default function CustomComponent() {
           visible={isMedicationModalVisible}
           userID={userID} // userID 전달
           roomID={roomID} // roomID 전달
+          times={times} // 복약 시간 배열 전달
           onClose={() => setMedicationModalVisible(false)}
           onConfirm={() => {
             setMedicationModalVisible(false);
@@ -236,17 +283,12 @@ const styles = StyleSheet.create({
     left: windowWidth * 0.8,
     top: windowHeight * 0.6,
     backgroundColor: '#FFDC90',
-    borderRadius: windowWidth * 0.1,
-    shadowColor: 'rgba(0, 0, 0, 0.25)',
-    shadowOffset: { width: 0, height: 5.33 },
-    shadowOpacity: 1,
-    shadowRadius: 5.33,
-    elevation: 5,
+    borderRadius: windowWidth * 0.07,
     justifyContent: 'center',
     alignItems: 'center',
   },
   medicationImage: {
-    width: '90%',
-    height: '90%',
+    width: windowWidth * 0.1,
+    height: windowHeight * 0.05,
   },
 });

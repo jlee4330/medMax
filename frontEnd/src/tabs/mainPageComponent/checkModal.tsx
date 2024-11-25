@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, StyleSheet, Animated, Image, Modal, Text } from 'react-native';
 
 interface CheckModalProps {
   visible: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: (time: string) => void;
+  userID: string;
+  times: string[];
 }
 
-const CheckModal: React.FC<CheckModalProps> = ({ visible, onClose, onConfirm }) => {
+const CheckModal: React.FC<CheckModalProps> = ({ visible, onClose, onConfirm, userID, times }) => {
   const pillData = [
-    require('../../assets/images/pill_blue.png'), // 첫 번째 알약 이미지
-    require('../../assets/images/pill_purple.png'), // 두 번째 알약 이미지
-    require('../../assets/images/pill_yellow.png'), // 세 번째 알약 이미지
+    require('../../assets/images/pill_blue.png'),
+    require('../../assets/images/pill_purple.png'),
+    require('../../assets/images/pill_yellow.png'),
   ];
 
   const [pillAnimations, setPillAnimations] = useState(
@@ -21,19 +23,80 @@ const CheckModal: React.FC<CheckModalProps> = ({ visible, onClose, onConfirm }) 
     }))
   );
 
+  const [timeEaten, setTimeEaten] = useState<{ [key: string]: string }>({
+    medicineCheck1: "0",
+    medicineCheck2: "0",
+    medicineCheck3: "0",
+  });
+
+  const fetchTimeEaten = async () => {
+    try {
+      const response = await fetch(`http://3.35.193.176:7777/mainPage/checkmed?userId=${userID}`);
+      const data = await response.json();
+      if (data && Array.isArray(data) && data.length > 0) {
+        setTimeEaten(data[0]); // 배열에서 첫 번째 객체만 사용
+      }
+    } catch (error) {
+      console.error("Error fetching timeEaten:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (visible) {
+      fetchTimeEaten(); // 모달이 열릴 때마다 복약 상태를 새로 가져오기
+    }
+  }, [visible]);
+
+  const sendTimeEatenToServer = async (time: string, pillKey: string) => {
+    try {
+      const currentDate = new Date().toISOString().split('T')[0];
+      const isoTime = `${currentDate}T${time}`;
+
+      const response = await fetch(
+        `http://3.35.193.176:7777/mainpage/eatMed?userId=${userID}&time=${isoTime}`,
+        { method: 'GET' }
+      );
+
+      if (response.ok) {
+        console.log('복약 여부가 서버에 업데이트되었습니다.');
+
+        // 복약 상태를 로컬에서도 업데이트
+        setTimeEaten((prev) => ({
+          ...prev,
+          [pillKey]: "1", // 현재 복약한 키를 "1"로 변경
+        }));
+      } else {
+        console.error('서버로 복약 여부를 업데이트하는 데 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('서버에 복약 여부를 전송하는 중 오류 발생:', error);
+    }
+  };
+
   const movePillToCenter = (index: number) => {
     Animated.parallel([
       Animated.spring(pillAnimations[index].position, {
-        toValue: { x: 0, y: -100 }, // 항아리 중앙 위치로 이동
+        toValue: { x: 0, y: -150 },
         useNativeDriver: true,
       }),
       Animated.timing(pillAnimations[index].opacity, {
-        toValue: 0, // 투명도를 0으로 설정
+        toValue: 0,
         duration: 600,
         useNativeDriver: true,
       }),
-    ]).start();
+    ]).start(() => {
+      setPillAnimations((prevAnimations) => {
+        // 기존 애니메이션 배열을 복사하고 값을 수정
+        const updatedAnimations = [...prevAnimations];
+        updatedAnimations[index] = {
+          position: new Animated.ValueXY({ x: 0, y: 0 }), // 위치 초기화
+          opacity: new Animated.Value(1), // 불투명도 초기화
+        };
+        return updatedAnimations;
+      });
+    });
   };
+  
 
   return (
     <Modal
@@ -44,13 +107,11 @@ const CheckModal: React.FC<CheckModalProps> = ({ visible, onClose, onConfirm }) 
     >
       <View style={styles.modalOverlay}>
         <View style={styles.modalContainer}>
-          {/* 말풍선 추가 */}
           <View style={styles.speechBubble}>
-            <Text style={styles.modalText}>아침약💊을 먹여주세요!</Text>
+            <Text style={styles.modalText}>약💊을 먹여주세요!</Text>
           </View>
 
-          {/* 항아리 아이콘 */}
-          <TouchableOpacity onPress={onConfirm} style={styles.iconContainer}>
+          <TouchableOpacity onPress={onClose} style={styles.iconContainer}>
             <Image
               source={require('../../assets/images/main_pot.png')}
               style={styles.medicationImage}
@@ -58,31 +119,46 @@ const CheckModal: React.FC<CheckModalProps> = ({ visible, onClose, onConfirm }) 
             />
           </TouchableOpacity>
 
-          {/* 알약 아이콘들 */}
           <View style={styles.pillContainer}>
-            {pillData.map((pillImage, index) => (
-              <Animated.View
-                key={index}
-                style={[
-                  styles.pill,
-                  {
-                    transform: [
-                      { translateX: pillAnimations[index].position.x },
-                      { translateY: pillAnimations[index].position.y },
-                    ],
-                  },
-                  { opacity: pillAnimations[index].opacity },
-                ]}
-              >
-                <TouchableOpacity onPress={() => movePillToCenter(index)}>
-                  <Image
-                    source={pillImage} // 알약 이미지
-                    style={styles.pillImage}
-                    resizeMode="contain"
-                  />
-                </TouchableOpacity>
-              </Animated.View>
-            ))}
+            {pillData.map((pillImage, index) => {
+              const pillKey = `medicineCheck${index + 1}`;
+              const isEaten = timeEaten[pillKey] === "1"; // 복약 여부 체크
+
+              if (!isEaten) {
+                return (
+                  <Animated.View
+                    key={index}
+                    style={[
+                      styles.pill,
+                      {
+                        transform: [
+                          { translateX: pillAnimations[index]?.position?.x },
+                          { translateY: pillAnimations[index]?.position?.y },
+                        ],
+                      },
+                      { opacity: pillAnimations[index]?.opacity },
+                    ]}
+                  >
+                    <TouchableOpacity
+                      onPress={() => {
+                        movePillToCenter(index);
+                        onConfirm(times[index]);
+                        sendTimeEatenToServer(times[index], pillKey);
+                      }}
+                    >
+                      <Image
+                        source={pillImage}
+                        style={styles.pillImage}
+                        resizeMode="contain"
+                      />
+                      <Text style={styles.timeText}>{times[index]}</Text>
+                    </TouchableOpacity>
+                  </Animated.View>
+                );
+              }
+
+              return null; // 복약 완료 시 아무것도 렌더링하지 않음
+            })}
           </View>
         </View>
       </View>
@@ -96,12 +172,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    position: 'absolute', // 화면 전체를 덮기 위해 position 추가
+    position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    zIndex: 1000, // 다른 요소 위에 렌더링되도록 설정
+    zIndex: 1000,
   },
   modalContainer: {
     width: 300,
@@ -112,7 +188,7 @@ const styles = StyleSheet.create({
   },
   speechBubble: {
     position: 'absolute',
-    top: -70, // 항아리 위로 배치
+    top: -70,
     width: 200,
     padding: 10,
     backgroundColor: '#F5F6FB',
@@ -129,9 +205,7 @@ const styles = StyleSheet.create({
   modalText: {
     fontSize: 16,
     fontWeight: '400',
-    fontFamily: 'SF Pro',
     lineHeight: 20,
-    letterSpacing: -0.5,
     color: '#9C98E7',
     textAlign: 'center',
   },
@@ -158,6 +232,11 @@ const styles = StyleSheet.create({
   pillImage: {
     width: '100%',
     height: '100%',
+  },
+  timeText: {
+    fontSize: 12,
+    color: '#666',
+    marginTop: 5,
   },
 });
 

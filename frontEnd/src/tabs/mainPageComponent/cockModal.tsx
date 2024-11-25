@@ -220,35 +220,40 @@
 // });
 
 // export default CockModal;
-
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Modal, Image, FlatList, ScrollView } from 'react-native';
 
 interface CockModalProps {
   visible: boolean;
   onClose: () => void;
+  onConfirm: () => void;
   userID: string; // userID 추가
   roomID: number; // roomID를 props로 받음
 }
 
-const CockModal: React.FC<CockModalProps> = ({ visible, onClose }) => {
+const CockModal: React.FC<CockModalProps> = ({ visible, onClose, userID, roomID }) => {
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [userList, setUserList] = useState<{ id: string, name: string, lastActive: string }[]>([]);
 
   useEffect(() => {
     const fetchUserData = async () => {
-      // const currentTime = '2024-11-19T15:00:00';
+      // const currentTime = '2024-11-19T14:00:00';
       const currentTime = new Date().toISOString(); // 현재 시각을 ISO 형식으로 가져옴
       try {
         const response = await fetch(`http://3.35.193.176:7777/mainPage/candidate?userId=${userID}&roomId=${roomID}&time=${currentTime}`);
         const data = await response.json();
 
-        const users = data.map((user: { UserID: string }) => ({
-          id: user.UserID,
-          name: user.UserID,
-          lastActive: '4시간 전 접속',
-        }));
-        setUserList(users);
+        // data가 배열인지 확인
+        if (Array.isArray(data)) {
+          const users = data.map((user: { UserID: string }) => ({
+            id: user.UserID,
+            name: user.UserID,
+            lastActive: '친구의 복약을 응원해요!',
+          }));
+          setUserList(users);
+        } else {
+          console.error('데이터가 배열이 아닙니다:', data);
+        }
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -261,39 +266,23 @@ const CockModal: React.FC<CockModalProps> = ({ visible, onClose }) => {
 
   const handleConfirm = async () => {
     if (selectedUserId) {
+      // const currentTime = '2024-11-19T14:00:00';
       const currentTime = new Date().toISOString(); // 현재 시간 (ISO 형식)
-  
       try {
-        const response = await fetch('http://3.35.193.176:7777/mainpage/poke', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            uto: user.UserID,      // 현재 사용자의 ID
-            ufrom: selectedUserId, // 선택된 사용자 ID (상대방)
-            when: currentTime,     // 현재 시간
-          }),
+        // URL에 파라미터를 쿼리 문자열로 추가
+        const url = `http://3.35.193.176:7777/mainpage/poke?uto=${selectedUserId}&ufrom=${userID}&when=${currentTime}`;
+    
+        const response = await fetch(url, {
+          method: 'GET',  // GET 방식으로 요청
         });
-  
-        if (response.ok) {
-          const result = await response.json();
-          console.log('Success:', result);
-          alert('콕 찌르기가 성공적으로 전송되었습니다!');
-        } else {
-          alert('콕 찌르기 전송 중 문제가 발생했습니다.');
-        }
       } catch (error) {
         console.error('Error sending poke:', error);
-        alert('네트워크 오류가 발생했습니다.');
+        // alert('네트워크 오류가 발생했습니다.');
       }
-    } else {
-      alert('사용자를 선택해주세요.');
     }
   
     onClose(); // 모달 닫기
   };
-  
 
   const renderUser = ({ item }: { item: { name: string; lastActive: string; id: string } }) => {
     const isSelected = selectedUserId === item.id;

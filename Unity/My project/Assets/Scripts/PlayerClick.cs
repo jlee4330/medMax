@@ -1,137 +1,66 @@
-// using System.Collections;
-// using System.Collections.Generic;
-// using UnityEngine;
-// using UnityEngine.UI;
-
-// public class PlayerClick : MonoBehaviour
-// {
-//     public Canvas emojiCanvas; // Canvas를 Inspector에서 설정
-//     [SerializeField] private Sprite[] buttonSprites; // 버튼별 이미지 배열 (Inspector에서 설정)
-    
-//     private void Start()
-//     {
-//         if (emojiCanvas != null)
-//         {
-//             emojiCanvas.gameObject.SetActive(false); // 시작 시 캔버스를 비활성화
-//         }
-//         else
-//         {
-//             Debug.LogError("Canvas가 설정되지 않았습니다!");
-//         }
-//     }
-
-//     private void OnMouseDown()
-//     {
-//         if (emojiCanvas != null)
-//         {
-//             // 플레이어 오브젝트 클릭 시 캔버스 활성화/비활성화
-//             emojiCanvas.gameObject.SetActive(!emojiCanvas.gameObject.activeSelf);
-//         }
-//     }
-
-//     // 버튼 클릭 시 호출되는 메서드
-//     public void OnButtonClick(int buttonIndex)
-//     {
-//         if (buttonIndex < 0 || buttonIndex >= buttonSprites.Length)
-//         {
-//             Debug.LogError("잘못된 버튼 인덱스입니다!");
-//             return;
-//         }
-
-//         Sprite selectedSprite = buttonSprites[buttonIndex]; // 배열에서 선택된 이미지 가져오기
-
-//         if (selectedSprite != null && imagePrefab != null)
-//         {
-//             // 프리팹 생성 및 플레이어 위에 이미지 설정
-//             GameObject imageObj = Instantiate(imagePrefab, transform.position + new Vector3(0, 1, 0), Quaternion.identity);
-//             imageObj.transform.SetParent(emojiCanvas.transform, false); // 캔버스의 자식으로 설정
-            
-//             // 이미지 컴포넌트 설정
-//             Image imageComponent = imageObj.GetComponent<Image>();
-//             if (imageComponent != null)
-//             {
-//                 imageComponent.sprite = selectedSprite;
-//             }
-//             else
-//             {
-//                 Debug.LogError("프리팹에 Image 컴포넌트가 없습니다!");
-//             }
-//         }
-//         else
-//         {
-//             Debug.LogError("Sprite 또는 ImagePrefab이 설정되지 않았습니다!");
-//         }
-//     }
-// }
-
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;  // UI 관련 기능을 사용하려면 필요합니다.
 
 public class PlayerClick : MonoBehaviour
 {
-    private Canvas emojiCanvas;  // 씬에 있는 Canvas 참조
+    public GameObject emojiObject; // Emoji Prefab을 할당할 변수
+    private EmojiPanelScript emojiPanelScript; // EmojiPanelScript 참조 변수
+    private Canvas emojiCanvas; // EmojiCanvas 참조 변수
+    private GameObject backgroundBlur; // BackgroundBlur 참조 변수
 
-    public Sprite[] buttonSprites;  // 각 버튼의 이미지 (배열로 관리)
+     public Vector3 spawnPosition = new Vector3(0, 0, 0);
 
-    private void Start()
+    void Start()
     {
-        // 씬에 존재하는 "Emoji" Canvas를 찾아서 참조
-        emojiCanvas = GameObject.Find("Emoji").GetComponent<Canvas>();
-
-        if (emojiCanvas != null)
+        if (emojiObject == null)
         {
-            emojiCanvas.gameObject.SetActive(false);  // 씬 로드 시 바로 캔버스를 비활성화
+            Debug.LogError("EmojiObject를 할당해야 합니다.");
+            return;
+        }
+        Debug.LogError("emojiObject가 잘 할당 되었습니다.");
+
+        // EmojiObject에서 EmojiCanvas와 BackgroundBlur, EmojiPanel을 찾음
+        emojiCanvas = emojiObject.GetComponentInChildren<Canvas>(); // EmojiObject 아래의 Canvas 찾기
+        if (emojiCanvas == null)
+        {
+            Debug.LogError("EmojiCanvas가 EmojiObject 아래에 존재하지 않습니다.");
+            return;
+        }
+        Debug.Log("EmojiCanvas가 EmojiObject 아래에 존재합니다.");
+
+        backgroundBlur = emojiCanvas.transform.Find("BackgroundBlur")?.gameObject; // EmojiCanvas 아래의 BackgroundBlur 찾기
+        if (backgroundBlur == null)
+        {
+            Debug.LogError("BackgroundBlur가 EmojiCanvas 아래에 존재하지 않습니다.");
+        }
+        Debug.Log("BackgroundBlur가 EmojiCanvas 아래에 존재합니다.");
+
+        emojiPanelScript = emojiObject.GetComponentInChildren<EmojiPanelScript>(); // EmojiObject 아래의 EmojiPanelScript 찾기
+        if (emojiPanelScript == null)
+        {
+            Debug.LogError("EmojiPanelScript가 EmojiObject 아래에 존재하지 않습니다.");
+        }
+        Debug.Log("EmojiPanelScript가 EmojiObject 아래에 존재합니다.");
+
+        // 초기 상태에서 모든 UI 요소 비활성화
+        emojiObject.SetActive(false); // EmojiObject 전체 비활성화
+    }
+
+    void OnMouseDown()
+    {
+        Debug.Log("클릭이 잘 되었습니다");
+
+        if (emojiPanelScript != null && emojiCanvas != null && backgroundBlur != null)
+        {
+            // // EmojiObject를 활성화하고, BackgroundBlur와 EmojiPanel 활성화
+            // emojiObject.SetActive(true); // EmojiObject 활성화
+            // emojiCanvas.enabled = true; // EmojiCanvas 활성화
+            // backgroundBlur.SetActive(true); // BackgroundBlur 활성화
+            Debug.Log("띄울겁니다");
+            Instantiate(emojiObject, spawnPosition, Quaternion.identity);
         }
         else
         {
-            Debug.LogError("씬에 'Emoji'라는 이름의 Canvas가 존재하지 않습니다!");
-        }
-    }
-
-    private void OnMouseDown()
-    {
-        if (emojiCanvas != null)
-        {
-            // 플레이어 오브젝트 클릭 시 캔버스 활성화/비활성화
-            emojiCanvas.gameObject.SetActive(!emojiCanvas.gameObject.activeSelf);  // 현재 상태를 반전시켜 변경
-        }
-    }
-
-    // 버튼 클릭 시 호출될 메서드
-    public void OnButtonClick(int spriteIndex)
-    {
-        if (emojiCanvas != null && spriteIndex >= 0 && spriteIndex < buttonSprites.Length)
-        {
-            // 새 Image 오브젝트를 Canvas에 생성
-            GameObject imageObj = new GameObject("EmojiImage");
-            imageObj.transform.SetParent(emojiCanvas.transform, false);  // 캔버스의 자식으로 설정
-            Debug.LogError("자식 설정 완료");
-
-            // Image 컴포넌트 추가
-            Image imageComponent = imageObj.AddComponent<Image>();
-            imageComponent.sprite = buttonSprites[spriteIndex];  // 버튼의 이미지를 설정
-            Debug.LogError("이미지 설정 완료");
-
-            // 이미지 크기 및 위치 조정 (플레이어 위에 올리기)
-            // imageObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(transform.position.x, transform.position.y + 100f);  // 플레이어 위치 위에
-            
-            // 플레이어 위치를 스크린 좌표로 변환
-            Vector3 worldPos = transform.position;  // 플레이어의 월드 좌표
-            Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);  // 화면 좌표로 변환
-            Debug.LogError("좌표 변환");
-
-            // 이미지 크기 및 위치 조정 (플레이어 위치 위에 올리기)
-            RectTransform rectTransform = imageObj.GetComponent<RectTransform>();
-            rectTransform.position = screenPos;  // 화면 좌표를 RectTransform의 위치에 적용
-            Debug.LogError("위치 적용");
-
-
-            // // 이미지가 일정 시간 후 사라지게 하려면 다음처럼 추가할 수 있습니다.
-            // Destroy(imageObj, 2f);  // 2초 후 이미지 제거
-            // emojiCanvas.gameObject.SetActive(false);
-            emojiCanvas.gameObject.SetActive(!emojiCanvas.gameObject.activeSelf);
+            Debug.LogWarning("필요한 요소들이 초기화되지 않았습니다.");
         }
     }
 }
