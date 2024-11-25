@@ -125,7 +125,7 @@ const Survey = () => {
                                     // time1: time1,
                                     // time2: time2,
                                     // time3: time3,
-                                }
+                            //    }
                             // });
                             // console.log('데이터 전송 성공:', response.data);
                             navigation.navigate('MainTabs');
