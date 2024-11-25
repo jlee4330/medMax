@@ -1,5 +1,5 @@
 const express = require("express");
-const { getCandidate, getIds, signUp, getUsers, poke, eatMed, progr, getRIdMedTime } = require("../Services/mainPageService");
+const { getCandidate, getIds, signUp, getUsers, poke, eatMed, progre, getRIdMedTime } = require("../Services/mainPageService");
 
 const mainPageRouter = express.Router();
 
