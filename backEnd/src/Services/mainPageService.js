@@ -32,24 +32,6 @@ const getCandidate = async (userId, roomId, timeR) => { // 지난주 일요일�
     }
 };
 
-const getGoal = async (roomId) => {
-    try {
-
-        
-        const [result] = await pool.query(
-            
-            "SELECT mediCount, Count(date) AS dateCount FROM Date_medi WHERE user_id = ? AND date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) GROUP BY mediCount ORDER BY mediCount DESC",
-            [roomId]
-            
-        );
-            
-            return result.map(row => [row.dateCount, row.mediCount]);
-
-    } catch(error) {
-        console.error("Error fetching getGoal:", error);
-        throw error;
-    }
-};
 
 const getIds = async (uuID) => {
     try {
@@ -222,20 +204,37 @@ const getMedTime = async (userId) => {
     }
 };
 
-const progre = async () => {
+const progre = async (roomID) => {
     try {
 
         const query = `
-  SELECT RoomId, GROUP_CONCAT(UserID) AS UserIDs
-  FROM User
-  GROUP BY RoomId;
+  WITH LatestRecords AS (
+    SELECT 
+        RecordID, 
+        UserID, 
+        RoomID,
+        medicineCheck1,
+        medicineCheck2,
+        medicineCheck3
+    FROM Date_medi
+    WHERE (UserID, RecordID) IN (
+        SELECT 
+            UserID, 
+            MAX(RecordID) AS MaxRecordID
+        FROM Date_medi
+        GROUP BY UserID
+    )
+)
+SELECT 
+    SUM(medicineCheck1 + medicineCheck2 + medicineCheck3) AS TotalCheck
+FROM LatestRecords
+WHERE RoomID = ${roomID};
 `;  
         
         const [result] = await pool.query(
-            
             query
         );
-            console.log(result);
+            
             return result;
 
     } catch(error) {
@@ -262,10 +261,10 @@ const progre = async () => {
 
 module.exports = {
     getCandidate,
-    getGoal,
     getIds,
     signUp,
     getUsers,
     poke,
-    eatMed
+    eatMed,
+    progre
 };

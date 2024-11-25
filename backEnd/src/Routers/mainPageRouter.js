@@ -1,5 +1,5 @@
 const express = require("express");
-const { getCandidate, getGoal, getIds, signUp, getUsers, poke, eatMed } = require("../Services/mainPageService");
+const { getCandidate, getIds, signUp, getUsers, poke, eatMed, progre } = require("../Services/mainPageService");
 
 const mainPageRouter = express.Router();
 
@@ -17,16 +17,6 @@ mainPageRouter.get("/candidate", async (req, res) => {
     }
 });
 
-// 공동의 목표 정보 불러오기
-mainPageRouter.get("/goalStat", async (req, res) => {
-    const { roomId } = req.query.roomId;
-    try {
-        const goalStatus = await getGoal(roomId);
-        res.status(200).json(goalStatus);
-    } catch (error) {
-        res.status(500).json({ error: "Failed to fetch goalStatus" });
-    }
-});
 
 mainPageRouter.get("/getIds", async (req, res) => {
     const uID = req.query.uID;
@@ -35,7 +25,7 @@ mainPageRouter.get("/getIds", async (req, res) => {
         
         res.status(200).json(IdsStatus);
     } catch (error) {
-        res.status(500).json({ error: "Failed to fetch goalStatus" });
+        res.status(500).json({ error: "Failed to fetch getIDStatus" });
     }
 });
 
@@ -51,7 +41,7 @@ mainPageRouter.get("/signUp", async (req, res) => {
 
         res.status(200).json(result);
     } catch (error) {
-        res.status(500).json({ error: "Failed to fetch goalStatus" });
+        res.status(500).json({ error: "Failed to fetch signupStatus" });
     }
 });
 
@@ -62,7 +52,7 @@ mainPageRouter.get("/getUsers", async (req, res) => {
 
         res.status(200).json(result);
     } catch (error) {
-        res.status(500).json({ error: "Failed to fetch goalStatus" });
+        res.status(500).json({ error: "Failed to fetch usersStatus" });
     }
 });
 
@@ -76,7 +66,7 @@ mainPageRouter.get("/poke", async (req, res) => {
 
         res.status(200).json(result);
     } catch (error) {
-        res.status(500).json({ error: "Failed to fetch goalStatus" });
+        res.status(500).json({ error: "Failed to fetch pokeStatus" });
     }
 });
 
@@ -89,7 +79,19 @@ mainPageRouter.get("/eatMed", async (req, res) => {
 
         res.status(200).json(result);
     } catch (error) {
-        res.status(500).json({ error: "Failed to fetch goalStatus" });
+        res.status(500).json({ error: "Failed to fetch eatMedStatus" });
+    }
+});
+
+mainPageRouter.get("/progress", async (req, res) => {
+    const roomId = req.query.roomId;
+
+    try {
+        const result = await progre(roomId);
+
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch progressStatus" });
     }
 });
 
