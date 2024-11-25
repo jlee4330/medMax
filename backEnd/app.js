@@ -43,30 +43,29 @@ const wss = new WebSocket.Server({ server },()=>{
     console.log('서버시작')
 })
 
-//HTTP server for WebGL
-// const { exec } = require('child_process'); // child_process 모듈을 가져옵니다
-// const path = require('path');
+// HTTP server for WebGL
+const { exec } = require('child_process'); // child_process 모듈을 가져옵니다
+const path = require('path');
 
-// // HTTP 서버를 실행할 디렉토리와 포트를 설정
-// const directory = path.join(__dirname, 'your-html-directory'); // HTML 파일이 있는 디렉토리 경로
-// const port = 8000;
+// HTTP 서버를 실행할 디렉토리와 포트를 설정
+const directory = path.join(__dirname, './WebGL'); // HTML 파일이 있는 디렉토리 경로
+const port = 8080;
 
 // http-server 실행 명령어
-// const command = `http-server ${directory} -p ${port}`;
-
-// // 명령 실행
-// exec(command, (error, stdout, stderr) => {
-//     if (error) {
-//         console.error(`Error starting http-server: ${error.message}`);
-//         return;
-//     }
-//     if (stderr) {
-//         console.error(`http-server stderr: ${stderr}`);
-//         return;
-//     }
-//     console.log(`http-server started on port ${port}`);
-//     console.log(stdout);
-// });
+const command = `http-server ${directory} -p ${port} --cors`;
+// 명령 실행
+exec(command, (error, stdout, stderr) => {
+    if (error) {
+        console.error(`Error starting http-server: ${error.message}`);
+        return;
+    }
+    if (stderr) {
+        console.error(`http-server stderr: ${stderr}`);
+        return;
+    }
+    console.log(`http-server started on port ${port}`);
+    console.log(stdout);
+});
 
 const playerListList = {};
 
@@ -178,7 +177,7 @@ wss.on('connection', function connection(ws) {
             if (client.readyState === WebSocket.OPEN) {
                setRandomPosition()
                const temp = convertPlayerListListToString(playerListList);
-               console.log(temp);
+               
                client.send("allpos" +"/"+ temp);
             }
          }
