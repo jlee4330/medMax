@@ -11,11 +11,28 @@ import config from '../config';
 // Sample data
 const sampleData: {
   nummedi: number;
+  calender: [number, number][];
   progress: [number, number][];
   horizontalGraph: [string, number][];
   statistics: [number, number, number];
 } = {
   nummedi: 3,
+  calender: [
+    [1, 1],
+    [2, 2],
+    [3, 3],
+    [4, 2],
+    [5, 1],
+    [6, 3],
+    [7, 2],
+    [8, 1],
+    [9, 3],
+    [10, 2],
+    [11, 1],
+    [12, 3],
+    [13, 2],
+    [14, 1],
+  ],
   progress: [
     [3, 20],
     [2, 2],
@@ -83,11 +100,10 @@ const MedicationTracker: React.FC = () => {
 
         setUserNumMedi(newUserNumMediData || 0);
         setUserName(newUserNameData || 'Unknown User');
-        const now = new Date();
-        setCalendarData(newCalenderData?.length ? newCalenderData : [[now.getDate(), 0]]);
+        setCalendarData(newCalenderData);
 
         const processedProgressData = processProgressData(newProgressData, newUserNumMediData);
-        setProgressData(processedProgressData);
+        setProgressData(newProgressData);
 
         setStatistics(newStatisticsData || null);
         setHorizontalGraphData(newHorizontalGraphData || []);
@@ -119,7 +135,7 @@ const MedicationTracker: React.FC = () => {
           <MedicationCalendar medicationData={calendarData} />
 
           <Text style={styles.sectionHeaderText}>복약 비율</Text>
-          <ProgressBar progressData={progressData} medicationCounts={userNumMedi} />
+          <ProgressBar progressData={progressData} medicationCounts={sampleData.nummedi} />
 
           <Text style={styles.sectionHeaderText}>이걸뭐라고해야좋을까</Text>
           {statistics && <Statistics statisticsData={statistics} />}
