@@ -2,6 +2,9 @@ import React, { useState, useRef } from 'react';
 import { SafeAreaView, View, Text, TouchableOpacity, TextInput, Image, ScrollView, Dimensions, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import surveyStyles from './surveyComponents/surveyStyles';
+import axios from 'axios';
+import uuid from 'react-native-uuid';
+import config from '../config';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -35,12 +38,27 @@ const Survey = () => {
     const [selectedAnswers, setSelectedAnswers] = useState<Record<number, string | undefined>>({});
     const scrollViewRef = useRef<ScrollView>(null);
     const navigation = useNavigation();
+    const UUID = uuid.v4();
 
     const handleAnswerSelection = (answer: string) => {
         setSelectedAnswers((prev) => ({
         ...prev,
         [currentQuestionIndex]: answer,
         }));
+    };
+
+    const getRoomId = () => {
+        const drugName = selectedAnswers[1];
+        switch (drugName) {
+            case '항우울제':
+                return 1;
+            case '고지혈증 약':
+                return 2;
+            case '당뇨병 약':
+                return 3;
+            default:
+                return 0;
+        }
     };
 
     const handleNext = () => {
@@ -52,7 +70,28 @@ const Survey = () => {
                 '설문조사가 완료되었습니다!',
                 '홈 화면으로 이동합니다.',
                 [
-                    { text: '확인', onPress: () => navigation.navigate('MainTabs') }, // MainTabs로 이동
+                    { text: '확인', onPress: async () => {
+                        try {
+                            const roomId = getRoomId();
+                            const time1 = '2024-11-25T08:00:00';
+                            const time2 = '2024-11-25T14:00:00';
+                            const time3 = '2024-11-25T20:00:00';
+                            const response = await axios.get(`${config.backendUrl}/mainPage/signUp`, {
+                                params: {
+                                    userId: UUID,
+                                    roomId: roomId,
+                                    time1: time1,
+                                    time2: time2,
+                                    time3: time3,
+                                }
+                            });
+                            console.log('데이터 전송 성공:', response.data);
+                            navigation.navigate('MainTabs');
+                        } catch (error) {
+                            console.error('데이터 전송 실패:', error);
+                            Alert.alert('데이터 전송 실패', '다시 시도해주세요.');
+                        }
+                    }}
                 ],
                 { cancelable: false }
             );

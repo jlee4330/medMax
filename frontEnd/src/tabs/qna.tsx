@@ -15,6 +15,7 @@ import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import axios from 'axios';
 import qnaStyles from './qnaComponents/qnaStyle';
 const screenWidth = Dimensions.get('window').width;
+import config from '../config';
 
 interface QnAItem {
   id: string;
@@ -73,7 +74,7 @@ const MyQA: React.FC<MyQAProps> = ({ searchQuery, userId }) => {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await axios.get('http://10.0.2.2:7777/qna/all-qnas', {
+        const response = await axios.get('${config.backendUrl}:7777/qna/all-qnas', {
           params: { userId },
         });
         setData(response.data);
