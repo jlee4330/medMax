@@ -12,7 +12,6 @@ import { Image } from 'react-native';
 import HomeScreen from './src/tabs/main';
 import SettingsScreen from './src/tabs/mypage';
 import QnAScreen from './src/tabs/qna';
-//import WelcomeScreen from './src/tabs/welcome';
 import SurveyScreen from './src/tabs/survey';
 import DeviceInfo from 'react-native-device-info';
 import axios from 'axios';

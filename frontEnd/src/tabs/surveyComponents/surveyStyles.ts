@@ -10,8 +10,7 @@ const surveyStyles = StyleSheet.create({
   },
   questionContainer: {
     backgroundColor: 'white',
-    borderRadius: 12,
-    padding: 20,
+    padding: 10,
     alignSelf: 'center',
     alignItems: 'center',
     ...sharedStyles.floatingShadow,
@@ -21,6 +20,7 @@ const surveyStyles = StyleSheet.create({
     fontWeight: '600',
     textAlign: 'center',
     color: '#404335',
+    marginBottom: 10,
   },
   inputBox: {
     width: screenWidth * 0.8,
@@ -38,10 +38,12 @@ const surveyStyles = StyleSheet.create({
     fontWeight: '600',
     color: '#404335',
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: 10,
+    marginTop: 10,
   },
   answersContainer: {
     marginTop: 10,
+    marginBottom: 10,
   },
   answerButton: {
     backgroundColor: '#F5F5FD',
@@ -121,6 +123,8 @@ const surveyStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
+    marginTop: 10,
+    marginBottom: 10,
   },
   image: {
     width: screenWidth * 0.7,
@@ -132,8 +136,50 @@ const surveyStyles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 20,
     paddingHorizontal: 20,
+  },
+  textInput: {
+    width: '100%',
+    height: 50,
+    borderWidth: 1,
+    borderColor: '#DDD',
+    borderRadius: 25,
+    backgroundColor: '#FFF',
+    paddingHorizontal: 20,
+    fontSize: 16,
+    marginTop: 20,
+    color: '#333',
+  },
+  //4개씩 6줄로 띄우기 위한 ~ 여기에만 다른 스타일 적용 !!
+  rowContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginVertical: 5, // 줄 간격
+  },
+  rowanswerButton: {
+      width: '22%', // 4개의 버튼을 한 줄에 배치
+      paddingVertical: 10, // 세로 패딩을 추가하여 버튼 높이를 조정
+      paddingHorizontal: 5, // 가로 패딩으로 버튼을 넓게 보이도록 조정
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 10,
+      borderWidth: 1,
+      borderColor: 'transparent',
+      backgroundColor: '#F5F5FD',
+      ...sharedStyles.floatingShadow,
+  },
+  rowselectedAnswer: {
+      backgroundColor: '#897CDD',
+      borderColor: '#6A5ACD',
+      borderWidth: 2,
+  },
+  rowanswerText: {
+    fontSize: 16,
+    color: '#9CA0AB',
+    textAlign: 'center',
+  },
+  rowselectedAnswerText: {
+      color: '#fff', // 선택된 버튼의 텍스트 색상
   },
 });
 
