@@ -123,18 +123,21 @@ const Survey = () => {
                             const time1 = times[0] ? `${baseDate}T${times[0].replace("시", "").padStart(2, '0')}:00:00` : null;
                             const time2 = times[1] ? `${baseDate}T${times[1].replace("시", "").padStart(2, '0')}:00:00` : null;
                             const time3 = times[2] ? `${baseDate}T${times[2].replace("시", "").padStart(2, '0')}:00:00` : null;
-                            // const response = await axios.get(`http://10.0.2.2:7777/mainPage/signUp`, {
-                            //     params: {
-                            //         userId: UUID,
-                            //         userName: userName,
-                            //         roomId: roomId,
-                            //         numMedi: medi_count,
-                            //         time1: time1,
-                            //         time2: time2,
-                            //         time3: time3,
-                            //    }
-                            // });
-                            // console.log('데이터 전송 성공:', response.data);
+                            console.log(time1);
+                            console.log(time2);
+                            console.log(time3);
+                            const response = await axios.get(`${config.backendUrl}/mainPage/signUp`, {
+                                params: {
+                                    userId: UUID,
+                                    userName: userName,
+                                    roomId: roomId,
+                                    numMedi: medi_count,
+                                    time1: time1,
+                                    time2: time2,
+                                    time3: time3,
+                               }
+                            });
+                            console.log('데이터 전송 성공:', response.data);
                             navigation.navigate('MainTabs');
                         } catch (error) {
                             console.error('데이터 전송 실패:', error);
@@ -269,4 +272,5 @@ const Survey = () => {
 };
 
 export default Survey;
+
 

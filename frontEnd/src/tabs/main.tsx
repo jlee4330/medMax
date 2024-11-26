@@ -3,6 +3,7 @@ import { SafeAreaView, StyleSheet, Dimensions, View, Text, Image, TouchableOpaci
 import WebView from 'react-native-webview';
 import CockModal from './mainPageComponent/cockModal'; 
 import CheckModal from './mainPageComponent/checkModal';
+import DeviceInfo from 'react-native-device-info';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -26,6 +27,7 @@ export default function CustomComponent() {
   const [times, setTimes] = useState<string[]>([]); // 복약 시간 상태
   const [progress, setProgress] = useState(0); // 진행률 값
   const userID = 'user3'; // 부여받은 userID (예시)
+  const deviceId : string = DeviceInfo.getDeviceId(); // device id
 
   // 서버에서 roomID와 times를 가져오는 useEffect
   useEffect(() => {
@@ -292,3 +294,4 @@ const styles = StyleSheet.create({
     height: windowHeight * 0.05,
   },
 });
+

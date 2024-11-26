@@ -16,6 +16,7 @@ import QnAScreen from './src/tabs/qna';
 import SurveyScreen from './src/tabs/survey';
 import DeviceInfo from 'react-native-device-info';
 import axios from 'axios';
+import config from './src/config';
 
 enableScreens();
 
@@ -104,25 +105,25 @@ function App() {
   const [initialRoute, setInitialRoute] = useState<boolean | null>(null);
   useEffect(() => {
     const checkDeviceId = async () => {
-      // try {
-      //   const deviceId : string = DeviceInfo.getDeviceId();
-      //   console.log("Device ID:", deviceId);
-      //   const response = await axios.get(`http://10.0.2.2:7777/mainPage/getIds`, 
-      //     { params: { 
-      //       uID: deviceId 
-      //     } }
-      //   );
-      //   const result = response.data;
-      //   if (result && result.length > 0) {
-      //     setInitialRoute(true);
-      //   } else {
-      //     setInitialRoute(false);
-      //   }
-      // } catch (error) {
-      //   console.error("Error checking device ID:", error);
-      //   setInitialRoute(false);
-      // }
-      setInitialRoute(false);
+      try {
+        const deviceId : string = DeviceInfo.getDeviceId();
+        console.log("Device ID:", deviceId);
+        const response = await axios.get(`${config.backendUrl}/mainPage/getIds`, 
+          { params: { 
+            uID: deviceId 
+          } }
+        );
+        const result = response.data;
+        console.log("Get response:", result);
+        if (result && result.length > 0) {
+          setInitialRoute(true);
+        } else {
+          setInitialRoute(false);
+        }
+      } catch (error) {
+        console.error("Error checking device ID:", error);
+        setInitialRoute(false);
+      }
     };
     checkDeviceId();
   }, []);
@@ -156,5 +157,6 @@ function App() {
 }
 
 export default App;
+
 
 
