@@ -12,6 +12,7 @@ public class GameSystemScript : MonoBehaviour
     public int room_id = 2;
     public Networking networking;
     public WebSocket ws;
+    public EmojiPanelScript emojiPanelScript; // EmojiPanelScript 참조
     
     // Start is called before the first frame update
     
@@ -50,6 +51,7 @@ public class GameSystemScript : MonoBehaviour
                                 // // PlayerClick 추가 및 Canvas Prefab 연결
                                 // var playerClick = clone.AddComponent<PlayerClick>();
                                 // playerClick.canvasPrefab = Resources.Load<GameObject>("Emoji"); // Prefab 연결
+                                // emojiPanelScript.SetSelectedPlayer(otherPlayer);
                             }
                             else{
                                 playerDict[id].transform.GetComponent<NewBehaviourScript>().targetDirection = (new Vector3(float.Parse(playerInfo[1]), float.Parse(playerInfo[2]), 0));
