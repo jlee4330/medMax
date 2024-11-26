@@ -130,7 +130,12 @@ const FAQ: React.FC<FAQProps> = ({ searchQuery }) => {
   const FAQList: QnAItem[] = [
     { id: '4', question: '이 약, 저한테 부작용 없을까요?', content: '부작용이 있을까요오', pharmacist: '이동건 약사', answer: '그럴수도 아닐수도' },
     { id: '5', question: '저처럼 바쁜 사람에게 약 시간 관리법은?', content: '약 시간 관리법 알려주세요오', pharmacist: '이주영 약사', answer: '제때 드세욥!' },
-  ];
+    { id: '6', question: '약을 식후에 먹어야 하나요?', content: '식후에 먹는게 좋다고 들었어요', pharmacist: '김민수 약사', answer: '식사 후 약을 드시면 흡수율이 더 좋아질 수 있어요. 하지만 약 종류에 따라 다를 수 있으니 설명서를 꼭 확인하세요.' },
+    { id: '7', question: '두 가지 약을 같이 먹어도 되나요?', content: '두 약을 동시에 먹어도 되나요?', pharmacist: '정서윤 약사', answer: '약의 상호작용이 있을 수 있으니, 복용 전 반드시 전문가에게 상담받는 것이 좋습니다.' },
+    { id: '8', question: '약을 먹은 후에 술을 마셔도 되나요?', content: '술을 마셔도 될까요?', pharmacist: '박성민 약사', answer: '대부분의 약은 술과 함께 복용하면 효과가 떨어지거나 부작용이 발생할 수 있습니다. 술을 마시기 전 약사와 상담하세요.' },
+    { id: '9', question: '약을 빼먹었을 때 어떻게 해야 하나요?', content: '약을 빼먹었어요', pharmacist: '이동건 약사', answer: '빼먹은 약은 가능한 빨리 드세요. 그러나 다음 복용 시간이 가까워지면 한 번에 두 알을 먹지 않도록 주의하세요.' },
+    { id: '10', question: '해열제를 얼마나 자주 먹을 수 있나요?', content: '해열제 먹는 간격이 궁금해요', pharmacist: '정서윤 약사', answer: '보통 해열제는 4~6시간 간격으로 복용이 가능하지만, 약의 종류와 개인의 상태에 따라 달라질 수 있습니다. 정확한 간격은 약사와 상담하세요.' },
+  ]  
 
   //백 연결되면 아래의 FAQList -> data로 바꾸기
   const filteredData = FAQList.filter((item) => item.question.includes(searchQuery));
@@ -350,6 +355,7 @@ const App: React.FC = () => {
 };
 
 export default App;
+
 
 
 
