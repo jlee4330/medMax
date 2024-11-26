@@ -183,7 +183,7 @@ const Survey = () => {
                     </View>
                     <TextInput
                         style={surveyStyles.textInput} // TextInput 스타일 추가
-                        placeholder="이름을 입력해주세요"
+                        placeholder="별명을 입력해주세요"
                         value={userName}
                         onChangeText={setUserName}
                     />
@@ -273,6 +273,7 @@ const Survey = () => {
 };
 
 export default Survey;
+
 
 
 
