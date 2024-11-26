@@ -205,7 +205,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 864583504}
+      - m_Target: {fileID: 1748133039}
         m_TargetAssemblyTypeName: EmojiPanelScript, Assembly-CSharp
         m_MethodName: OnEmojiButtonClicked
         m_Mode: 3
@@ -338,7 +338,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 864583504}
+      - m_Target: {fileID: 1748133039}
         m_TargetAssemblyTypeName: EmojiPanelScript, Assembly-CSharp
         m_MethodName: OnEmojiButtonClicked
         m_Mode: 3
@@ -471,7 +471,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 864583504}
+      - m_Target: {fileID: 1748133039}
         m_TargetAssemblyTypeName: EmojiPanelScript, Assembly-CSharp
         m_MethodName: OnEmojiButtonClicked
         m_Mode: 3
@@ -1440,7 +1440,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 864583504}
+      - m_Target: {fileID: 1748133039}
         m_TargetAssemblyTypeName: EmojiPanelScript, Assembly-CSharp
         m_MethodName: OnEmojiButtonClicked
         m_Mode: 3
@@ -1935,7 +1935,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c3e02297637c4673846be25e95862d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  emojiPanel: {fileID: 864583502}
+  emojiPanel: {fileID: 313876242}
   emojiSprites:
   - {fileID: 21300000, guid: fb3e6e955210f42eb8289405bf5801ec, type: 3}
   - {fileID: 21300000, guid: 1d9d6271656534012bdd5bdba201c0cb, type: 3}
@@ -2200,7 +2200,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 864583504}
+      - m_Target: {fileID: 1748133039}
         m_TargetAssemblyTypeName: EmojiPanelScript, Assembly-CSharp
         m_MethodName: OnEmojiButtonClicked
         m_Mode: 3
@@ -2491,7 +2491,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 864583504}
+      - m_Target: {fileID: 1748133039}
         m_TargetAssemblyTypeName: EmojiPanelScript, Assembly-CSharp
         m_MethodName: OnEmojiButtonClicked
         m_Mode: 3
@@ -3068,7 +3068,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 864583504}
+      - m_Target: {fileID: 1748133039}
         m_TargetAssemblyTypeName: EmojiPanelScript, Assembly-CSharp
         m_MethodName: OnEmojiButtonClicked
         m_Mode: 3
@@ -3410,7 +3410,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 864583504}
+      - m_Target: {fileID: 1748133039}
         m_TargetAssemblyTypeName: EmojiPanelScript, Assembly-CSharp
         m_MethodName: OnEmojiButtonClicked
         m_Mode: 3
