@@ -17,7 +17,7 @@ cached_data = None
 def initialize_data():
     global cached_data
     try:
-        response = requests.get("http://nodejs-backend:7777/qna/all-qnas")
+        response = requests.get("http://3.35.193.176:7777/qna/all-qnas")
         if response.status_code == 200:
             cached_data = response.json()  # 데이터 캐싱
             logger.info("Data successfully cached.")
@@ -53,10 +53,10 @@ model_ko = AutoModelForSequenceClassification.from_pretrained(model_path_ko)
 model_ko.eval()
 
 # 다국어 reranker
-model_path_bge = "BAAI/bge-reranker-v2-m3"
-tokenizer_bge = AutoTokenizer.from_pretrained(model_path_bge)
-model_bge = AutoModelForSequenceClassification.from_pretrained(model_path_bge)
-model_bge.eval()
+# model_path_bge = "BAAI/bge-reranker-v2-m3"
+# tokenizer_bge = AutoTokenizer.from_pretrained(model_path_bge)
+# model_bge = AutoModelForSequenceClassification.from_pretrained(model_path_bge)
+# model_bge.eval()
 
 def preprocess_pairs(data):
     pairs = []
@@ -84,11 +84,10 @@ def retrieve_and_rerank(query_request: QueryRequest):
     bm25_top_pairs = [pairs[i] for i in top_k_indices]
     similar_pairs_ko = get_top_k_similar_pairs(question, bm25_top_pairs, model_ko, tokenizer_ko, k=top_k)
     
-    similar_pairs_bge = get_top_k_similar_pairs(question, bm25_top_pairs, model_bge, tokenizer_bge, k=top_k)
+    # similar_pairs_bge = get_top_k_similar_pairs(question, bm25_top_pairs, model_bge, tokenizer_bge, k=top_k)
     
     return {
-        "ko_results": similar_pairs_ko,
-        "bge_results": similar_pairs_bge
+        "ko_results": similar_pairs_ko
     }
 
 if __name__ == "__main__":
