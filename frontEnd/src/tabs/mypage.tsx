@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, View, Text, ActivityIndicator } from 'react-native';
+import axios from 'axios';
 import styles from './myPageComponents/Styles/trackerStyles';
 import MedicationCalendar from './myPageComponents/MedicationCalendar';
 import ProgressBar from './myPageComponents/ProgressBar';
@@ -7,17 +8,19 @@ import Statistics from './myPageComponents/Statistics';
 import UserGreeting from './myPageComponents/UserGreeting';
 import HorizontalGraph from './myPageComponents/HorizontalGraph';
 import config from '../config';
+import DeviceInfo from 'react-native-device-info';
+
 
 // Sample data
 const sampleData: {
   nummedi: number;
-  calender: [number, number][];
+  calendar: [number, number][];
   progress: [number, number][];
   horizontalGraph: [string, number][];
   statistics: [number, number, number];
 } = {
   nummedi: 3,
-  calender: [
+  calendar: [
     [1, 1],
     [2, 2],
     [3, 3],
@@ -60,7 +63,15 @@ const MedicationTracker: React.FC = () => {
   const [horizontalGraphData, setHorizontalGraphData] = useState<[string, number][]>([]);
   const [loading, setLoading] = useState(true);
 
-  const userId = 1;
+  const [userId, setUserId] = useState<string>('');
+  useEffect(() => {
+    const fetchUserId = async () => {
+      const deviceId = await DeviceInfo.getUniqueId();
+      setUserId(deviceId);
+    };
+
+    fetchUserId();
+  }, []);
   const baseUrl = config.backendUrl;
 
   useEffect(() => {
@@ -74,39 +85,23 @@ const MedicationTracker: React.FC = () => {
           statisticsRes,
           horizontalGraphRes,
         ] = await Promise.all([
-          fetch(`${baseUrl}/myPage/num-medi?userId=${userId}`),
-          fetch(`${baseUrl}/myPage/user-name?userId=${userId}`),
-          fetch(`${baseUrl}/myPage/calender?userId=${userId}`),
-          fetch(`${baseUrl}/myPage/thirty-day?userId=${userId}`),
-          fetch(`${baseUrl}/myPage/statistics?userId=${userId}`),
-          fetch(`${baseUrl}/myPage/pokers?userId=${userId}`),
+          axios.get(`${baseUrl}/myPage/num-medi`, { params: { userId } }),
+          axios.get(`${baseUrl}/myPage/user-name`, { params: { userId } }),
+          axios.get(`${baseUrl}/myPage/calender`, { params: { userId } }),
+          axios.get(`${baseUrl}/myPage/thirty-day`, { params: { userId } }),
+          axios.get(`${baseUrl}/myPage/statistics`, { params: { userId } }),
+          axios.get(`${baseUrl}/myPage/pokers`, { params: { userId } }),
         ]);
 
-        const [
-          newUserNumMediData,
-          newUserNameData,
-          newCalenderData,
-          newProgressData,
-          newStatisticsData,
-          newHorizontalGraphData,
-        ] = await Promise.all([
-          userNumMediRes.json(),
-          userNameRes.json(),
-          calenderRes.json(),
-          progressRes.json(),
-          statisticsRes.json(),
-          horizontalGraphRes.json(),
-        ]);
+        setUserNumMedi(userNumMediRes.data || 0);
+        setUserName(userNameRes.data || 'Unknown User');
+        setCalendarData(calenderRes.data || [[1, 0]]);
 
-        setUserNumMedi(newUserNumMediData || 0);
-        setUserName(newUserNameData || 'Unknown User');
-        setCalendarData(newCalenderData);
+        const processedProgressData = processProgressData(progressRes.data, userNumMediRes.data);
+        setProgressData(processedProgressData);
 
-        const processedProgressData = processProgressData(newProgressData, newUserNumMediData);
-        setProgressData(newProgressData);
-
-        setStatistics(newStatisticsData || null);
-        setHorizontalGraphData(newHorizontalGraphData || []);
+        setStatistics(statisticsRes.data || null);
+        setHorizontalGraphData(horizontalGraphRes.data || []);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -132,16 +127,16 @@ const MedicationTracker: React.FC = () => {
           <UserGreeting name={userName} />
 
           <Text style={styles.sectionHeaderText}>복약 달력</Text>
-          <MedicationCalendar medicationData={calendarData} />
+          <MedicationCalendar medicationData={sampleData.calendar} />
 
           <Text style={styles.sectionHeaderText}>복약 비율</Text>
-          <ProgressBar progressData={progressData} medicationCounts={sampleData.nummedi} />
+          <ProgressBar progressData={sampleData.progress} medicationCounts={sampleData.nummedi} />
 
           <Text style={styles.sectionHeaderText}>함께한 날들</Text>
-          {statistics && <Statistics statisticsData={statistics} />}
+          {sampleData.statistics && <Statistics statisticsData={sampleData.statistics} />}
 
           <Text style={styles.sectionHeaderText}>오늘 나를 찌른 사용자</Text>
-          <HorizontalGraph graphData={horizontalGraphData} />
+          <HorizontalGraph graphData={sampleData.horizontalGraph} />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -149,7 +144,6 @@ const MedicationTracker: React.FC = () => {
 };
 
 export default MedicationTracker;
-
 
 const processProgressData = (data: [number, number][], numMedi: number): [number, number][] => {
   const processedData: [number, number][] = [];
