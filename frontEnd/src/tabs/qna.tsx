@@ -94,7 +94,7 @@ const MyQA: React.FC<MyQAProps> = ({ searchQuery, userId }) => {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await axios.get('${config.backendUrl}:7777/qna/all-qnas', {
+        const response = await axios.get(`${config.backendUrl}/qna/all-qnas`, {
           params: { userId },
         });
         console.log("Response data:", response.data);
@@ -267,3 +267,4 @@ const App: React.FC = () => {
 };
 
 export default App;
+
