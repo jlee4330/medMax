@@ -17,6 +17,7 @@ import axios from 'axios';
 import qnaStyles from './qnaComponents/qnaStyle';
 const screenWidth = Dimensions.get('window').width;
 import config from '../config';
+import DeviceInfo from 'react-native-device-info';
 
 interface QnAItem {
   id: string;
@@ -145,6 +146,10 @@ const SimilarQ = ({ searchQuery }) => {
   //얘는 searchQuery가 아니라 input 받은 거 백(AI)에 보내서 filter해서 그걸 띄워야.
   //일단은 더미 데이터 띄운다 치고
   //이 const 안 쓰고 아래 코드에서 바로 modal의 Step2에 Flatlist 띄우도록 하자..
+
+  const [similarQuestions, setSimilarQuestions] = useState<QnAItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+
   const filteredData = SimilarQList.filter((item) => item.question.includes(searchQuery));
   return (
     <FlatList
@@ -161,9 +166,19 @@ const App: React.FC = () => {
     { key: 'myQA', title: '나의 Q&A' },
     { key: 'faq', title: '자주하는 질문' },
   ]);
+  const [userId, setUserId] = useState<string>('');
 
+  useEffect(() => {
+    const fetchUserId = async () => {
+      const uniqueId = await DeviceInfo.getUniqueId();
+      setUserId(uniqueId);
+    };
+
+    fetchUserId();
+  }, []);
+  
   const [searchQuery, setSearchQuery] = useState('');
-  const userId = '1';
+  // const userId = '1';
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [step, setStep] = useState(1);
   const [modalText, setModalText] = useState('');
@@ -267,4 +282,5 @@ const App: React.FC = () => {
 };
 
 export default App;
+
 
