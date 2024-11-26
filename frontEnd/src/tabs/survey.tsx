@@ -16,7 +16,7 @@ const questions = [
         id: 1,
         type: 'greeting',
         welcomeMessage: '만나서 반갑습니다 !\n적합한 커뮤니티 배정을 위해\n몇 가지를 여쭤볼게요 :)',
-        image: require('../assets/images/user_2.png'), // Replace with the appropriate image path
+        image: require('../assets/images/greetIcon.png'), // Replace with the appropriate image path
     },
     {
         id: 2,

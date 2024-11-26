@@ -7,11 +7,10 @@ const statisticsStyles = StyleSheet.create({
     width: screenWidth * 0.9, // Set width to 90% of the screen
     backgroundColor: 'white',
     borderRadius: 12,
-    paddingVertical: 10,
+    paddingVertical: 15,
     paddingHorizontal: 20,
-    paddingTop: 20,
-    marginTop: 10,
-    marginBottom: 20,
+    marginTop: 15,
+    marginBottom: 15,
     ...sharedStyles.floatingShadow,
     alignItems: 'center', // Center content within the container
     alignSelf: 'center'
