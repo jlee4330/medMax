@@ -42,7 +42,6 @@ const Survey = () => {
     const [selectedAnswers, setSelectedAnswers] = useState<Record<number, string | undefined>>({});
     const scrollViewRef = useRef<ScrollView>(null);
     const navigation = useNavigation();
-    const UUID: string = DeviceInfo.getUniqueId();
 
     const handleAnswerSelection = (answer: string) => {
         setSelectedAnswers((prev) => {
@@ -101,12 +100,13 @@ const Survey = () => {
             scrollViewRef.current?.scrollTo({ x: screenWidth * (currentQuestionIndex + 1), animated: true });
         } else {
             Alert.alert(
-                '${userName}님! 설문조사가 완료되었습니다!',
+                `${userName}님! 설문조사가 완료되었습니다!`,
                 '홈 화면으로 이동합니다.',
                 [
                     { text: '확인', onPress: async () => {
                         try {
                             const roomId = getRoomId();
+                            const UUID: string = await DeviceInfo.getUniqueId();
                             // userName 받아서 넘기는 거 추가해야
                             const times = selectedAnswers[3] || [];
                             const medi_count = selectedAnswers[2].replace("회", "");
@@ -272,5 +272,6 @@ const Survey = () => {
 };
 
 export default Survey;
+
 
 
