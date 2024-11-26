@@ -150,10 +150,45 @@ const SimilarQ = ({ searchQuery }) => {
   const [similarQuestions, setSimilarQuestions] = useState<QnAItem[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const filteredData = SimilarQList.filter((item) => item.question.includes(searchQuery));
+  useEffect(() => {
+    const fetchSimilarQuestions = async () => {
+      try {
+        setLoading(true);
+        console.log("searchQuery: ", searchQuery);
+        const response = await axios.post(`${config.aiUrl}/rerank`, {
+          question: searchQuery,
+          top_k: 3,
+        });
+
+        const { ko_results } = response.data;
+        console.log(ko_results);
+
+        const parsedData = ko_results.map((item: any, index: number) => ({
+          id: index.toString(),
+          question: item[1],
+          content: item[0],
+          pharmacist: item[2] || '알 수 없는 약사',
+          answer: item[3],
+        }));
+
+        setSimilarQuestions(parsedData);
+      } catch (error) {
+        console.error('Error fetching similar questions:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSimilarQuestions();
+  }, [searchQuery]);
+
+  if (loading) {
+    return <Text style={qnaStyles.loadingText}>Loading...</Text>;
+  }
+
   return (
     <FlatList
-      data={filteredData}
+      data={similarQuestions}
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => <AccordionItem item={item} />}
     />
@@ -181,7 +216,8 @@ const App: React.FC = () => {
   // const userId = '1';
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [step, setStep] = useState(1);
-  const [modalText, setModalText] = useState('');
+  const [titleText, setTitleText] = useState('');
+  const [contentText, setContentText] = useState('');
 
   const renderScene = SceneMap({
     myQA: () => <MyQA searchQuery={searchQuery} userId={userId} />,
@@ -241,14 +277,14 @@ const App: React.FC = () => {
                 <TextInput
                   style={qnaStyles.titleArea}
                   placeholder="질문의 제목을 작성해주세요."
-                  value={modalText}
-                  onChangeText={setModalText}
+                  value={titleText}
+                  onChangeText={setTitleText}
                 />
                 <TextInput
                   style={qnaStyles.textArea}
                   placeholder="안녕하세요 약사님, 최근에 OOO 약을 처방받았는데..."
-                  value={modalText}
-                  onChangeText={setModalText}
+                  value={contentText}
+                  onChangeText={setContentText}
                   multiline={true}
                 />
                 <View style={qnaStyles.modalButtons}>
@@ -260,12 +296,13 @@ const App: React.FC = () => {
             {step === 2 && (
               <>
                 <Text style={qnaStyles.modalTitle}>AI 추천</Text>
-                <Text style={qnaStyles.modalExplain}>유사한 질문과 답변들을 가져왔어요!</Text>
-                <FlatList
+                <Text style={qnaStyles.modalExplain}>유사한 질문과 답변들을 가져오는 중이에요!</Text>
+                <SimilarQ searchQuery={contentText} />
+                {/* <FlatList
                   data={SimilarQList}
                   keyExtractor={(item) => item.id}
                   renderItem={({ item }) => <ModalAccordionItem item={item} />}
-                />
+                /> */}
                 <View style={qnaStyles.modalButtons}>
                   <Button title="취소" onPress={() => setIsModalVisible(false)} />
                   <Button title="이전으로" onPress={() => setStep(1)} />
@@ -282,5 +319,7 @@ const App: React.FC = () => {
 };
 
 export default App;
+
+
 
 
