@@ -42,7 +42,7 @@ def get_top_k_similar_pairs(question, pairs, model, tokenizer, k=3):
     scores = scores.numpy()
     
     top_k_indices = np.argsort(scores)[-k:][::-1]
-    top_k_pairs = [(pairs[i][0], pairs[i][1], float(scores[i])) for i in top_k_indices]
+    top_k_pairs = [(pairs[i][0], pairs[i][1], pairs[i][2], pairs[i][3], float(scores[i])) for i in top_k_indices]
     
     return top_k_pairs
 
@@ -61,9 +61,12 @@ model_ko.eval()
 def preprocess_pairs(data):
     pairs = []
     for item in data:
+        title = item['question']
         question = item['content']
         answer = item['answer']
-        pairs.append([question, answer])
+        pharmacist = item['pharmacist']
+        
+        pairs.append([question, title, pharmacist, answer])
     return pairs
 
 @app.on_event("startup")
