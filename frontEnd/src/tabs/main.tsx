@@ -220,10 +220,11 @@ const styles = StyleSheet.create({
   barGraphContainer: {
     flexDirection: 'row',
     height: windowHeight * 0.015,
-    width: windowWidth * 0.6,
+    width: windowWidth * 0.55,
     backgroundColor: '#E0E0E0',
-    borderRadius: 5,
+    borderRadius: 10,
     overflow: 'hidden',
+    marginLeft: windowWidth * 0.03
   },
   barSegment: {
     height: '100%',

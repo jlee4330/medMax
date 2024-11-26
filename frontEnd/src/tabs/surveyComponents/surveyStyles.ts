@@ -21,6 +21,7 @@ const surveyStyles = StyleSheet.create({
     textAlign: 'center',
     color: '#404335',
     marginBottom: 10,
+    lineHeight: 24,
   },
   inputBox: {
     width: screenWidth * 0.8,
@@ -34,12 +35,13 @@ const surveyStyles = StyleSheet.create({
     color: '#404335',
   },
   questionText: {
+    flexWrap: 'wrap', // Allow text wrapping
     fontSize: 18,
     fontWeight: '600',
     color: '#404335',
     textAlign: 'center',
-    marginBottom: 10,
-    marginTop: 10,
+    paddingVertical: 10,
+    lineHeight: 22,
   },
   answersContainer: {
     marginTop: 10,
@@ -50,6 +52,7 @@ const surveyStyles = StyleSheet.create({
     paddingVertical: 12,
     width: screenWidth * 0.7, // Ensure answer buttons are slightly narrower
     borderRadius: 8,
+    marginTop: 10,
     marginBottom: 10,
     borderWidth: 1,
     borderColor: 'transparent',
@@ -71,14 +74,14 @@ const surveyStyles = StyleSheet.create({
   nextButton: {
     backgroundColor: '#9C98E7',
     paddingVertical: 15,
+    marginBottom: 20,
     borderRadius: 8,
-    margin: 20,
     alignItems: 'center',
     alignSelf: 'center',
     width: screenWidth * 0.9,
   },
   completeButton: {
-    backgroundColor: '#6A5ACD',
+    backgroundColor: '#897CDD',
   },
   nextButtonText: {
     color: 'white',
@@ -99,7 +102,9 @@ const surveyStyles = StyleSheet.create({
     fontWeight: '600',
   },
   nextButtonActive: {
-    backgroundColor: '#9C98E7',
+    backgroundColor: '#897CDD',
+    borderColor: '#6A5ACD',
+    borderWidth: 2,
   },
   nextButtonInactive: {
     backgroundColor: '#E7E7EB',
@@ -127,16 +132,17 @@ const surveyStyles = StyleSheet.create({
     marginBottom: 10,
   },
   image: {
-    width: screenWidth * 0.7,
-    height: screenWidth * 0.7,
+    width: screenWidth * 0.5,
+    height: screenWidth * 0.5,
     justifyContent: 'center',
     alignSelf: 'center',
   },
   buttonContainer: {
     flexDirection: 'column',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 20,
+    marginBottom: 30,
   },
   textInput: {
     width: '100%',

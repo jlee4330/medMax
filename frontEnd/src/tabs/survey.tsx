@@ -248,11 +248,7 @@ const Survey = () => {
             ))}
         </ScrollView>
         <View style={surveyStyles.buttonContainer}>
-            {currentQuestionIndex > 0 && (
-            <TouchableOpacity style={surveyStyles.previousButton} onPress={handlePrevious}>
-                <Text style={surveyStyles.previousButtonText}>이전으로</Text>
-            </TouchableOpacity>
-            )}
+            
 
             <TouchableOpacity
             style={[
@@ -262,10 +258,15 @@ const Survey = () => {
             onPress={isNextButtonActive ? handleNext : undefined}
             disabled={!isNextButtonActive}
             >
-            <Text style={surveyStyles.nextButtonText}>
+            <Text style={surveyStyles.nextButtonText} > 
                 {currentQuestionIndex === questions.length - 1 ? '완료하기' : '다음으로'}
             </Text>
             </TouchableOpacity>
+            {currentQuestionIndex > 0 && (
+            <TouchableOpacity style={surveyStyles.previousButton} onPress={handlePrevious}>
+                <Text style={surveyStyles.previousButtonText}>이전으로</Text>
+            </TouchableOpacity>
+            )}
         </View>
         </SafeAreaView>
     );
