@@ -105,7 +105,10 @@ WHERE UserID = '${userId}';
 const signUp = async (userId, userName, roomId, numMedi, time1, time2, time3) => {
 
     const formatTime = (time) => {
-        if (!time) return null;
+        if (!time){
+            console.log(time);
+            return null;
+        }
         return (new Date(time)).toTimeString().slice(0,8);
     }
 
@@ -305,3 +308,4 @@ module.exports = {
     getRIdMedTime,
     checkMed
 };
+
