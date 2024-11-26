@@ -98,7 +98,7 @@ const MedicationTracker: React.FC = () => {
         setCalendarData(calenderRes.data || [[1, 0]]);
 
         const processedProgressData = processProgressData(progressRes.data, userNumMediRes.data);
-        setProgressData(processedProgressData);
+        setProgressData(progressRes.data || []);
 
         setStatistics(statisticsRes.data || null);
         setHorizontalGraphData(horizontalGraphRes.data || []);
@@ -127,16 +127,16 @@ const MedicationTracker: React.FC = () => {
           <UserGreeting name={userName} />
 
           <Text style={styles.sectionHeaderText}>복약 달력</Text>
-          <MedicationCalendar medicationData={sampleData.calendar} />
+          <MedicationCalendar medicationData={calendarData} />
 
           <Text style={styles.sectionHeaderText}>복약 비율</Text>
-          <ProgressBar progressData={sampleData.progress} medicationCounts={sampleData.nummedi} />
+          <ProgressBar progressData={progressData} medicationCounts={sampleData.nummedi} />
 
           <Text style={styles.sectionHeaderText}>함께한 날들</Text>
-          {sampleData.statistics && <Statistics statisticsData={sampleData.statistics} />}
+          {statistics && <Statistics statisticsData={statistics} />}
 
           <Text style={styles.sectionHeaderText}>오늘 나를 찌른 사용자</Text>
-          <HorizontalGraph graphData={sampleData.horizontalGraph} />
+          <HorizontalGraph graphData={horizontalGraphData} />
         </View>
       </ScrollView>
     </SafeAreaView>
