@@ -10,6 +10,7 @@ import {
   Image,
   Button,
   Dimensions,
+  Alert
 } from 'react-native';
 //icon 도입하면 image 대신 icon library를 불러서 쓰자
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
@@ -61,8 +62,8 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ item }) => {
       {isOpen && (
         <>
           <Text style={qnaStyles.itemContent}>{item.content}</Text>
-          <Text style={qnaStyles.itemPharmacist}>{item.pharmacist}</Text>
-          <Text style={qnaStyles.itemAnswer}>{item.answer}</Text>
+          <Text style={qnaStyles.itemPharmacist}>{item.pharmacist === "알 수 없음" ? "답변한 약사가 아직 없어요" : item.pharmacist}</Text>
+          <Text style={qnaStyles.itemAnswer}>{item.answer === "알 수 없음" ? "답변이 아직 없어요" : item.answer }</Text>
         </>
       )}
     </TouchableOpacity>
@@ -219,6 +220,36 @@ const App: React.FC = () => {
   const [titleText, setTitleText] = useState('');
   const [contentText, setContentText] = useState('');
 
+
+  const handleSubmit = async () => {
+    try {
+      if (!titleText || !contentText) {
+        Alert.alert('질문 제목과 내용을 모두 입력해주세요.');
+        return;
+      }
+  
+      const payload = {
+        userId: userId,
+        title: titleText,
+        content: contentText,
+      };
+  
+      const response = await axios.post(`${config.backendUrl}/qna/questions`, payload);
+  
+      if (response.status === 201) {
+        Alert.alert('질문이 성공적으로 등록되었습니다!');
+        setTitleText('');
+        setContentText('');
+        setStep(1);
+        setIsModalVisible(false);
+      } else {
+        Alert.alert('질문 등록에 실패했습니다. 다시 시도해주세요.');
+      }
+    } catch (error) {
+      console.error('Error submitting question:', error);
+      Alert.alert('서버 오류로 인해 질문 등록에 실패했습니다. 나중에 다시 시도해주세요.');
+    }
+  };
   const renderScene = SceneMap({
     myQA: () => <MyQA searchQuery={searchQuery} userId={userId} />,
     faq: () => <FAQ searchQuery={searchQuery} />,
@@ -296,7 +327,7 @@ const App: React.FC = () => {
             {step === 2 && (
               <>
                 <Text style={qnaStyles.modalTitle}>AI 추천</Text>
-                <Text style={qnaStyles.modalExplain}>유사한 질문과 답변들을 가져오는 중이에요!</Text>
+                <Text style={qnaStyles.modalExplain}>유사한 질문과 답변들을 가져오는 중이에요! 조금 걸려요..</Text>
                 <SimilarQ searchQuery={contentText} />
                 {/* <FlatList
                   data={SimilarQList}
@@ -306,7 +337,7 @@ const App: React.FC = () => {
                 <View style={qnaStyles.modalButtons}>
                   <Button title="취소" onPress={() => setIsModalVisible(false)} />
                   <Button title="이전으로" onPress={() => setStep(1)} />
-                  <Button title="쪽지 부치기" onPress={() => setIsModalVisible(false)} />
+                  <Button title="쪽지 부치기" onPress={handleSubmit} />
                   {/* onPress={handleNextStep} 아니면 handleSubmit() 하면서 DB에 추가되게*/}
                 </View>
               </>
@@ -319,6 +350,7 @@ const App: React.FC = () => {
 };
 
 export default App;
+
 
 
 
