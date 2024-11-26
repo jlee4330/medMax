@@ -106,7 +106,7 @@ function App() {
   useEffect(() => {
     const checkDeviceId = async () => {
       try {
-        const deviceId : string = DeviceInfo.getDeviceId();
+        const deviceId : string = await DeviceInfo.getUniqueId();
         console.log("Device ID:", deviceId);
         const response = await axios.get(`${config.backendUrl}/mainPage/getIds`, 
           { params: { 

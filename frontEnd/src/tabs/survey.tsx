@@ -42,7 +42,7 @@ const Survey = () => {
     const [selectedAnswers, setSelectedAnswers] = useState<Record<number, string | undefined>>({});
     const scrollViewRef = useRef<ScrollView>(null);
     const navigation = useNavigation();
-    const UUID: string = DeviceInfo.getDeviceId();
+    const UUID: string = DeviceInfo.getUniqueId();
 
     const handleAnswerSelection = (answer: string) => {
         setSelectedAnswers((prev) => {

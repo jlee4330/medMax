@@ -27,7 +27,7 @@ export default function CustomComponent() {
   const [times, setTimes] = useState<string[]>([]); // 복약 시간 상태
   const [progress, setProgress] = useState(0); // 진행률 값
   const userID = 'user3'; // 부여받은 userID (예시)
-  const deviceId : string = DeviceInfo.getDeviceId(); // device id
+  const deviceId : string = DeviceInfo.getUniqueId(); // device id
 
   // 서버에서 roomID와 times를 가져오는 useEffect
   useEffect(() => {

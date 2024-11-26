@@ -2,40 +2,40 @@ GET http://localhost:7777
 
 ###
 
-GET http://localhost:7777/myPage/num-medi?userId=1
+GET http://3.35.193.176:7777/myPage/num-medi?userId=1
 
 ###
 
-GET http://localhost:7777/myPage/user-name?userId=1
+GET http://3.35.193.176:7777/myPage/user-name?userId=1
 
 ###
 
-GET http://localhost:7777/myPage/calender?userId=1
+GET http://3.35.193.176:7777/myPage/calender?userId=1
 
 ###
 
-GET http://localhost:7777/myPage/thirty-day?userId=1
+GET http://3.35.193.176:7777/myPage/thirty-day?userId=1
 
 ###
 
-GET http://localhost:7777/myPage/seven-day?userId=1
+GET http://3.35.193.176:7777/myPage/seven-day?userId=1
 
 ###
 
-GET http://localhost:7777/myPage/together-medi?userId=1
+GET http://3.35.193.176:7777/myPage/together-medi?userId=1
 
 ###
 
-GET http://localhost:7777/myPage/full-medi?userId=1
+GET http://3.35.193.176:7777/myPage/full-medi?userId=1
 
 ###
 
-GET http://localhost:7777/myPage/q-num?userId=1
+GET http://3.35.193.176:7777/myPage/q-num?userId=1
 
 ###
 
-GET http://localhost:7777/myPage/statistics?userId=1
+GET http://3.35.193.176:7777/myPage/statistics?userId=1
 
 ###
 
-GET http://localhost:7777/myPage/pokers?userId=1
+GET http://3.35.193.176:7777/myPage/pokers?userId=1
