@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, View, Text, ActivityIndicator } from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react';
+import { SafeAreaView, ScrollView, View, Text, ActivityIndicator} from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 import styles from './myPageComponents/Styles/trackerStyles';
 import MedicationCalendar from './myPageComponents/MedicationCalendar';
@@ -74,43 +75,46 @@ const MedicationTracker: React.FC = () => {
   }, []);
   const baseUrl = config.backendUrl;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [
-          userNumMediRes,
-          userNameRes,
-          calenderRes,
-          progressRes,
-          statisticsRes,
-          horizontalGraphRes,
-        ] = await Promise.all([
-          axios.get(`${baseUrl}/myPage/num-medi`, { params: { userId } }),
-          axios.get(`${baseUrl}/myPage/user-name`, { params: { userId } }),
-          axios.get(`${baseUrl}/myPage/calender`, { params: { userId } }),
-          axios.get(`${baseUrl}/myPage/thirty-day`, { params: { userId } }),
-          axios.get(`${baseUrl}/myPage/statistics`, { params: { userId } }),
-          axios.get(`${baseUrl}/myPage/pokers`, { params: { userId } }),
-        ]);
-
-        setUserNumMedi(userNumMediRes.data || 0);
-        setUserName(userNameRes.data || 'Unknown User');
-        setCalendarData(calenderRes.data || [[1, 0]]);
-
-        const processedProgressData = processProgressData(progressRes.data, userNumMediRes.data);
-        setProgressData(progressRes.data || []);
-
-        setStatistics(statisticsRes.data || null);
-        setHorizontalGraphData(horizontalGraphRes.data || []);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setLoading(false);
+  useFocusEffect(
+    useCallback(() => {
+      const fetchData = async () => {
+        try {
+          setLoading(true); // Set loading state
+          const [
+            userNumMediRes,
+            userNameRes,
+            calenderRes,
+            progressRes,
+            statisticsRes,
+            horizontalGraphRes,
+          ] = await Promise.all([
+            axios.get(`${baseUrl}/myPage/num-medi`, { params: { userId } }),
+            axios.get(`${baseUrl}/myPage/user-name`, { params: { userId } }),
+            axios.get(`${baseUrl}/myPage/calender`, { params: { userId } }),
+            axios.get(`${baseUrl}/myPage/thirty-day`, { params: { userId } }),
+            axios.get(`${baseUrl}/myPage/statistics`, { params: { userId } }),
+            axios.get(`${baseUrl}/myPage/pokers`, { params: { userId } }),
+          ]);
+  
+          setUserNumMedi(userNumMediRes.data || 0);
+          setUserName(userNameRes.data || 'Unknown User');
+          setCalendarData(calenderRes.data || [[1, 0]]);
+          const processedProgressData = processProgressData(progressRes.data, userNumMediRes.data);
+          setProgressData(processedProgressData || []);
+          setStatistics(statisticsRes.data || null);
+          setHorizontalGraphData(horizontalGraphRes.data || []);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        } finally {
+          setLoading(false); // Clear loading state
+        }
+      };
+  
+      if (userId) {
+        fetchData(); // Fetch data only when userId is available
       }
-    };
-
-    fetchData();
-  }, [baseUrl, userId]);
+    }, [baseUrl, userId]) // Dependencies: baseUrl and userId
+  );
 
   if (loading) {
     return (
