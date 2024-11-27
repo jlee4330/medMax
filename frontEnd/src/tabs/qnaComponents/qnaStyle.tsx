@@ -147,17 +147,17 @@ const qnaStyles = StyleSheet.create({
     position: 'absolute',
     bottom: 20,
     right: 20,
-    backgroundColor: '#FFDC90',
-    width: 55,
-    height: 55,
-    borderRadius: 27.5,
+    backgroundColor: '#6A5ACD',
+    width: 60,
+    height: 60,
+    borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
     ...sharedStyles.floatingShadow,
   },
   image: {
-    width: '100%',
-    height: '100%',
+    width: 30,
+    height: 30,
   },
   modalButtons: {
     marginTop: 10,
@@ -232,7 +232,7 @@ const qnaStyles = StyleSheet.create({
   },
   similarQContainer: {
     padding: 10,
-    marginBottom: 15,
+    marginTop: 15,
     backgroundColor: '#F5F5FD', // White background for clarity
     borderRadius: 8,
     width: '100%',

@@ -325,7 +325,7 @@ const App: React.FC = () => {
         onPress={() => setIsModalVisible(true)}
       >
         <Image
-          source={require('../assets/images/medication.png')}
+          source={require('../assets/images/pencil.png')}
           // 플로팅 버튼에 일단은 이미지 사용, 추후 적절한 아이콘으로 변경 예정
           style={qnaStyles.image}
           resizeMode="contain"

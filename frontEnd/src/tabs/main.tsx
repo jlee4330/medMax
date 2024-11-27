@@ -119,44 +119,47 @@ export default function CustomComponent() {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* WebView */}
+    {/* Village Information Component */}
+    <VillageInfo />
+
+    {/* WebView */}
+    <View style={styles.webview}>
       <WebView
         ref={webViewRef}
-        source={{ uri: 'http://3.35.193.176:8080/' + "?userId=" + "user3" }} // WebGL 콘텐츠의 URL
+        source={{ uri: 'http://3.35.193.176:8080/' + "?userId=" + "user3" }} // Unity WebView content URL
         javaScriptEnabled={true}
         style={{ flex: 1 }}
       />
-      {/* CustomComponent */}
-      <View style={styles.componentContainer} >
-        <VillageInfo />
-        <PokeButton />
-        <MedicationCheckButton />
+    </View>
 
-        {/* CockModal 호출 */}
-        <CockModal
-          visible={isModalVisible}
-          userID={userID} // userID 전달
-          roomID={roomID} // roomID 전달
-          onClose={() => setModalVisible(false)}
-          onConfirm={() => {
-            setModalVisible(false);
-          }}
-        />
+    {/* Floating Buttons (Directly Positioned to Overlap WebView) */}
+    <PokeButton /> {/* 콕 찌르기 버튼 */}
+    <MedicationCheckButton /> {/* 약 복용 체크 버튼 */}
 
-        {/* 약 복용 체크 모달 */}
-        <CheckModal
-          visible={isMedicationModalVisible}
-          userID={userID} // userID 전달
-          roomID={roomID} // roomID 전달
-          times={times} // 복약 시간 배열 전달
-          onClose={() => setMedicationModalVisible(false)}
-          onConfirm={() => {
-            setMedicationModalVisible(false);
-          }}
-        />
-         
-      </View>
-    </SafeAreaView>
+    {/* CockModal 호출 */}
+    <CockModal
+      visible={isModalVisible}
+      userID={userID} // userID 전달
+      roomID={roomID} // roomID 전달
+      onClose={() => setModalVisible(false)}
+      onConfirm={() => {
+        setModalVisible(false);
+      }}
+    />
+
+    {/* 약 복용 체크 모달 */}
+    <CheckModal
+      visible={isMedicationModalVisible}
+      userID={userID} // userID 전달
+      roomID={roomID} // roomID 전달
+      times={times} // 복약 시간 배열 전달
+      onClose={() => setMedicationModalVisible(false)}
+      onConfirm={() => {
+        setMedicationModalVisible(false);
+      }}
+    />
+  </SafeAreaView>
+
   );
 }
 
@@ -166,20 +169,19 @@ const styles = StyleSheet.create({
   },
   componentContainer: {
     flex: 1,
-    position: 'absolute',
-    top: windowHeight * 0.2,
     width: windowWidth,
     alignItems: 'center',
     justifyContent: 'center',
   },
   webview: {
     width: windowWidth,
-    height: windowHeight * 0.7,
+    height: windowHeight - 60,
   },
   group7167: {
+    position: 'absolute', // Ensure absolute positioning
+    top: windowHeight * 0.03, // Positioned relative to the top
     width: windowWidth * 0.9,
     height: windowHeight * 0.1,
-    marginTop: -windowHeight * 0.2,
     marginHorizontal: windowWidth * 0.05,
     backgroundColor: '#FFFFFF',
     borderRadius: 15.93,
@@ -205,6 +207,7 @@ const styles = StyleSheet.create({
   },
   textAndBarContainer: {
     flex: 1,
+    
   },
   barGraphRow: {
     flexDirection: 'row',
@@ -234,7 +237,7 @@ const styles = StyleSheet.create({
     width: windowWidth * 0.5,
     height: windowHeight * 0.06,
     left: windowWidth * 0.05,
-    top: windowHeight * 0.6,
+    bottom: windowHeight * 0.03, // Adjusted relative to navigation bar
     backgroundColor: '#FFFFFF',
     borderRadius: 12,
     shadowColor: 'rgba(0, 0, 0, 0.25)',
@@ -278,7 +281,7 @@ const styles = StyleSheet.create({
     width: windowWidth * 0.15,
     height: windowHeight * 0.07,
     left: windowWidth * 0.8,
-    top: windowHeight * 0.6,
+    bottom: windowHeight * 0.03, // Adjusted relative to navigation bar
     backgroundColor: '#FFDC90',
     borderRadius: windowWidth * 0.07,
     justifyContent: 'center',
