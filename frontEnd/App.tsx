@@ -139,11 +139,11 @@ function App() {
       <NavigationContainer>
         <Stack.Navigator initialRouteName={initialRoute ? "MainTabs" : "Survey"}>
           {/* SurveyScreen을 첫 화면으로 */}
-          <Stack.Screen
+          {/* <Stack.Screen
             name="Survey"
             component={SurveyScreen}
             options={{ headerShown: false }} // 헤더 숨김
-          />
+          /> */}
           {/* TabNavigator 추가 */}
           <Stack.Screen
             name="MainTabs"

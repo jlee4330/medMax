@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { SafeAreaView, StyleSheet, Dimensions, View, Text, Image, TouchableOpacity } from 'react-native';
 import WebView from 'react-native-webview';
 import CockModal from './mainPageComponent/cockModal'; 
@@ -27,30 +27,18 @@ export default function CustomComponent() {
   const [times, setTimes] = useState<string[]>([]); // 복약 시간 상태
   const [progress, setProgress] = useState(0); // 진행률 값
   const userID = 'user3'; // 부여받은 userID (예시)
-  
+  const deviceId : string = DeviceInfo.getUniqueId(); // device id
+  const touchRef = useRef<React.ElementRef<typeof TouchableOpacity>>(null);
+  const webViewRef = useRef<WebView>(null);
+
+
+  //---------------------------------------------
 
   // 서버에서 roomID와 times를 가져오는 useEffect
-  useEffect(() => {
-    const fetchRoomInfo = async () => {
-      try {
-        const deviceId : string = await DeviceInfo.getUniqueId(); // device id
-        const response = await fetch(`http://3.35.193.176:7777/mainpage/info?userId=${userID}`);
-        const data = await response.json();
-        
-        if (data && data[0]) {
-          const { RoomId, time_first, time_second, time_third } = data[0];
-          setRoomID(RoomId); // RoomId 상태 설정
-          setTimes([time_first, time_second, time_third]); // times 배열 상태 설정
-        } else {
-          console.error('Invalid response data');
-        }
-      } catch (error) {
-        console.error('Failed to fetch room info:', error);
-      }
-    };
 
-    fetchRoomInfo();
-  }, [userID]);
+  
+
+ 
 
   // API 호출을 통해 진행률 값을 가져오는 useEffect
   useEffect(() => {
@@ -132,10 +120,14 @@ export default function CustomComponent() {
   return (
     <SafeAreaView style={styles.container}>
       {/* WebView */}
-      <Webview />
-
+      <WebView
+        ref={webViewRef}
+        source={{ uri: 'http://3.35.193.176:8080/' + "?userId=" + "user3" }} // WebGL 콘텐츠의 URL
+        javaScriptEnabled={true}
+        style={{ flex: 1 }}
+      />
       {/* CustomComponent */}
-      <View style={styles.componentContainer}>
+      <View style={styles.componentContainer} >
         <VillageInfo />
         <PokeButton />
         <MedicationCheckButton />
@@ -162,6 +154,7 @@ export default function CustomComponent() {
             setMedicationModalVisible(false);
           }}
         />
+         
       </View>
     </SafeAreaView>
   );
