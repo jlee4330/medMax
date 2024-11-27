@@ -140,21 +140,21 @@ const signUp = async (userId, userName, roomId, numMedi, time1, time2, time3) =>
     try {
         const query = `
   INSERT INTO Date_medi (UserID, mediDate, mediCount, RoomId, medicineTime1, medicineTime2, medicineTime3, medicineCheck1, medicineCheck2, medicineCheck3) VALUES
-  (?, CURDATE(), 0, ?, ?, ?, ?, ?, ?, ?),
-  (?, DATE_ADD(CURDATE(), INTERVAL -1 DAY), 0, ?, ?, ?, ?, ?, ?, ?),
-  (?, DATE_ADD(CURDATE(), INTERVAL -2 DAY), 0, ?, ?, ?, ?, ?, ?, ?),
-  (?, DATE_ADD(CURDATE(), INTERVAL -3 DAY), 0, ?, ?, ?, ?, ?, ?, ?),
-  (?, DATE_ADD(CURDATE(), INTERVAL -4 DAY), 0, ?, ?, ?, ?, ?, ?, ?),
-  (?, DATE_ADD(CURDATE(), INTERVAL -5 DAY), 0, ?, ?, ?, ?, ?, ?, ?),
-  (?, DATE_ADD(CURDATE(), INTERVAL -6 DAY), 0, ?, ?, ?, ?, ?, ?, ?),
-  (?, DATE_ADD(CURDATE(), INTERVAL -7 DAY), 0, ?, ?, ?, ?, ?, ?, ?),
-  (?, DATE_ADD(CURDATE(), INTERVAL -8 DAY), 0, ?, ?, ?, ?, ?, ?, ?),
-  (?, DATE_ADD(CURDATE(), INTERVAL -9 DAY), 0, ?, ?, ?, ?, ?, ?, ?),
-  (?, DATE_ADD(CURDATE(), INTERVAL -10 DAY), 0, ?, ?, ?, ?, ?, ?, ?),
-  (?, DATE_ADD(CURDATE(), INTERVAL -11 DAY), 0, ?, ?, ?, ?, ?, ?, ?),
-  (?, DATE_ADD(CURDATE(), INTERVAL -12 DAY), 0, ?, ?, ?, ?, ?, ?, ?),
-  (?, DATE_ADD(CURDATE(), INTERVAL -13 DAY), 0, ?, ?, ?, ?, ?, ?, ?),
   (?, DATE_ADD(CURDATE(), INTERVAL -14 DAY), 0, ?, ?, ?, ?, ?, ?, ?),
+  (?, DATE_ADD(CURDATE(), INTERVAL -13 DAY), 0, ?, ?, ?, ?, ?, ?, ?),
+  (?, DATE_ADD(CURDATE(), INTERVAL -12 DAY), 0, ?, ?, ?, ?, ?, ?, ?),
+  (?, DATE_ADD(CURDATE(), INTERVAL -11 DAY), 0, ?, ?, ?, ?, ?, ?, ?),
+  (?, DATE_ADD(CURDATE(), INTERVAL -10 DAY), 0, ?, ?, ?, ?, ?, ?, ?),
+  (?, DATE_ADD(CURDATE(), INTERVAL -9 DAY), 0, ?, ?, ?, ?, ?, ?, ?),
+  (?, DATE_ADD(CURDATE(), INTERVAL -8 DAY), 0, ?, ?, ?, ?, ?, ?, ?),
+  (?, DATE_ADD(CURDATE(), INTERVAL -7 DAY), 0, ?, ?, ?, ?, ?, ?, ?),
+  (?, DATE_ADD(CURDATE(), INTERVAL -6 DAY), 0, ?, ?, ?, ?, ?, ?, ?),
+  (?, DATE_ADD(CURDATE(), INTERVAL -5 DAY), 0, ?, ?, ?, ?, ?, ?, ?),
+  (?, DATE_ADD(CURDATE(), INTERVAL -4 DAY), 0, ?, ?, ?, ?, ?, ?, ?),
+  (?, DATE_ADD(CURDATE(), INTERVAL -3 DAY), 0, ?, ?, ?, ?, ?, ?, ?),
+  (?, DATE_ADD(CURDATE(), INTERVAL -2 DAY), 0, ?, ?, ?, ?, ?, ?, ?),
+  (?, DATE_ADD(CURDATE(), INTERVAL -1 DAY), 0, ?, ?, ?, ?, ?, ?, ?),
+  (?, CURDATE(), 0, ?, ?, ?, ?, ?, ?, ?),
 `;
         const values = [
             userId,            // UserID
