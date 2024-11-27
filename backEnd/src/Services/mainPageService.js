@@ -140,11 +140,10 @@ const signUp = async (userId, userName, roomId, numMedi, time1, time2, time3) =>
     try {
         const query = `
   INSERT INTO Date_medi (UserID, mediDate, mediCount, RoomId, medicineTime1, medicineTime2, medicineTime3, medicineCheck1, medicineCheck2, medicineCheck3)
-  VALUES (?, CURDATE(), ?, ?, ?, ?, ?, ?, ?, ?)
+  VALUES (?, CURDATE(), 0, ?, ?, ?, ?, ?, ?, ?)
 `;
         const values = [
             userId,            // UserID
-            numMedi,            // mediCount
             roomId,         // RoomId
             formatTime(time1),             // medicineTime1
             formatTime(time2),             // medicineTime2
