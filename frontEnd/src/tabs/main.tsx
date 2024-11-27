@@ -202,7 +202,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: '#4D4D4D',
-    marginTop: windowHeight * 0.01,
     marginLeft: windowWidth * 0.03,
   },
   textAndBarContainer: {
@@ -249,7 +248,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   intersect: {
-    width: windowWidth * 0.14,
+    width: windowWidth * 0.13,
     height: windowHeight * 0.06,
     backgroundColor: '#FFDC90',
     borderRadius: 12,
@@ -259,18 +258,20 @@ const styles = StyleSheet.create({
   textContainer: {
     flexDirection: 'column',
     alignItems: 'flex-start',
-    marginLeft: windowWidth * 0.02,
+    marginLeft: windowWidth * 0.03,
+    paddingVertical: 8,
   },
   cockText: {
     fontSize: 14,
     fontWeight: '600',
     color: '#FFDC90',
+    lineHeight: 18
   },
   medicationText: {
     fontSize: 12,
     fontWeight: '400',
     color: '#4D4D4D',
-    marginTop: windowHeight * 0.005,
+    marginTop: windowHeight * 0.002,
   },
   notificationIcon: {
     width: windowWidth * 0.06,
@@ -278,8 +279,8 @@ const styles = StyleSheet.create({
   },
   frame2609176: {
     position: 'absolute',
-    width: windowWidth * 0.15,
-    height: windowHeight * 0.07,
+    width: windowWidth * 0.14,
+    height: windowHeight * 0.06,
     left: windowWidth * 0.8,
     bottom: windowHeight * 0.03, // Adjusted relative to navigation bar
     backgroundColor: '#FFDC90',
