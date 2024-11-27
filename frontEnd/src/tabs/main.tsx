@@ -35,32 +35,15 @@ export default function CustomComponent() {
   //---------------------------------------------
 
   // 서버에서 roomID와 times를 가져오는 useEffect
-  useEffect(() => {
-    const fetchRoomInfo = async () => {
-      try {
-        const response = await fetch(`http://3.35.193.176:7777/mainpage/info?userId=${userID}`);
-        const data = await response.json();
-        
-        if (data && data[0]) {
-          const { RoomId, time_first, time_second, time_third } = data[0];
-          setRoomID(RoomId); // RoomId 상태 설정
-          setTimes([time_first, time_second, time_third]); // times 배열 상태 설정
-        } else {
-          console.error('Invalid response data');
-        }
-      } catch (error) {
-        console.error('Failed to fetch room info:', error);
-      }
-    };
 
-    fetchRoomInfo();
-  }, [userID]);
+  
+
+ 
 
   // API 호출을 통해 진행률 값을 가져오는 useEffect
   useEffect(() => {
     const fetchProgress = async () => {
       try {
-        console.log('Start');
         const response = await fetch(`http://3.35.193.176:7777/mainpage/progress?roomId=${roomID}`);
         console.log('API Response:', response); // 응답 로그
         const data = await response.json();
@@ -88,9 +71,7 @@ export default function CustomComponent() {
         resizeMode="contain"
       />
       <View style={styles.textAndBarContainer}>
-        <Text style={styles.villageText}>
-          {roomID !== null ? `마을 ${roomID}` : '마을0111'}
-        </Text>
+        <Text style={styles.villageText}>마을 123</Text>
         <View style={styles.barGraphRow}>
           <View style={styles.barGraphContainer}>
             <View style={[styles.barSegment, { flex: progress / 10, backgroundColor: '#A6A2E9' }]} />
@@ -145,7 +126,7 @@ export default function CustomComponent() {
     <View style={styles.webview}>
       <WebView
         ref={webViewRef}
-        source={{ uri: 'http://3.35.193.176:8080/' + "?userId=" + userID }} // WebGL 콘텐츠의 URL
+        source={{ uri: 'http://3.35.193.176:8080/' + "?userId=" + "user3" }} // Unity WebView content URL
         javaScriptEnabled={true}
         style={{ flex: 1 }}
       />
@@ -185,7 +166,6 @@ export default function CustomComponent() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#ADD8E6', // 원하는 배경색 (파란색 예시)
   },
   componentContainer: {
     flex: 1,
