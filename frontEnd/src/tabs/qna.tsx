@@ -194,7 +194,7 @@ const SimilarQ = ({ searchQuery }: { searchQuery: string }) => {
     fetchSimilarQuestions();
   }, [searchQuery]);
 
-  // Update dots animation
+  // dots animation
   useEffect(() => {
     const interval = setInterval(() => {
       setDotCount((prev) => (prev === 3 ? 1 : prev + 1));
