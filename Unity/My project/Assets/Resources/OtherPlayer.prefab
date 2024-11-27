@@ -134,7 +134,7 @@ MonoBehaviour:
   - {fileID: -1296234479, guid: 42b9d7e2b803e4bbbb4261ab8c508e8b, type: 3}
   - {fileID: 930456543, guid: 42b9d7e2b803e4bbbb4261ab8c508e8b, type: 3}
   - {fileID: -595251249, guid: 42b9d7e2b803e4bbbb4261ab8c508e8b, type: 3}
-  moveSpeed: 1.5
+  moveSpeed: 0.5
   changeDirectionInterval: 1.5
   targetDirection: {x: 0, y: 0, z: 0}
 --- !u!58 &-5418785856482071519

@@ -12,6 +12,6 @@ public class GameSceneManager : MonoBehaviour
         int roomID = GameData.Instance.RoomID;
 
         // UI에 데이터 표시
-        userInfoText.text = $"Welcome, {userID}!\nYou are in Room {roomID}.";
+        // userInfoText.text = $"Welcome, {userID}!\nYou are in Room {roomID}.";
     }
 }

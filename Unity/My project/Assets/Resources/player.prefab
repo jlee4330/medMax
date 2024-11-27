@@ -108,7 +108,7 @@ MonoBehaviour:
   - {fileID: -1511595728, guid: bdd6d0f9610b94523903a41c35747d60, type: 3}
   - {fileID: -881202849, guid: bdd6d0f9610b94523903a41c35747d60, type: 3}
   - {fileID: -1149677636, guid: bdd6d0f9610b94523903a41c35747d60, type: 3}
-  moveSpeed: 5
+  moveSpeed: 0.5
   changeDirectionInterval: 1.5
   targetDirection: {x: 0, y: 0, z: 0}
 --- !u!58 &223725358130367504

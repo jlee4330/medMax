@@ -11,7 +11,7 @@ public class NewBehaviourScript : MonoBehaviour
     public SpriteRenderer spriteRenderer; 
     public Sprite[] directionSprites;
 
-    public float moveSpeed = 5.0f; // 이동 속도
+    public float moveSpeed = 1.5f; // 이동 속도
     public float changeDirectionInterval = 1.5f; // 방향 변경 간격
     public Vector3 targetDirection = new Vector3(0,0,0); // 이동할 목표 방향
     private float timeSinceChange = 0f; // 마지막 방향 변경 이후 경과 시간

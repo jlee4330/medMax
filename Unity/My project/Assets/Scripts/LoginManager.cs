@@ -29,7 +29,7 @@ public class LoginManager : MonoBehaviour
 
     public void OnStartButtonClicked()
     {
-        string userID = userIDInputField.text; // InputField에서 UserID 가져오기
+        // string userID = userIDInputField.text; // InputField에서 UserID 가져오기
 
         // if (string.IsNullOrEmpty(userID))
         // {
