@@ -9,19 +9,37 @@ public class LoginManager : MonoBehaviour
     public InputField userIDInputField; // UserID를 입력받을 InputField
     private string backendURL = "http://3.35.193.176:7777/mainPage/getIds?uID="; // 백엔드 URL
 
+    private string userId;
+
+    // JavaScript에서 호출할 메서드
+    public void SetUserId(string id)
+    {
+        userId = id;
+        Debug.Log("UserId received: " + userId);
+
+        // 예: userId에 따라 다른 로직 처리
+        HandleUserId(userId);
+    }
+
+    private void HandleUserId(string id)
+    {
+        // userId에 따른 동작 구현
+        Debug.Log("Handling userId: " + id);
+    }
+
     public void OnStartButtonClicked()
     {
         string userID = userIDInputField.text; // InputField에서 UserID 가져오기
 
-        if (string.IsNullOrEmpty(userID))
-        {
-            Debug.LogWarning("UserID를 입력하세요.");
-            return;
-        }
+        // if (string.IsNullOrEmpty(userID))
+        // {
+        //     Debug.LogWarning("UserID를 입력하세요.");
+        //     return;
+        // }
 
         // HTTP 요청 시작
         GameData.Instance.IsLogin = true; // 로그인 상태로 설정
-        StartCoroutine(FetchDataFromServer(userID));
+        StartCoroutine(FetchDataFromServer("user3"));
     }
 
     private IEnumerator FetchDataFromServer(string userID)
