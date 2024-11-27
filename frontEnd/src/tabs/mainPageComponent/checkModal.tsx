@@ -33,8 +33,13 @@ const CheckModal: React.FC<CheckModalProps> = ({ visible, onClose, onConfirm, us
     try {
       const response = await fetch(`http://3.35.193.176:7777/mainPage/checkmed?userId=${userID}`);
       const data = await response.json();
-      if (data && Array.isArray(data) && data.length > 0) {
-        setTimeEaten(data[0]); // 배열에서 첫 번째 객체만 사용
+      if (data && data.length > 0) {
+        // 서버에서 가져온 복약 상태를 바로 반영
+        setTimeEaten({
+          medicineCheck1: data[0].medicineCheck1 || "0",
+          medicineCheck2: data[0].medicineCheck2 || "0",
+          medicineCheck3: data[0].medicineCheck3 || "0",
+        });
       }
     } catch (error) {
       console.error("Error fetching timeEaten:", error);
@@ -76,12 +81,12 @@ const CheckModal: React.FC<CheckModalProps> = ({ visible, onClose, onConfirm, us
   const movePillToCenter = (index: number) => {
     Animated.parallel([
       Animated.spring(pillAnimations[index].position, {
-        toValue: { x: 0, y: -150 },
+        toValue: { x: 0, y: -400 },
         useNativeDriver: true,
       }),
       Animated.timing(pillAnimations[index].opacity, {
         toValue: 0,
-        duration: 600,
+        duration: 800,
         useNativeDriver: true,
       }),
     ]).start(() => {
@@ -124,40 +129,38 @@ const CheckModal: React.FC<CheckModalProps> = ({ visible, onClose, onConfirm, us
               const pillKey = `medicineCheck${index + 1}`;
               const isEaten = timeEaten[pillKey] === "1"; // 복약 여부 체크
 
-              if (!isEaten) {
-                return (
-                  <Animated.View
-                    key={index}
-                    style={[
-                      styles.pill,
-                      {
-                        transform: [
-                          { translateX: pillAnimations[index]?.position?.x },
-                          { translateY: pillAnimations[index]?.position?.y },
-                        ],
-                      },
-                      { opacity: pillAnimations[index]?.opacity },
-                    ]}
+              if (isEaten) return null; // 복약 완료 시 아무것도 렌더링하지 않음
+              
+              return (
+                <Animated.View
+                  key={index}
+                  style={[
+                    styles.pill,
+                    {
+                      transform: [
+                        { translateX: pillAnimations[index]?.position?.x },
+                        { translateY: pillAnimations[index]?.position?.y },
+                      ],
+                    },
+                    { opacity: pillAnimations[index]?.opacity },
+                  ]}
+                >
+                  <TouchableOpacity
+                    onPress={() => {
+                      movePillToCenter(index);
+                      onConfirm(times[index]);
+                      sendTimeEatenToServer(times[index], pillKey);
+                    }}
                   >
-                    <TouchableOpacity
-                      onPress={() => {
-                        movePillToCenter(index);
-                        onConfirm(times[index]);
-                        sendTimeEatenToServer(times[index], pillKey);
-                      }}
-                    >
-                      <Image
-                        source={pillImage}
-                        style={styles.pillImage}
-                        resizeMode="contain"
-                      />
-                      <Text style={styles.timeText}>{times[index]}</Text>
-                    </TouchableOpacity>
-                  </Animated.View>
-                );
-              }
-
-              return null; // 복약 완료 시 아무것도 렌더링하지 않음
+                    <Image
+                      source={pillImage}
+                      style={styles.pillImage}
+                      resizeMode="contain"
+                    />
+                    <Text style={styles.timeText}>{times[index]}</Text>
+                  </TouchableOpacity>
+                </Animated.View>
+              );
             })}
           </View>
         </View>
@@ -180,16 +183,23 @@ const styles = StyleSheet.create({
     zIndex: 1000,
   },
   modalContainer: {
-    width: 300,
-    height: 400,
+    width: 280, // 모달 크기 조정
+    height : 500,
     padding: 20,
+    backgroundColor: 'white', // 하얀색 배경
+    borderRadius: 16, // 모서리 둥글게
     alignItems: 'center',
     justifyContent: 'space-between',
+    shadowColor: 'rgba(0, 0, 0, 0.1)', // 그림자 효과
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    elevation: 5,
   },
   speechBubble: {
     position: 'absolute',
-    top: -70,
-    width: 200,
+    top: 30,
+    width: 180,
     padding: 10,
     backgroundColor: '#F5F6FB',
     borderRadius: 16,
@@ -216,14 +226,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   medicationImage: {
-    width: '100%',
-    height: '100%',
+    width: '80%',
+    height: '80%',
+    top : 100,
   },
   pillContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
+    top : -50,
   },
   pill: {
     width: 50,
