@@ -75,21 +75,28 @@ const eatMed = async (userId, time) => {
         const [result] = await pool.query(
             
             `
-UPDATE Date_medi
-SET 
-    medicineCheck1 = CASE 
-                        WHEN medicineTime1 = '${(new Date(time)).toTimeString().slice(0,8)}' THEN TRUE 
-                        ELSE medicineCheck1 
-                    END,
-    medicineCheck2 = CASE 
-                        WHEN medicineTime2 = '${(new Date(time)).toTimeString().slice(0,8)}' THEN TRUE 
-                        ELSE medicineCheck2 
-                    END,
-    medicineCheck3 = CASE 
-                        WHEN medicineTime3 = '${(new Date(time)).toTimeString().slice(0,8)}' THEN TRUE 
-                        ELSE medicineCheck3 
-                    END
-WHERE UserID = '${userId}';
+    UPDATE Date_medi
+    SET 
+        medicineCheck1 = CASE 
+                            WHEN medicineTime1 = '${(new Date(time)).toTimeString().slice(0,8)}' THEN TRUE 
+                            ELSE medicineCheck1 
+                        END,
+        medicineCheck2 = CASE 
+                            WHEN medicineTime2 = '${(new Date(time)).toTimeString().slice(0,8)}' THEN TRUE 
+                            ELSE medicineCheck2 
+                        END,
+        medicineCheck3 = CASE 
+                            WHEN medicineTime3 = '${(new Date(time)).toTimeString().slice(0,8)}' THEN TRUE 
+                            ELSE medicineCheck3 
+                        END,
+        mediCount = mediCount + CASE 
+                                    WHEN (medicineTime1 = '${(new Date(time)).toTimeString().slice(0,8)}' AND medicineCheck1 = FALSE) OR
+                                         (medicineTime2 = '${(new Date(time)).toTimeString().slice(0,8)}' AND medicineCheck2 = FALSE) OR
+                                         (medicineTime3 = '${(new Date(time)).toTimeString().slice(0,8)}' AND medicineCheck3 = FALSE) 
+                                    THEN 1 
+                                    ELSE 0 
+                                END
+    WHERE UserID = '${userId}';
 `
         );
             
