@@ -109,7 +109,26 @@
 
       loadingBar.style.display = "block";
 
-      var script = document.createElement("script");
+      function getUrlParameter(name) {
+        const params = new URLSearchParams(window.location.search);
+        return params.get(name);
+      }
+
+
+
+      // Unity로 전달하는 함수
+      function sendParameterToUnity(unityInstance) {
+        const userId = getUrlParameter('userId'); // userId 값 읽기
+        console.log("userid = " + userId);
+        console.log("unityInstance =" +  unityInstance);
+        if (userId && typeof unityInstance !== 'undefined') {
+          unityInstance.SendMessage('LoginManager', 'SetUserId', userId);
+          console.log('UserId sent to Unity:', userId);
+        }
+    }
+
+
+var script = document.createElement("script");
       script.src = loaderUrl;
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
@@ -119,10 +138,12 @@
                 fullscreenButton.onclick = () => {
                   unityInstance.SetFullscreen(1);
                 };
+                sendParameterToUnity(unityInstance);
               }).catch((message) => {
                 alert(message);
               });
             };
+
 
       document.body.appendChild(script);
 
