@@ -46,6 +46,8 @@ interface FAQProps {
   searchQuery: string;
 }
 
+
+
 // Static data for similar questions
 const SimilarQList: QnAItem[] = [
   { id: '6', question: '가장 유사한 질문1', content: '작성하신 질문과 비슷한 질문은~1', pharmacist: '박수현 약사', answer: 'AI 파이팅' },
@@ -148,13 +150,17 @@ const FAQ: React.FC<FAQProps> = ({ searchQuery }) => {
   );
 };
 
-const SimilarQ = ({ searchQuery }) => {
+
+
+
+const SimilarQ = ({ searchQuery }: { searchQuery: string }) => {
   //얘는 searchQuery가 아니라 input 받은 거 백(AI)에 보내서 filter해서 그걸 띄워야.
   //일단은 더미 데이터 띄운다 치고
   //이 const 안 쓰고 아래 코드에서 바로 modal의 Step2에 Flatlist 띄우도록 하자..
 
   const [similarQuestions, setSimilarQuestions] = useState<QnAItem[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [dotCount, setDotCount] = useState<number>(1);
 
   useEffect(() => {
     const fetchSimilarQuestions = async () => {
@@ -188,15 +194,41 @@ const SimilarQ = ({ searchQuery }) => {
     fetchSimilarQuestions();
   }, [searchQuery]);
 
+  // Update dots animation
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDotCount((prev) => (prev === 3 ? 1 : prev + 1));
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, []);
+
   if (loading) {
-    return <Text style={qnaStyles.loadingText}>Loading...</Text>;
+    return <Text style={qnaStyles.loadingText}>
+      유사 Q&A를 찾고 있어요! {"\n"}
+      조금 걸려요{'.'.repeat(dotCount)}
+    </Text>;
+  }
+  if (!similarQuestions.length) {
+    return <Text style={qnaStyles.loadingText}>유사한 질문이 없습니다.</Text>;
   }
 
   return (
     <FlatList
       data={similarQuestions}
       keyExtractor={(item) => item.id}
-      renderItem={({ item }) => <AccordionItem item={item} />}
+      renderItem={({ item }) => (
+        <View style={qnaStyles.similarQContainer}>
+          <Text style={qnaStyles.similarQTitle}>{item.question}</Text>
+          <Text style={qnaStyles.similarQContent}>{item.content}</Text>
+          {item.pharmacist && (
+            <Text style={qnaStyles.similarQPharmacist}>답변 약사: {item.pharmacist}</Text>
+          )}
+          {item.answer && (
+            <Text style={qnaStyles.similarQAnswer}>답변: {item.answer}</Text>
+          )}
+        </View>
+      )}
     />
   );
 };
@@ -323,28 +355,39 @@ const App: React.FC = () => {
                   onChangeText={setContentText}
                   multiline={true}
                 />
-                <View style={qnaStyles.modalButtons}>
-                  <Button title="취소" onPress={() => setIsModalVisible(false)} />
-                  <Button title="다음으로" onPress={() => setStep(2)} />
+                <View style={qnaStyles.buttonContainer}>
+                    <TouchableOpacity style={qnaStyles.cancelButton} onPress={() => setIsModalVisible(false)}>
+                        <Text style={qnaStyles.buttonText}>취소</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={qnaStyles.confirmButton} onPress={() => setStep(2)}>
+                        <Text style={qnaStyles.buttonText}>다음으로</Text>
+                    </TouchableOpacity>
                 </View>
               </>
             )}
             {step === 2 && (
               <>
                 <Text style={qnaStyles.modalTitle}>AI 추천</Text>
-                <Text style={qnaStyles.modalExplain}>유사한 질문과 답변들을 가져오는 중이에요! 조금 걸려요..</Text>
                 <SimilarQ searchQuery={contentText} />
+
                 {/* <FlatList
                   data={SimilarQList}
                   keyExtractor={(item) => item.id}
                   renderItem={({ item }) => <ModalAccordionItem item={item} />}
-                /> */}
-                <View style={qnaStyles.modalButtons}>
-                  <Button title="취소" onPress={() => setIsModalVisible(false)} />
-                  <Button title="이전으로" onPress={() => setStep(1)} />
-                  <Button title="쪽지 부치기" onPress={handleSubmit} />
-                  {/* onPress={handleNextStep} 아니면 handleSubmit() 하면서 DB에 추가되게*/}
+            /> */}
+                <View style={qnaStyles.buttonContainer}>
+                    <TouchableOpacity style={qnaStyles.cancelButton} onPress={() => setIsModalVisible(false)}>
+                        <Text style={qnaStyles.buttonText}>취소</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={qnaStyles.cancelButton} onPress={() => setStep(1)}>
+                        <Text style={qnaStyles.buttonText}>이전으로</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={qnaStyles.confirmButton} onPress={handleSubmit}>
+                        <Text style={qnaStyles.buttonText}>쪽지 부치기</Text>
+                    </TouchableOpacity>
                 </View>
+                {/* onPress={handleNextStep} 아니면 handleSubmit() 하면서 DB에 추가되게*/}
+                {/* Button은 디자인 변경이 어려워서, 자체 style 사용하는 touchableOpacity로 변경함*/}
               </>
             )}
           </View>

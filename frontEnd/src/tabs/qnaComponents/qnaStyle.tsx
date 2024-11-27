@@ -2,6 +2,7 @@ import { StyleSheet, Dimensions } from 'react-native';
 import sharedStyles from '../sharedStyles';
 
 const screenWidth = Dimensions.get('window').width;
+const screenHeight = Dimensions.get('window').height;
 
 const qnaStyles = StyleSheet.create({
   safeArea: {
@@ -59,7 +60,7 @@ const qnaStyles = StyleSheet.create({
   },
   itemContainer: {
     padding: 16,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F5F5FD',
     borderRadius: 12,
     marginBottom: 12,
     alignSelf: 'center',
@@ -72,21 +73,21 @@ const qnaStyles = StyleSheet.create({
     color: '#404335',
   },
   itemContent: {
-    marginTop: 8,
+    marginTop: 20,
     fontSize: 14,
     color: '#9CA0AB',
     lineHeight: 20,
   },
   itemPharmacist: {
-    marginTop: 12,
     fontSize: 14,
     fontWeight: '500',
     color: '#404335',
+    marginTop: 20, 
   },
   itemAnswer: {
-    marginTop: 8,
+    marginTop: 10,
     fontSize: 14,
-    color: '#404335',
+    color: '#6A5ACD',
   },
   modalContainer: {
     flex: 1,
@@ -96,6 +97,7 @@ const qnaStyles = StyleSheet.create({
   },
   modalContent: {
     width: '90%',
+    maxHeight: screenHeight * 0.6,
     backgroundColor: '#FFFFFF',
     borderRadius: 12,
     padding: 20,
@@ -104,7 +106,7 @@ const qnaStyles = StyleSheet.create({
   modalTitle: {
     fontSize: 20,
     fontWeight: '700',
-    marginBottom: 10,
+    marginVertical: 10,
     color: '#404335',
   },
   modalExplain: {
@@ -118,6 +120,7 @@ const qnaStyles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
     width: '100%',
+    
   },
   modalItemTitle: {
     fontSize: 18,
@@ -189,6 +192,7 @@ const qnaStyles = StyleSheet.create({
     color: '#9CA0AB',
     textAlign: 'center',
     marginVertical: 20,
+    lineHeight: 24
   },
   titleArea: {
     width: '100%',
@@ -198,7 +202,68 @@ const qnaStyles = StyleSheet.create({
     borderRadius: 8,
     padding: 10,
     backgroundColor: '#F5F5FD',
+    marginVertical: 10,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  cancelButton: {
+      flex: 1,
+      marginRight: 10,
+      backgroundColor: '#E0E0E0', // Gray for cancel
+      padding: 10,
+      borderRadius: 8,
+      alignItems: 'center',
+  },
+  confirmButton: {
+      flex: 1,
+      marginLeft: 10,
+      backgroundColor: '#897CDD', // constant color use!
+      padding: 10,
+      borderRadius: 8,
+      alignItems: 'center',
+  },
+  buttonText: {
+      fontSize: 16,
+      color: '#FFFFFF',
+      fontWeight: 'bold',
+  },
+  similarQContainer: {
+    padding: 10,
+    marginBottom: 15,
+    backgroundColor: '#F5F5FD', // White background for clarity
+    borderRadius: 8,
+    width: '100%',
+    ...sharedStyles.floatingShadow, // Add shadow for a card-like appearance
+  },
+  
+  similarQTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#404335',
+    marginBottom: 20,
+  },
+  
+  similarQContent: {
+    fontSize: 14,
+    color: '#666',
+    lineHeight: 20,
+    marginBottom: 20,
+  },
+  
+  similarQPharmacist: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: '#404335',
     marginBottom: 10,
+  },
+  
+  similarQAnswer: {
+    fontSize: 14,
+    color: '#6A5ACD', // to highlight answers
+    lineHeight: 20,
   },
 });
 
