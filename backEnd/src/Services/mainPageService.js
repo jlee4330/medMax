@@ -154,7 +154,7 @@ const signUp = async (userId, userName, roomId, numMedi, time1, time2, time3) =>
   (?, DATE_ADD(CURDATE(), INTERVAL -3 DAY), 0, ?, ?, ?, ?, ?, ?, ?),
   (?, DATE_ADD(CURDATE(), INTERVAL -2 DAY), 0, ?, ?, ?, ?, ?, ?, ?),
   (?, DATE_ADD(CURDATE(), INTERVAL -1 DAY), 0, ?, ?, ?, ?, ?, ?, ?),
-  (?, CURDATE(), 0, ?, ?, ?, ?, ?, ?, ?),
+  (?, CURDATE(), 0, ?, ?, ?, ?, ?, ?, ?)
 `;
         const values = [
             userId,            // UserID
@@ -165,6 +165,7 @@ const signUp = async (userId, userName, roomId, numMedi, time1, time2, time3) =>
             false,             // medicineCheck1
             false,             // medicineCheck2
             false,             // medicineCheck3
+
             userId,            // UserID
             roomId,         // RoomId
             formatTime(time1),             // medicineTime1
@@ -173,6 +174,7 @@ const signUp = async (userId, userName, roomId, numMedi, time1, time2, time3) =>
             false,             // medicineCheck1
             false,             // medicineCheck2
             false,             // medicineCheck3
+
             userId,            // UserID
             roomId,         // RoomId
             formatTime(time1),             // medicineTime1
@@ -181,6 +183,7 @@ const signUp = async (userId, userName, roomId, numMedi, time1, time2, time3) =>
             false,             // medicineCheck1
             false,             // medicineCheck2
             false,             // medicineCheck3
+
             userId,            // UserID
             roomId,         // RoomId
             formatTime(time1),             // medicineTime1
@@ -189,6 +192,7 @@ const signUp = async (userId, userName, roomId, numMedi, time1, time2, time3) =>
             false,             // medicineCheck1
             false,             // medicineCheck2
             false,             // medicineCheck3
+
             userId,            // UserID
             roomId,         // RoomId
             formatTime(time1),             // medicineTime1
@@ -197,6 +201,7 @@ const signUp = async (userId, userName, roomId, numMedi, time1, time2, time3) =>
             false,             // medicineCheck1
             false,             // medicineCheck2
             false,             // medicineCheck3
+
             userId,            // UserID
             roomId,         // RoomId
             formatTime(time1),             // medicineTime1
@@ -205,6 +210,7 @@ const signUp = async (userId, userName, roomId, numMedi, time1, time2, time3) =>
             false,             // medicineCheck1
             false,             // medicineCheck2
             false,             // medicineCheck3
+
             userId,            // UserID
             roomId,         // RoomId
             formatTime(time1),             // medicineTime1
@@ -213,6 +219,7 @@ const signUp = async (userId, userName, roomId, numMedi, time1, time2, time3) =>
             false,             // medicineCheck1
             false,             // medicineCheck2
             false,             // medicineCheck3
+
             userId,            // UserID
             roomId,         // RoomId
             formatTime(time1),             // medicineTime1
@@ -221,6 +228,7 @@ const signUp = async (userId, userName, roomId, numMedi, time1, time2, time3) =>
             false,             // medicineCheck1
             false,             // medicineCheck2
             false,             // medicineCheck3
+
             userId,            // UserID
             roomId,         // RoomId
             formatTime(time1),             // medicineTime1
@@ -229,6 +237,7 @@ const signUp = async (userId, userName, roomId, numMedi, time1, time2, time3) =>
             false,             // medicineCheck1
             false,             // medicineCheck2
             false,             // medicineCheck3
+
             userId,            // UserID
             roomId,         // RoomId
             formatTime(time1),             // medicineTime1
@@ -237,6 +246,7 @@ const signUp = async (userId, userName, roomId, numMedi, time1, time2, time3) =>
             false,             // medicineCheck1
             false,             // medicineCheck2
             false,             // medicineCheck3
+
             userId,            // UserID
             roomId,         // RoomId
             formatTime(time1),             // medicineTime1
@@ -245,6 +255,7 @@ const signUp = async (userId, userName, roomId, numMedi, time1, time2, time3) =>
             false,             // medicineCheck1
             false,             // medicineCheck2
             false,             // medicineCheck3
+
             userId,            // UserID
             roomId,         // RoomId
             formatTime(time1),             // medicineTime1
@@ -253,6 +264,7 @@ const signUp = async (userId, userName, roomId, numMedi, time1, time2, time3) =>
             false,             // medicineCheck1
             false,             // medicineCheck2
             false,             // medicineCheck3
+
             userId,            // UserID
             roomId,         // RoomId
             formatTime(time1),             // medicineTime1
@@ -261,6 +273,7 @@ const signUp = async (userId, userName, roomId, numMedi, time1, time2, time3) =>
             false,             // medicineCheck1
             false,             // medicineCheck2
             false,             // medicineCheck3
+
             userId,            // UserID
             roomId,         // RoomId
             formatTime(time1),             // medicineTime1
@@ -269,6 +282,7 @@ const signUp = async (userId, userName, roomId, numMedi, time1, time2, time3) =>
             false,             // medicineCheck1
             false,             // medicineCheck2
             false,             // medicineCheck3
+
             userId,            // UserID
             roomId,         // RoomId
             formatTime(time1),             // medicineTime1
