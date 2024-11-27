@@ -41,27 +41,31 @@ export default function CustomComponent() {
  
 
   // API 호출을 통해 진행률 값을 가져오는 useEffect
-  useEffect(() => {
-    const fetchProgress = async () => {
-      if (!roomID) return; // roomID가 null일 경우 API 호출 방지
-      try {
-        console.log('Fetching progress for Room ID:', roomID);
-        const response = await fetch(`http://3.35.193.176:7777/mainpage/progress?roomId=${roomID}`);
-        const data = await response.json();
+  const [loading, setLoading] = useState(true); // 추가된 로딩 상태
 
-        console.log('Data from API (Progress):', data); // 응답 데이터 로그
-        if (data && data[0] && data[0].TotalCheck !== undefined) {
-          setProgress(data[0].TotalCheck); // TotalCheck 값을 progress 상태에 설정
-        } else {
-          console.error('No TotalCheck value in response'); // TotalCheck 값이 없을 경우 오류 로그
-        }
-      } catch (error) {
-        console.error('Failed to fetch progress:', error); // API 호출 실패 시 오류 로그
+useEffect(() => {
+  const fetchRoomInfo = async () => {
+    try {
+      setLoading(true); // Fetch 시작 시 로딩 상태 활성화
+      const response = await fetch(`http://3.35.193.176:7777/mainpage/info?userId=${userID}`);
+      const data = await response.json();
+      if (data && data[0]) {
+        const { RoomId, time_first, time_second, time_third } = data[0];
+        setRoomID(RoomId); // RoomId 상태 설정
+        setTimes([time_first, time_second, time_third]); // times 배열 상태 설정
+      } else {
+        console.error('Invalid response data');
       }
-    };
+    } catch (error) {
+      console.error('Failed to fetch room info:', error);
+    } finally {
+      setLoading(false); // Fetch 종료 시 로딩 상태 비활성화
+    }
+  };
 
-    fetchProgress();
-  }, [roomID]); // roomID 변경 시 호출, roomID가 null이면 호출되지 않음
+  fetchRoomInfo();
+}, [userID]);
+
 
   // 마을 정보 컴포넌트
   const VillageInfo = () => (
@@ -121,8 +125,8 @@ export default function CustomComponent() {
   return (
     <SafeAreaView style={styles.container}>
       {/* Village Information Component */}
-      {roomID === null ? (
-        <Text>Loading village information...</Text> // 로딩 상태 표시 (roomID가 null일 때)
+      {loading ? (
+        <Text>Loading village information...</Text> // 로딩 상태 표시
       ) : (
         <>
           <VillageInfo /> {/* 마을 정보 컴포넌트 */}
@@ -136,28 +140,28 @@ export default function CustomComponent() {
               style={{ flex: 1 }}
             />
           </View>
-  
-          {/* Floating Buttons (Directly Positioned to Overlap WebView) */}
-          <PokeButton /> {/* 콕 찌르기 버튼 */}
-          <MedicationCheckButton /> {/* 약 복용 체크 버튼 */}
-  
+    
+          {/* Floating Buttons */}
+          <PokeButton />
+          <MedicationCheckButton />
+    
           {/* CockModal 호출 */}
           <CockModal
             visible={isModalVisible}
-            userID={userID} // userID 전달
-            roomID={roomID} // roomID 전달
+            userID={userID}
+            roomID={roomID}
             onClose={() => setModalVisible(false)}
             onConfirm={() => {
               setModalVisible(false);
             }}
           />
-  
+    
           {/* 약 복용 체크 모달 */}
           <CheckModal
             visible={isMedicationModalVisible}
-            userID={userID} // userID 전달
-            roomID={roomID} // roomID 전달
-            times={times} // 복약 시간 배열 전달
+            userID={userID}
+            roomID={roomID}
+            times={times}
             onClose={() => setMedicationModalVisible(false)}
             onConfirm={() => {
               setMedicationModalVisible(false);
