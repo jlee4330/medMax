@@ -39,7 +39,7 @@ public class EmojiPanelScript : MonoBehaviour {
         emojiBubble.gameObject.SetActive(true); // 이모지 표시
 
         // 이모지 2초 후 자동 비활성화
-        Invoke(nameof(HideEmoji), 2.0f);
+        Invoke(nameof(HideEmoji), 5.0f);
 
         // 패널 닫기
         emojiPanel.SetActive(false);
