@@ -12,24 +12,26 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ progressData, medicationCount
   return (
     <View style={progressBarStyles.container}>
       <View style={progressBarStyles.progressBar}>
-        {progressData.map(([count, days], index) => (
-          <View
-            key={index}
-            style={[
-              progressBarStyles.progressSegment,
-              {
-                flex: days,
-                backgroundColor: getProgressColor(count, medicationCounts),
-              },
-            ]}
-          />
-        ))}
+        {progressData
+          .filter(([_, days]) => days > 0) // Exclude segments with 0 days
+          .map(([count, days], index) => (
+            <View
+              key={index}
+              style={[
+                progressBarStyles.progressSegment,
+                {
+                  flex: days,
+                  backgroundColor: getProgressColor(count, medicationCounts),
+                },
+              ]}
+            />
+          ))}
       </View>
 
       {/* Legend */}
       <View style={progressBarStyles.legendContainer}>
-        {Array.from({ length: medicationCounts + 1 }).map((_, i) => (
-          <LegendItem key={i} color={getProgressColor(i, medicationCounts)} label={`${i}`} />
+        {Array.from({ length: Math.min(medicationCounts + 1, 6) }).map((_, i) => ( // Limit to 6 colors
+        <LegendItem key={i} color={getProgressColor(i, medicationCounts)} label={`${i}`} />
         ))}
       </View>
     </View>
@@ -45,3 +47,4 @@ const LegendItem: React.FC<{ color: string; label: string }> = ({ color, label }
 );
 
 export default ProgressBar;
+

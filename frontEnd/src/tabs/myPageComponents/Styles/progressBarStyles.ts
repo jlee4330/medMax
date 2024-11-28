@@ -22,7 +22,6 @@ const progressBarStyles = StyleSheet.create({
   },
   progressSegment: {
     flex: 1,
-    marginRight: 3, // Creates a small gap between segments
     backgroundColor: 'transparent',
   },
   // Legend styles
@@ -49,3 +48,4 @@ const progressBarStyles = StyleSheet.create({
 });
 
 export default progressBarStyles;
+

@@ -154,11 +154,15 @@ const processProgressData = (data: [number, number][], numMedi: number): [number
   const doseMap = new Map<number, number>();
 
   data.forEach(([dose, days]) => {
-    doseMap.set(dose, days);
+    const numericDose = Number(dose); // Ensure dose is a number
+    const numericDays = Number(days); // Ensure days is a number
+    doseMap.set(numericDose, (doseMap.get(numericDose) || 0) + numericDays);
   });
 
   for (let dose = numMedi; dose >= 0; dose--) {
-    processedData.push([dose, doseMap.get(dose) || 0]);
+    const numericDose = Number(dose); // Ensure dose is numeric here too
+    const days = doseMap.get(numericDose) ?? 0; // Nullish coalescing operator for safe fallback
+    processedData.push([numericDose, days]);
   }
 
   return processedData;
