@@ -8,33 +8,31 @@ import DeviceInfo from 'react-native-device-info';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const Webview = () => {
-  return (
-    <SafeAreaView style={styles.container}>
-      <WebView
-        style={styles.webview}
-        source={{ uri: 'http://3.35.193.176:8080/' }}
-      />
-    </SafeAreaView>
-  );
-};
-
-// 메인 컴포넌트
 export default function CustomComponent() {
   const [isModalVisible, setModalVisible] = useState(false);
-  const [isMedicationModalVisible, setMedicationModalVisible] = useState(false); // 약 복용 체크 모달 상태
-  const [roomID, setRoomID] = useState<number | null>(null); // roomID 상태
-  const [times, setTimes] = useState<string[]>([]); // 복약 시간 상태
-  const [progress, setProgress] = useState(0); // 진행률 값
-  const userID = 'user3'; // 부여받은 userID (예시)
-  const deviceId : string = DeviceInfo.getUniqueId(); // device id
-  const touchRef = useRef<React.ElementRef<typeof TouchableOpacity>>(null);
+  const [isMedicationModalVisible, setMedicationModalVisible] = useState(false);
+  const [roomID, setRoomID] = useState<number | null>(null);
+  const [times, setTimes] = useState<string[]>([]);
+  const [progress, setProgress] = useState(0);
+  const [userID, setUserId] = useState<string>('');
   const webViewRef = useRef<WebView>(null);
 
-
-  //---------------------------------------------
-  // 서버에서 roomID와 times를 가져오는 useEffect
   useEffect(() => {
+    const fetchUserId = async () => {
+      try {
+        const deviceId = await DeviceInfo.getUniqueId();
+        setUserId(deviceId);
+      } catch (error) {
+        console.error('Failed to get device ID:', error);
+      }
+    };
+
+    fetchUserId();
+  }, []); // 빈 배열로 첫 렌더링 시 한 번만 실행
+
+  useEffect(() => {
+    console.log(userID);
+    if (!userID) return;
     const fetchRoomInfo = async () => {
       try {
         const response = await fetch(`http://3.35.193.176:7777/mainpage/info?userId=${userID}`);
@@ -42,8 +40,8 @@ export default function CustomComponent() {
         
         if (data && data[0]) {
           const { RoomId, time_first, time_second, time_third } = data[0];
-          setRoomID(RoomId); // RoomId 상태 설정
-          setTimes([time_first, time_second, time_third]); // times 배열 상태 설정
+          setRoomID(RoomId);
+          setTimes([time_first, time_second, time_third]);
         } else {
           console.error('Invalid response data');
         }
@@ -52,35 +50,29 @@ export default function CustomComponent() {
       }
     };
 
-
-
     fetchRoomInfo();
-  }, [userID]); 
-  // API 호출을 통해 진행률 값을 가져오는 useEffect
+  }, [userID]);
+
   useEffect(() => {
+    if (!roomID) return;
     const fetchProgress = async () => {
       try {
-        console.log('Start');
         const response = await fetch(`http://3.35.193.176:7777/mainpage/progress?roomId=${roomID}`);
-        console.log('API Response:', response); // 응답 로그
         const data = await response.json();
-        console.log('Data from API:', data); // 응답 데이터 로그
-        // TotalCheck 값을 progress 상태에 설정
         if (data && data[0] && data[0].TotalCheck !== undefined) {
-          setProgress(data[0].TotalCheck); // TotalCheck 값을 progress에 설정
+          setProgress(data[0].TotalCheck);
         } else {
           console.error('No TotalCheck value in response');
         }
       } catch (error) {
         console.error('Failed to fetch progress:', error);
-      } 
+      }
     };
 
     fetchProgress();
-  }, [roomID]); // roomID가 변경되면 다시 호출
+  }, [roomID]);
 
-
-  // 마을 정보 컴포넌트
+    // 마을 정보 컴포넌트
   const VillageInfo = () => (
     <View style={styles.group7167}>
       <Image
@@ -122,7 +114,6 @@ export default function CustomComponent() {
       </View>
     </TouchableOpacity>
   );
-
   // 약 복용 체크 컴포넌트
   const MedicationCheckButton = () => (
     <TouchableOpacity
