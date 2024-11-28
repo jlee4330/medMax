@@ -1,4 +1,10 @@
-# 약꾹 (Yakgook)🏥
+////////아직 안 함
+
+1. repository 이름은 "솔루션명칭_2024"로 해주시기를 바랍니다.
+8. 데모 영상, 연관 자료 (reference, 최종 발표 자료 링크)
+
+
+# 약꾹🏥
 
 **만성질환자들에게 느슨한 연대를 기반으로 사회적 지지를 제공하여 복약 순응도를 향상시키고 환자의 의약품 주체성을 강화하는 메타버스 기반 커뮤니티 플랫폼**
 
@@ -153,11 +159,13 @@ git clone https://github.com/jlee4330/medMax
 |:------:|:------:|:------:|:------:|:------:|:------:|:------:|
 | <img src="https://github.com/user-attachments/assets/0c04cfa7-46a1-4d21-b68f-cf9bd68e6724" alt="신서원" width="150"> | <img src="https://github.com/user-attachments/assets/8a4fa797-a8b2-4a47-a8ce-8cfc93b691c2" alt="안영은" width="150"> | <img src="https://github.com/user-attachments/assets/ccbbaf69-0a69-4469-bc3e-e49a7ce28195" alt="박수현" width="150"> | <img src="https://github.com/user-attachments/assets/30c7b42d-0814-4749-ae95-12c071fa274d" alt="정예준" width="150"> | <img src="https://github.com/user-attachments/assets/bb17ef51-ebab-4d13-ad63-1e4bd8fd25ad" alt="이한샘" width="150"> | <img src="https://github.com/user-attachments/assets/54b14473-5b04-43c8-a006-e7d67055969c" alt="이동건" width="150"> | <img src="https://github.com/user-attachments/assets/b10e8431-bcef-4551-bf41-af6aeb938f99" alt="이주영" width="150"> |
 | 기획, 발표, 프론트엔드 개발자 | 기획, 디자이너, 프론트엔드 개발자 | 데이터 관리자, 백엔드 개발자 | 데이터 관리자, 백엔드 개발자, AI 개발자 | 기획, 풀스택 개발자 | 기획, 디자이너, 프론트엔드 개발자  | 디자이너, 프론트엔드 개발자 |  
+| KAIST CS/BTM | KAIST BS | KAIST CS | KAIST CS | KAIST AE/CS | KAIST ID  | KAIST CS/EE |  
+| sswilove1@kaist.ac.kr | youngeun522@kaist.ac.kr | 0111suhyeon@kaist.ac.kr | maple0729@kaist.ac.kr | ihansaem1@kaist.ac.kr | jlee4330@kaist.ac.kr | leejuyoung0918@kaist.ac.kr |  
 | [GitHub](https://github.com/sswilove1) | [GitHub](https://github.com/littlestar0261) | [GitHub](https://github.com/PSuHyeon) | [GitHub](https://github.com/Chungyezun) | [GitHub](https://github.com/damhs) | [GitHub](https://github.com/jlee4330) | [GitHub](https://github.com/leejuyoung0918) |
 
 ## 멘토링👨‍🏫
 
-박상원 펠로우님 (늘픔가치) : 기획 지도
+박상원 펠로우님 (늘픔가치 마을약사 [Link](https://withnp.campaignus.me/) ) : 기획 지도  
 
 고세원 멘토님 (카카오 기술 멘토) : 기술적 조언, 진행방식 지도
 
@@ -175,36 +183,192 @@ AI :  AI 개발 언어 (Python), 개발 프레임워크 (Pytorch, FastAPI)
 
 ETC :  DB 언어 (MySQL), 서버 (아마존 ec2, Docker)
 
-## Team
-|팀원|소속|이메일|
-|---|---|---|
-|신서원|KAIST CS/BTM|sswilove1@kaist.ac.kr|
-|안영은|KAIST BS|youngeun522@kaist.ac.kr|
-|박수현|KAIST CS|0111suhyeon@kaist.ac.kr|
-|정예준|KAIST CS|maple0729@kaist.ac.kr|
-|이한샘|KAIST AE/CS|ihansaem1@kaist.ac.kr|
-|이동건|KAIST ID|jlee4330@kaist.ac.kr|
-|이주영|KAIST CS/EE|leejuyoung0918@kaist.ac.kr|
 
 ---
 
-🎉 **약꾹**은 모두가 더 건강하고 행복한 복약 생활을 할 수 있도록 함께합니다!
+이상으로, "사람들이 의약품 주체성을 함양하여 의약품을 최대로 잘 활용할 수 있도록 하고픈 팀 MED-MAX💊"입니다 !!  
+**약꾹🏥**은 모두가 더 건강하고 행복한 복약 생활을 할 수 있도록 함께하겠습니다!  
 
-////////아직 안 함
+  
+(아래는 동일 내용을 영어로 작성한 것입니다.)
 
-1. repository 이름은 "솔루션명칭_2024"로 해주시기를 바랍니다.
-8. (선택 사항) 데모 영상
-9. 연관 자료 (reference, 최종 발표 자료 링크, 펠로우 조직 사이트 포함)
-11. 가능하면, README.md 내용은 한국어, 영어 병기를 부탁드립니다.
+---
 
-추가적으로, 이번에는 발표 자료뿐만아니라 GitHub repository 링크 제출이 필요합니다. 제출은 테크포임팩트 GitHub organization에 새로운 repository를 만드는 방식으로 진행될 예정입니다. Public repository를 권장하나, private으로 설정해 두어도 괜찮습니다.
-각 팀별 대표는 11/22까지 조교에게 DM으로 GitHub 계정을 전달해주시면, 해당 organization에 추가해드리도록 하겠습니다.
-Github repository 제출 시에 다음과 같은 사항을 지켜주시기를 바랍니다.
+# Yakgook 🏥  
 
-기술 스택 / 우리 소속과 카이 이메일?
+**A metaverse-based community platform that fosters loose solidarity among chronic patients, providing social support to improve medication adherence and empowering patients with ownership over their medication routines.**  
 
-아래 예시를 참고해서 작성해주시면 좋을 것 같습니다.
-2023 데이스카우트 - 문제정의, 솔루션의 기대효과, 실행방법, 연관자료 (https://github.com/dayscout-kaist/dayscout-server)
-2023 뉴웨이즈 - 팀원 역할, 솔루션 데모 (https://github.com/NewWays-TechForImpactKAIST)
-2023 링크드니트 - 팀원 연락처 (https://github.com/permawintre/linkedneet)
+---  
 
+## Introduction 💊  
+
+Hello! We are Team **MedMax** from **KAIST**, who attended the **Fall 2024 Tech for Impact course**! 🎉  
+
+![Group 289102](https://github.com/user-attachments/assets/2681a3cd-afad-4f2a-b8e1-f326b7da2d17)  
+
+---  
+
+## Problem Statement 💭  
+
+- **Challenges with Medication Adherence**  
+  Everyone has likely experienced taking prescribed medication at some point. Even for a short 3-day prescription, following the pharmacist's guidance consistently is tough. Questions like "Should I take the morning medicine at lunch if I overslept?" are common.  
+
+- **Importance of Ownership over Medication**  
+  Ownership involves accessing **information**, using literacy to **understand** it, making **decisions** based on the information, and **managing adherence** to abide by medication guidelines.  
+
+- **Isolation of Our Target Audience**  
+  Research shows that **70% of chronic patients** struggle with consistent medication adherence, and **75% experience feelings of isolation**.  
+  Furthermore, studies indicate that **social support is effective in improving medication adherence**.  
+
+- **Problem Definition**  
+  To empower chronic patients, we aim to provide social support through "loose solidarity":  
+  - Loose: The ultimate goal is to foster **patient ownership**.  
+  - Solidarity: Pharmacists extend beyond the pharmacy to provide **integrated care**, while patients experience connection with people instead of just reminders.  
+
+---  
+
+## Our Solution 💉  
+
+### 1. **Onboarding 📃**  
+- **Information Recorded**  
+  - Nickname, type of chronic condition, number of daily medication doses, and specific medication times.  
+- **Purpose**  
+  - Group patients with similar medication schedules to foster a sense of **solidarity**.  
+  - Assign users to the most suitable community.  
+- **Privacy Protection**  
+  - Minimize discomfort by avoiding real names or exact medication details.  
+  - Send medication information with UUID to the database.  
+
+### 2. **Main Page 🏡**  
+- **Unity Map Embedded via WebView**  
+  - Community goal: A **magic jar** at the center fills up based on members' **adherence rates**.  
+- **"Nudge" Feature**  
+  - Push notifications motivate others to take their medication.  
+- **Character Movement**  
+  - Limited speech bubbles and automatic roaming prevent anonymity abuse.  
+
+### 3. **My Page 📅**  
+- **Tracking Features**  
+  - Medication logs: Calendar and adherence rates.  
+  - Community engagement: Shared days and users who nudged me.  
+- **Purpose**  
+  - Encourage **continued app usage**.  
+  - Help build **patient ownership**.  
+
+### 4. **Q&A Page ❓**  
+- **Question Logs and FAQ Search**  
+- **AI-Powered Recommendations**  
+  - Suggest similar questions when new ones are asked to provide immediate help.  
+  - Reduce the burden on pharmacists while improving efficiency.  
+
+---  
+
+## Advantages and Expected Outcomes ✨  
+
+1. **Introducing a New Form of Community**  
+   - Solve issues with traditional forums (dry interactions, ads, misuse) by visualizing the community as a **space** rather than plain text.  
+   - Utilize a metaverse-like concept for engagement.  
+
+2. **AI Integration in Q&A**  
+   - More **efficient** than existing remote pharmacist communication services.  
+   - Strengthens **social support** compared to chatbot counseling.  
+   - Reduces misuse risks compared to conventional Q&A boards.  
+
+3. **Expected Outcomes**  
+   - Improved **medication adherence** through community solidarity and motivation.  
+   - Enhanced **ownership** for chronic patients.  
+
+---  
+
+## Installation & Execution Guide 🖥  
+
+### Clone the Repository  
+
+```bash  
+git clone https://github.com/jlee4330/medMax  
+```  
+
+### Execution  
+
+#### Frontend  
+
+1. Navigate to the `frontEnd` directory within the cloned repository:  
+    ```bash  
+    cd frontEnd  
+    ```  
+
+2. Install dependencies:  
+    ```bash  
+    npm install  
+    ```  
+
+3. Run the app for Android or iOS:  
+    ```bash  
+    npm run android  
+    or  
+    npm run ios  
+    ```  
+
+#### Backend  
+
+1. Navigate to the `backEnd` directory within the cloned repository:  
+    ```bash  
+    cd backEnd  
+    ```  
+
+2. Install dependencies:  
+    ```bash  
+    npm install  
+    ```  
+
+3. Start the backend server:  
+    ```bash  
+    node app.js  
+    ```  
+
+#### AI  
+
+1. Navigate to the `AI` directory within the cloned repository:  
+    ```bash  
+    cd AI  
+    ```  
+
+2. Follow the instructions in the `README.md` file in the `AI` directory.  
+
+### Additional Requirements  
+
+- **Software**: Node.js, npm, Android Studio (for Android), Xcode (for iOS).  
+- **Environment Setup**: AWS EC2 for server deployment, Docker configuration, etc.  
+
+---  
+
+## Team Members 👥  
+
+| Shin Seowon | An Yeongeun | Park Suhyeon | Chung Yejun | Lee Hansam | Lee Donggeon | Lee Jooyoung |  
+|:-----------:|:-----------:|:------------:|:-----------:|:-----------:|:------------:|:------------:|  
+| <img src="https://github.com/user-attachments/assets/0c04cfa7-46a1-4d21-b68f-cf9bd68e6724" alt="Shin Seowon" width="150"> | <img src="https://github.com/user-attachments/assets/8a4fa797-a8b2-4a47-a8ce-8cfc93b691c2" alt="An Yeongeun" width="150"> | <img src="https://github.com/user-attachments/assets/ccbbaf69-0a69-4469-bc3e-e49a7ce28195" alt="Park Suhyeon" width="150"> | <img src="https://github.com/user-attachments/assets/30c7b42d-0814-4749-ae95-12c071fa274d" alt="Chung Yejun" width="150"> | <img src="https://github.com/user-attachments/assets/bb17ef51-ebab-4d13-ad63-1e4bd8fd25ad" alt="Lee Hansam" width="150"> | <img src="https://github.com/user-attachments/assets/54b14473-5b04-43c8-a006-e7d67055969c" alt="Lee Donggeon" width="150"> | <img src="https://github.com/user-attachments/assets/b10e8431-bcef-4551-bf41-af6aeb938f99" alt="Lee Jooyoung" width="150"> |  
+| Plan, Presentation, FE Developer | Plan, Designer, FE Developer | Data Manager, BE Developer | Data Manager, BE & AI Developer | Plan, FE & BE Developer | Plan, Designer, FE Developer  | Plan, Designer, FE Developer |  
+| KAIST CS/BTM | KAIST BS | KAIST CS | KAIST CS | KAIST AE/CS | KAIST ID  | KAIST CS/EE |  
+| sswilove1@kaist.ac.kr | youngeun522@kaist.ac.kr | 0111suhyeon@kaist.ac.kr | maple0729@kaist.ac.kr | ihansaem1@kaist.ac.kr | jlee4330@kaist.ac.kr | leejuyoung0918@kaist.ac.kr |  
+| [GitHub](https://github.com/sswilove1) | [GitHub](https://github.com/littlestar0261) | [GitHub](https://github.com/PSuHyeon) | [GitHub](https://github.com/Chungyezun) | [GitHub](https://github.com/damhs) | [GitHub](https://github.com/jlee4330) | [GitHub](https://github.com/leejuyoung0918) |
+
+## Mentorship 👨‍🏫  
+
+- Fellow Sangwon Park (Neulpoom Value Pharmacist [Link](https://withnp.campaignus.me/) ): Planning Guidance  
+- Mentor Sewon Ko (Kakao Technical Mentor): Technical Guidance  
+- Crew Junhyung (Eddie) Kim (Kakao): Planning Advice  
+- Professor Seokyoung Ryu: Direction Guidance  
+
+## Tech Stack 🖱  
+
+- **Frontend (FE)**: App Development Language (**TypeScript**), App Development Framework (**React Native**)  
+- **Backend (BE)**: Backend Development Language (**JavaScript**), Development Framework (**Node.js**)  
+- **AI**: AI Development Language (**Python**), Development Frameworks (**PyTorch**, **FastAPI**)  
+- **ETC**: Database Language (**MySQL**), Server (**Amazon EC2**, **Docker**)  
+
+---  
+
+### In Conclusion  
+
+"We are Team MED-MAX 💊, dedicated to empowering people to take ownership of their medications and maximize their use effectively!"  
+**Yakgook 🏥** is here to help everyone enjoy a healthier and happier medication routine together!  
