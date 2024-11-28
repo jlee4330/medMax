@@ -167,9 +167,21 @@ git clone https://github.com/jlee4330/medMax
 
 ## 기술 스택🖱
 
-FE :  
-BE :  
-AI :  
+FE :  앱 개발 언어 (TypeScript), 앱 개발 프레임워크 (React Native)
+BE :  백엔드 개발 언어 (JavaScript), 개발 프레임워크 (Node.js)
+AI :  AI 개발 언어 (Python), 개발 프레임워크 (Pytorch, FastAPI)
+ETC :  DB 언어 (MySQL), 서버 (아마존 ec2, Docker)
+
+## Team
+|팀원|소속|이메일|
+|---|---|---|
+|신서원|KAIST CS/BTM|sswilove1@kaist.ac.kr|
+|안영은|KAIST BS|youngeun522@kaist.ac.kr|
+|박수현|KAIST CS|0111suhyeon@kaist.ac.kr|
+|정예준|KAIST CS|maple0729@kaist.ac.kr|
+|이한샘|KAIST AE/CS|ihansaem1@kaist.ac.kr|
+|이동건|KAIST ID|jlee4330@kaist.ac.kr|
+|이주영|KAIST CS/EE|leejuyoung0918@kaist.ac.kr|
 
 ---
 
