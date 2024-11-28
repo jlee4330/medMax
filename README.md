@@ -5,7 +5,10 @@
 ---
 ## 소개💊
 
-안녕하세요! 저희는 **2024 가을학기 테크포임팩트 수업**을 수강한 카이스트 팀 **MedMax**입니다! 🎉
+안녕하세요! 저희는 **2024 가을학기 테크포임팩트 수업**을 수강한 카이스트 팀 **MedMax**입니다! 🎉  
+We provide the same contents in English here. Please click here !!
+  
+![Group 289102](https://github.com/user-attachments/assets/2681a3cd-afad-4f2a-b8e1-f326b7da2d17)
 
 ---
 ## 우리는 이러한 사회 문제를 정의했어요💭
@@ -162,6 +165,12 @@ git clone https://github.com/jlee4330/medMax
 
 류석영 교수님 : 방향 지도
 
+## 기술 스택🖱
+
+FE :  
+BE :  
+AI :  
+
 ---
 
 🎉 **약꾹**은 모두가 더 건강하고 행복한 복약 생활을 할 수 있도록 함께합니다!
@@ -177,7 +186,7 @@ git clone https://github.com/jlee4330/medMax
 각 팀별 대표는 11/22까지 조교에게 DM으로 GitHub 계정을 전달해주시면, 해당 organization에 추가해드리도록 하겠습니다.
 Github repository 제출 시에 다음과 같은 사항을 지켜주시기를 바랍니다.
 
-이모티콘 내가 넣기 / 기술 스택 / 우리 소속과 카이 이메일?
+기술 스택 / 우리 소속과 카이 이메일?
 
 아래 예시를 참고해서 작성해주시면 좋을 것 같습니다.
 2023 데이스카우트 - 문제정의, 솔루션의 기대효과, 실행방법, 연관자료 (https://github.com/dayscout-kaist/dayscout-server)
