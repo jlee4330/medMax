@@ -6,27 +6,33 @@ const getCandidate = async (userId, roomId, timeR) => { // 지난주 일요일�
         const time = t.toTimeString().slice(0, 8);;
         const [result] = await pool.query(
 
-    "SELECT u.username " +
-    "FROM User u " +
-    "WHERE u.UserID IN ( " +
-        "SELECT dm.UserID " +
-        "FROM Date_medi dm " +
-        "LEFT JOIN poke p ON dm.UserID = p.poketo " +
-        "WHERE ( " +
-            `(dm.medicineTime1 BETWEEN DATE_SUB(STR_TO_DATE('${time}', '%H:%i:%s'), INTERVAL 2 HOUR) AND STR_TO_DATE('${time}', '%H:%i:%s') AND dm.medicineCheck1 = FALSE) OR ` +
-            `(dm.medicineTime2 BETWEEN DATE_SUB(STR_TO_DATE('${time}', '%H:%i:%s'), INTERVAL 2 HOUR) AND STR_TO_DATE('${time}', '%H:%i:%s') AND dm.medicineCheck2 = FALSE) OR ` +
-            `(dm.medicineTime3 BETWEEN DATE_SUB(STR_TO_DATE('${time}', '%H:%i:%s'), INTERVAL 2 HOUR) AND STR_TO_DATE('${time}', '%H:%i:%s') AND dm.medicineCheck3 = FALSE) ` +
-        ") " +
-        `AND dm.RoomId = ${roomId} ` +
-        "AND NOT EXISTS ( " +
-            "SELECT 1 " +
-            "FROM poke p2 " +
-            `WHERE p2.pokefrom = '${userId}' ` +
-            "AND p2.poketo = dm.UserID " +
-            `AND p2.When BETWEEN DATE_SUB(STR_TO_DATE('${time}', '%H:%i:%s'), INTERVAL 2 HOUR) AND STR_TO_DATE('${time}', '%H:%i:%s') ` +
-        ") " +
-        "GROUP BY dm.UserID " +
-    ")"
+        "SELECT u.username " +
+            "FROM User u " +
+            "WHERE u.UserID IN ( " +
+                "SELECT dm.UserID " +
+                "FROM Date_medi dm " +
+                "LEFT JOIN poke p ON dm.UserID = p.poketo " +
+                "WHERE dm.mediDate = ( " + // 최신 mediDate 필터링
+                    "SELECT MAX(dm2.mediDate) " +
+                    "FROM Date_medi dm2 " +
+                    "WHERE dm2.UserID = dm.UserID " +
+                ") " +
+                "AND ( " +
+                    `(dm.medicineTime1 BETWEEN DATE_SUB(STR_TO_DATE('${time}', '%H:%i:%s'), INTERVAL 2 HOUR) AND STR_TO_DATE('${time}', '%H:%i:%s') AND dm.medicineCheck1 = FALSE) OR ` +
+                    `(dm.medicineTime2 BETWEEN DATE_SUB(STR_TO_DATE('${time}', '%H:%i:%s'), INTERVAL 2 HOUR) AND STR_TO_DATE('${time}', '%H:%i:%s') AND dm.medicineCheck2 = FALSE) OR ` +
+                    `(dm.medicineTime3 BETWEEN DATE_SUB(STR_TO_DATE('${time}', '%H:%i:%s'), INTERVAL 2 HOUR) AND STR_TO_DATE('${time}', '%H:%i:%s') AND dm.medicineCheck3 = FALSE) ` +
+                ") " +
+                `AND dm.RoomId = ${roomId} ` +
+                `AND dm.UserID != '${userId}' ` + // userId와 동일한 ID 제외
+                "AND NOT EXISTS ( " +
+                    "SELECT 1 " +
+                    "FROM poke p2 " +
+                    `WHERE p2.pokefrom = '${userId}' ` +
+                    "AND p2.poketo = dm.UserID " +
+                    `AND p2.When BETWEEN DATE_SUB(STR_TO_DATE('${time}', '%H:%i:%s'), INTERVAL 2 HOUR) AND STR_TO_DATE('${time}', '%H:%i:%s') ` +
+                ") " +
+                "GROUP BY dm.UserID " +
+            ")"
         );
             
             return result;
