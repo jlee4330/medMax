@@ -31,6 +31,7 @@ const CheckModal: React.FC<CheckModalProps> = ({ visible, onClose, onConfirm, us
 
   const fetchTimeEaten = async () => {
     try {
+      console.log(userID);
       const response = await fetch(`http://3.35.193.176:7777/mainPage/checkmed?userId=${userID}`);
       const data = await response.json();
       if (data && data.length > 0) {
@@ -48,7 +49,10 @@ const CheckModal: React.FC<CheckModalProps> = ({ visible, onClose, onConfirm, us
 
   useEffect(() => {
     if (visible) {
-      fetchTimeEaten(); // 모달이 열릴 때마다 복약 상태를 새로 가져오기
+      if(!Object.values(timeEaten).some((value) => value === "1")){
+        fetchTimeEaten();
+      }
+      // fetchTimeEaten();
     }
   }, [visible]);
 
@@ -78,15 +82,15 @@ const CheckModal: React.FC<CheckModalProps> = ({ visible, onClose, onConfirm, us
     }
   };
 
-  const movePillToCenter = (index: number, callback?: () => void) => {
+  const movePillToCenter = (index: number) => {
     Animated.parallel([
       Animated.spring(pillAnimations[index].position, {
-        toValue: { x: 0, y: -400 },
+        toValue: { x: 0, y: -300 },
         useNativeDriver: true,
       }),
       Animated.timing(pillAnimations[index].opacity, {
         toValue: 0,
-        duration: 800,
+        duration: 600,
         useNativeDriver: true,
       }),
     ]).start(() => {
@@ -99,10 +103,6 @@ const CheckModal: React.FC<CheckModalProps> = ({ visible, onClose, onConfirm, us
         };
         return updatedAnimations;
       });
-      // 애니메이션 완료 후 callback 호출
-      if (callback) {
-        callback();
-      }
     });
   };
   
@@ -130,41 +130,52 @@ const CheckModal: React.FC<CheckModalProps> = ({ visible, onClose, onConfirm, us
 
           <View style={styles.pillContainer}>
             {pillData.map((pillImage, index) => {
+              console.log(userID);
               const pillKey = `medicineCheck${index + 1}`;
-              const isEaten = timeEaten[pillKey] === "1"; // 복약 여부 체크
+              console.log('pillKey:', pillKey); // pillKey 값 출력
+              console.log(timeEaten[pillKey]);
+              const isEaten = (timeEaten[pillKey] === "1"); // 복약 여부 체크
+              console.log('isEaten:', isEaten); // isEaten 값 출력
 
-              if (isEaten) return null; // 복약 완료 시 아무것도 렌더링하지 않음
-              
-              return (
-                <Animated.View
-                  key={index}
-                  style={[
-                    styles.pill,
-                    {
-                      transform: [
-                        { translateX: pillAnimations[index]?.position?.x },
-                        { translateY: pillAnimations[index]?.position?.y },
-                      ],
-                    },
-                    { opacity: pillAnimations[index]?.opacity },
-                  ]}
-                >
-                  <TouchableOpacity
-                    onPress={() => {
-                      movePillToCenter(index);
-                      onConfirm(times[index]);
-                      sendTimeEatenToServer(times[index], pillKey);
-                    }}
+              if (timeEaten[pillKey] == "1") {
+                // 복약 완료 시 아무것도 렌더링하지 않음
+                console.log('복약이 완료된 알약입니다');
+                return null;
+              }
+              else{
+                return (
+                  <Animated.View
+                    key={index}
+                    style={[
+                      styles.pill,
+                      {
+                        transform: [
+                          { translateX: pillAnimations[index]?.position?.x },
+                          { translateY: pillAnimations[index]?.position?.y },
+                        ],
+                      },
+                      { opacity: pillAnimations[index]?.opacity },
+                    ]}
                   >
-                    <Image
-                      source={pillImage}
-                      style={styles.pillImage}
-                      resizeMode="contain"
-                    />
-                    <Text style={styles.timeText}>{times[index]}</Text>
-                  </TouchableOpacity>
-                </Animated.View>
-              );
+                    <TouchableOpacity
+                      onPress={() => {
+                        movePillToCenter(index);
+                        onConfirm(times[index]);
+                        sendTimeEatenToServer(times[index], pillKey);
+                      }}
+                    >
+                      {pillImage && (
+                        <Image
+                          source={pillImage}
+                          style={styles.pillImage}
+                          resizeMode="contain"
+                        />
+                      )}  
+                      <Text style={styles.timeText}>{times[index]}</Text>
+                    </TouchableOpacity>
+                  </Animated.View>
+                );
+              }
             })}
           </View>
         </View>
