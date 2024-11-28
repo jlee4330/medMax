@@ -168,8 +168,11 @@ git clone https://github.com/jlee4330/medMax
 ## 기술 스택🖱
 
 FE :  앱 개발 언어 (TypeScript), 앱 개발 프레임워크 (React Native)
+
 BE :  백엔드 개발 언어 (JavaScript), 개발 프레임워크 (Node.js)
+
 AI :  AI 개발 언어 (Python), 개발 프레임워크 (Pytorch, FastAPI)
+
 ETC :  DB 언어 (MySQL), 서버 (아마존 ec2, Docker)
 
 ## Team
