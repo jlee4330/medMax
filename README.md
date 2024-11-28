@@ -1,14 +1,14 @@
-# 약꾹 (Yakgook)
+# 약꾹 (Yakgook)🏥
 
 **만성질환자들에게 느슨한 연대를 기반으로 사회적 지지를 제공하여 복약 순응도를 향상시키고 환자의 의약품 주체성을 강화하는 메타버스 기반 커뮤니티 플랫폼**
 
 ---
-## 소개
+## 소개💊
 
 안녕하세요! 저희는 **2024 가을학기 테크포임팩트 수업**을 수강한 카이스트 팀 **MedMax**입니다! 🎉
 
 ---
-## 우리는 이러한 사회 문제를 정의했어요
+## 우리는 이러한 사회 문제를 정의했어요💭
 
 - **복약 순응의 어려움**  
   누구나 한 번쯤 약을 처방받아 먹어본 경험이 있을 것입니다. 짧게는 3일치 처방인데도 매 끼니 약사님의 복약 지도대로 약을 챙겨먹는 것은 쉽지 않습니다.
@@ -29,7 +29,7 @@
 ---
 
 ## 어떤 솔루션을 개발했나요?
-### 1. **온보딩**
+### 1. **온보딩📃**
 - **기록 항목**  
   - 별명, 만성질환 종류, 하루 복약 횟수, 각각의 복약 시간  
 - **목적**  
@@ -39,7 +39,7 @@
   - 실명, 정확한 약 정보 입력 없이 **거부감 최소화**  
   - 복약 정보와 함께 UUID를 DB에 전송  
 
-### 2. **메인 페이지**
+### 2. **메인 페이지🏡**
 - **Unity 맵 구현 후 WebView로 게시**  
   - 커뮤니티의 공동 목표: **구성원의 복약 순응도**에 따라 상태바가 올라가는 중앙의 **마법 항아리**  
 - **콕 찌르기 기능**  
@@ -47,7 +47,7 @@
 - **캐릭터 움직임**  
   - 익명성이 악용되지 않도록 **제한된 말풍선**과 함께 **맵 자동 배회**
  
-### 3. **마이 페이지**
+### 3. **마이 페이지📅**
 - **트래킹 항목**  
   - 복약 상황: 복약 달력, 복약 비율  
   - 커뮤니티 활동: 함께한 날들, 나를 찌른 사용자  
@@ -55,7 +55,7 @@
   - 앱의 **지속적인 사용 유도**  
   - 환자의 **주체성 함양** 도움
 
-### 4. **QnA 페이지**
+### 4. **QnA 페이지❓**
 - **질문 기록 및 FAQ 검색/열람**
 - **AI 기반 QnA 추천**
   - 새로운 질문 작성 시 **유사 Q&A 추천**을 통해 즉각적인 도움 제공  
@@ -63,7 +63,7 @@
 
 ---
 
-## 솔루션의 장점 (유사 솔루션 대비) 및 기대효과
+## 솔루션의 장점 (유사 솔루션 대비) 및 기대효과✨
 
 1. **커뮤니티의 새로운 형태 제안**  
    - 기존 게시판의 문제점(건조한 소통, 광고, 범죄)을 해결하기 위해 텍스트가 아닌 **공간의 형태로 커뮤니티를 시각화**
@@ -81,7 +81,7 @@
 
 ---
 
-## **설치 및 실행 방법**
+## **설치 및 실행 방법🖥**
 
 ### 레포지토리 클론하기
 
@@ -138,21 +138,21 @@ git clone https://github.com/jlee4330/medMax
 
 2. `AI` 디렉토리 내의 리드미 파일에 명시된 절차대로 진행합니다.
 
-## 3. 추가 정보
+### 추가 정보
 
 - **필요한 소프트웨어**: Node.js, npm, Android Studio (안드로이드 개발 환경), Xcode (IOS 개발 환경)
 - **환경 설정**: EC2 환경에서의 서버 실행을 위한 AWS 설정, docker 설정 등이 필요할 수 있습니다.
 
 ---
 
-## Team Members (팀원 및 팀 소개)
+## Team Members (팀원 및 팀 소개)👥
 | 신서원 | 안영은 | 박수현 | 정예준 | 이한샘 | 이동건 | 이주영 |
 |:------:|:------:|:------:|:------:|:------:|:------:|:------:|
 | <img src="https://github.com/user-attachments/assets/0c04cfa7-46a1-4d21-b68f-cf9bd68e6724" alt="신서원" width="150"> | <img src="https://github.com/user-attachments/assets/8a4fa797-a8b2-4a47-a8ce-8cfc93b691c2" alt="안영은" width="150"> | <img src="https://github.com/user-attachments/assets/ccbbaf69-0a69-4469-bc3e-e49a7ce28195" alt="박수현" width="150"> | <img src="https://github.com/user-attachments/assets/30c7b42d-0814-4749-ae95-12c071fa274d" alt="정예준" width="150"> | <img src="https://github.com/user-attachments/assets/bb17ef51-ebab-4d13-ad63-1e4bd8fd25ad" alt="이한샘" width="150"> | <img src="https://github.com/user-attachments/assets/54b14473-5b04-43c8-a006-e7d67055969c" alt="이동건" width="150"> | <img src="https://github.com/user-attachments/assets/b10e8431-bcef-4551-bf41-af6aeb938f99" alt="이주영" width="150"> |
 | 기획, 발표, 프론트엔드 개발자 | 기획, 디자이너, 프론트엔드 개발자 | 데이터 관리자, 백엔드 개발자 | 데이터 관리자, 백엔드 개발자, AI 개발자 | 기획, 풀스택 개발자 | 기획, 디자이너, 프론트엔드 개발자  | 디자이너, 프론트엔드 개발자 |  
 | [GitHub](https://github.com/sswilove1) | [GitHub](https://github.com/littlestar0261) | [GitHub](https://github.com/PSuHyeon) | [GitHub](https://github.com/Chungyezun) | [GitHub](https://github.com/damhs) | [GitHub](https://github.com/jlee4330) | [GitHub](https://github.com/leejuyoung0918) |
 
-## 멘토링
+## 멘토링👨‍🏫
 
 박상원 펠로우님 (늘픔가치) : 기획 지도
 
