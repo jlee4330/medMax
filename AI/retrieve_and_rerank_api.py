@@ -83,8 +83,9 @@ def retrieve_and_rerank(query_request: QueryRequest):
     pairs = preprocess_pairs(cached_data)
     bm25 = initialize_bm25(pairs)
     bm25_scores = bm25.get_scores(question)
-    top_k_indices = np.argsort(bm25_scores)[-top_k*2:][::-1]
+    top_k_indices = np.argsort(bm25_scores)[-top_k*4:][::-1]
     bm25_top_pairs = [pairs[i] for i in top_k_indices]
+    print(bm25_top_pairs)
     similar_pairs_ko = get_top_k_similar_pairs(question, bm25_top_pairs, model_ko, tokenizer_ko, k=top_k)
     
     # similar_pairs_bge = get_top_k_similar_pairs(question, bm25_top_pairs, model_bge, tokenizer_bge, k=top_k)
@@ -96,3 +97,4 @@ def retrieve_and_rerank(query_request: QueryRequest):
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
+

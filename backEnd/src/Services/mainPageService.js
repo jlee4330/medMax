@@ -6,21 +6,27 @@ const getCandidate = async (userId, roomId, timeR) => { // 지난주 일요일�
         const time = t.toTimeString().slice(0, 8);;
         const [result] = await pool.query(
 
-            "SELECT dm.UserID " + 
-            "FROM Date_medi dm " + 
-            "LEFT JOIN poke p ON dm.UserID = p.poketo " +
-            "WHERE (" +
+    "SELECT u.username " +
+    "FROM User u " +
+    "WHERE u.UserID IN ( " +
+        "SELECT dm.UserID " +
+        "FROM Date_medi dm " +
+        "LEFT JOIN poke p ON dm.UserID = p.poketo " +
+        "WHERE ( " +
             `(dm.medicineTime1 BETWEEN DATE_SUB(STR_TO_DATE('${time}', '%H:%i:%s'), INTERVAL 2 HOUR) AND STR_TO_DATE('${time}', '%H:%i:%s') AND dm.medicineCheck1 = FALSE) OR ` +
             `(dm.medicineTime2 BETWEEN DATE_SUB(STR_TO_DATE('${time}', '%H:%i:%s'), INTERVAL 2 HOUR) AND STR_TO_DATE('${time}', '%H:%i:%s') AND dm.medicineCheck2 = FALSE) OR ` +
-            `(dm.medicineTime3 BETWEEN DATE_SUB(STR_TO_DATE('${time}', '%H:%i:%s'), INTERVAL 2 HOUR) AND STR_TO_DATE('${time}', '%H:%i:%s') AND dm.medicineCheck3 = FALSE)) ` +
-            `AND dm.RoomId = ${roomId} ` +
-            "AND NOT EXISTS (" +
+            `(dm.medicineTime3 BETWEEN DATE_SUB(STR_TO_DATE('${time}', '%H:%i:%s'), INTERVAL 2 HOUR) AND STR_TO_DATE('${time}', '%H:%i:%s') AND dm.medicineCheck3 = FALSE) ` +
+        ") " +
+        `AND dm.RoomId = ${roomId} ` +
+        "AND NOT EXISTS ( " +
             "SELECT 1 " +
             "FROM poke p2 " +
             `WHERE p2.pokefrom = '${userId}' ` +
             "AND p2.poketo = dm.UserID " +
-            `AND p2.When BETWEEN DATE_SUB(STR_TO_DATE('${time}', '%H:%i:%s'), INTERVAL 2 HOUR) AND STR_TO_DATE('${time}', '%H:%i:%s')) ` +
-            "GROUP BY dm.UserID"
+            `AND p2.When BETWEEN DATE_SUB(STR_TO_DATE('${time}', '%H:%i:%s'), INTERVAL 2 HOUR) AND STR_TO_DATE('${time}', '%H:%i:%s') ` +
+        ") " +
+        "GROUP BY dm.UserID " +
+    ")"
         );
             
             return result;
@@ -89,17 +95,11 @@ const eatMed = async (userId, time) => {
                             WHEN medicineTime3 = '${(new Date(time)).toTimeString().slice(0,8)}' THEN TRUE 
                             ELSE medicineCheck3 
                         END,
-        mediCount = mediCount + CASE 
-                                    WHEN (medicineTime1 = '${(new Date(time)).toTimeString().slice(0,8)}' AND medicineCheck1 = FALSE) OR
-                                         (medicineTime2 = '${(new Date(time)).toTimeString().slice(0,8)}' AND medicineCheck2 = FALSE) OR
-                                         (medicineTime3 = '${(new Date(time)).toTimeString().slice(0,8)}' AND medicineCheck3 = FALSE) 
-                                    THEN 1 
-                                    ELSE 0 
-                                END
-    WHERE UserID = '${userId}';
+        mediCount = medicineCheck1 + medicineCheck2 + medicineCheck3
+        WHERE UserID = '${userId}' and mediDate = CurDate();
 `
         );
-            
+            console.log(result);
             return {message: "eatMed success"};
 
     } catch(error) {
@@ -453,4 +453,5 @@ module.exports = {
     getRIdMedTime,
     checkMed
 };
+
 
