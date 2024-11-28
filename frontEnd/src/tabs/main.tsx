@@ -137,8 +137,15 @@ export default function CustomComponent() {
           <View style={styles.webview}>
             <WebView
               ref={webViewRef}
-              source={{ uri: 'http://3.35.193.176:8080/' + "?userId=" + userID }} // WebGL 콘텐츠의 URL
-              javaScriptEnabled={true}
+              source={{ uri: `http://3.35.193.176:8080/?userId=${userID}` }}
+              javaScriptEnabled
+              originWhitelist={['*']} // Allow all origins
+              allowsInlineMediaPlayback
+              startInLoadingState
+              onError={(syntheticEvent) => {
+                const { nativeEvent } = syntheticEvent;
+                console.error('WebView error:', nativeEvent);
+              }}
               style={{ flex: 1 }}
             />
           </View>
@@ -320,5 +327,3 @@ const styles = StyleSheet.create({
     height: windowHeight * 0.05,
   },
 });
-
-
