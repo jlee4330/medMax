@@ -96,7 +96,7 @@ const eatMed = async (userId, time) => {
                             ELSE medicineCheck3 
                         END,
         mediCount = medicineCheck1 + medicineCheck2 + medicineCheck3
-        WHERE UserID = '${userId}' and mediDate = CurDate();
+        WHERE UserID = '${userId}' and mediDate = CURDATE();
 `
         );
             console.log(result);
