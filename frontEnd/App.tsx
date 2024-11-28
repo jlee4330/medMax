@@ -32,8 +32,8 @@ function TabNavigator() {
             tabBarStyle: {
               height: 60,
               backgroundColor: '#ffffff',
-              borderTopLeftRadius: 20,
-              borderTopRightRadius: 20,
+              // borderTopLeftRadius: 20,
+              // borderTopRightRadius: 20,
               paddingTop: 5,
             },
             tabBarLabelStyle: {
@@ -157,6 +157,7 @@ function App() {
 }
 
 export default App;
+
 
 
 
