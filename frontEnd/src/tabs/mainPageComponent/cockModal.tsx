@@ -245,9 +245,9 @@ const CockModal: React.FC<CockModalProps> = ({ visible, onClose, userID, roomID 
 
         // data가 배열인지 확인
         if (Array.isArray(data)) {
-          const users = data.map((user: { UserID: string }) => ({
-            id: user.UserID,
-            name: user.UserID,
+          const users = data.map((user: { username: string }) => ({
+            id: user.username,
+            name: user.username,
             lastActive: '친구의 복약을 응원해요!',
           }));
           setUserList(users);
