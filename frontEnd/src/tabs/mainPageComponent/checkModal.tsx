@@ -78,7 +78,7 @@ const CheckModal: React.FC<CheckModalProps> = ({ visible, onClose, onConfirm, us
     }
   };
 
-  const movePillToCenter = (index: number) => {
+  const movePillToCenter = (index: number, callback?: () => void) => {
     Animated.parallel([
       Animated.spring(pillAnimations[index].position, {
         toValue: { x: 0, y: -400 },
@@ -99,6 +99,10 @@ const CheckModal: React.FC<CheckModalProps> = ({ visible, onClose, onConfirm, us
         };
         return updatedAnimations;
       });
+      // 애니메이션 완료 후 callback 호출
+      if (callback) {
+        callback();
+      }
     });
   };
   

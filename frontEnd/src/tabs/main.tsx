@@ -173,7 +173,24 @@ export default function CustomComponent() {
             userID={userID}
             roomID={roomID}
             times={times}
-            onClose={() => setMedicationModalVisible(false)}
+            onClose={async () => {
+              setMedicationModalVisible(false);
+          
+              // CheckModal이 닫힐 때 progress 데이터 업데이트
+              if (roomID) {
+                try {
+                  const response = await fetch(`http://3.35.193.176:7777/mainpage/progress?roomId=${roomID}`);
+                  const data = await response.json();
+                  if (data && data[0] && data[0].TotalCheck !== undefined) {
+                    setProgress(data[0].TotalCheck);
+                  } else {
+                    console.error('No TotalCheck value in response');
+                  }
+                } catch (error) {
+                  console.error('Failed to fetch progress:', error);
+                }
+              }
+            }}
             onConfirm={() => {
               setMedicationModalVisible(false);
             }}
