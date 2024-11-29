@@ -41,7 +41,7 @@ We provide the same contents in English here. Please click here !!
 - **민감 정보 보호**
   - 실명, 정확한 약 정보 입력 없이 **거부감 최소화**  
   - 복약 정보와 함께 UUID를 DB에 전송  
-![GIFonboarding](https://github.com/user-attachments/assets/ba2e8da0-4b87-4c46-932f-d4c4a4258bef) 
+
 
 ### 2. **메인 페이지🏡**
 - **Unity 맵 구현 후 WebView로 게시**  
@@ -50,7 +50,7 @@ We provide the same contents in English here. Please click here !!
   - 약 먹을 시간이 지난 유저에게 **푸시 알림 전송**으로 서로의 복약 순응 동기부여  
 - **캐릭터 움직임**  
   - 익명성이 악용되지 않도록 **제한된 말풍선**과 함께 **맵 자동 배회**  
- ![GIFmainPage](https://github.com/user-attachments/assets/da77a061-a89b-45d8-8451-0835488f41d1)
+
 
 ### 3. **마이 페이지📅**
 - **트래킹 항목**  
@@ -59,14 +59,14 @@ We provide the same contents in English here. Please click here !!
 - **목적**  
   - 앱의 **지속적인 사용 유도**  
   - 환자의 **주체성 함양** 도움  
-![GIFmyPage](https://github.com/user-attachments/assets/c3f2f71b-3be0-4925-bb84-934a22fc04e4)
+
 
 ### 4. **QnA 페이지❓**
 - **질문 기록 및 FAQ 검색/열람**
 - **AI 기반 QnA 추천**
   - 새로운 질문 작성 시 **유사 Q&A 추천**을 통해 즉각적인 도움 제공  
   - 약사님께 도달하는 질문을 줄여 부담을 줄이며 효율성 향상  
-![GIFqnaPage](https://github.com/user-attachments/assets/a192c9b1-a36b-48ec-99ef-9c8ae1a63d1a)
+
 
 ---
 
@@ -85,6 +85,11 @@ We provide the same contents in English here. Please click here !!
    - 커뮤니티 내 연대감과 동기부여를 통한 **복약 순응도 향상**  
    - 만성질환자의 **주체성 강화**
 
+
+## 데모 GIF🎥
+| **온보딩📃** | **메인 페이지🏡** | **마이 페이지📅** | **QnA 페이지❓** |
+|:------:|:------:|:------:|:------:
+| &nbsp;&nbsp;&nbsp; <img src="https://github.com/user-attachments/assets/ba2e8da0-4b87-4c46-932f-d4c4a4258bef" alt="온보딩" width="150"> &nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp; <img src="https://github.com/user-attachments/assets/da77a061-a89b-45d8-8451-0835488f41d1" alt="메인페이지" width="150"> &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; <img src="https://github.com/user-attachments/assets/c3f2f71b-3be0-4925-bb84-934a22fc04e4" alt="마이페이지" width="150"> &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; <img src="https://github.com/user-attachments/assets/a192c9b1-a36b-48ec-99ef-9c8ae1a63d1a" alt="QNA" width="150"> &nbsp;&nbsp;&nbsp; |
 
 ---
 
