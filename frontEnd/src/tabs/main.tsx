@@ -21,7 +21,7 @@ export default function CustomComponent() {
     const fetchUserId = async () => {
       try {
         const deviceId = await DeviceInfo.getUniqueId();
-        setUserId(deviceId);
+        setUserId("260dcd4e09745e47");
       } catch (error) {
         console.error('Failed to get device ID:', error);
       }

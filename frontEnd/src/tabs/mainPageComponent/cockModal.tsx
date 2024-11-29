@@ -310,44 +310,45 @@ const CockModal: React.FC<CockModalProps> = ({ visible, onClose, userID, roomID 
   };
 
   return (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={visible}
-      onRequestClose={onClose}
-    >
-      <View style={styles.modalOverlay}>
-        <View style={styles.modalContent}>
-          <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-            <Image
-              source={require('../../assets/images/close.png')}
-              style={styles.closeIcon}
-              resizeMode="contain"
-            />
+  <Modal
+    animationType="slide"
+    transparent={true}
+    visible={visible}
+    onRequestClose={onClose}
+  >
+    <View style={styles.modalOverlay}>
+      <View style={styles.modalContent}>
+        <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+          <Image
+            source={require('../../assets/images/close.png')}
+            style={styles.closeIcon}
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
+
+        <Text style={styles.modalTitle}>알림 보내기</Text>
+
+        {/* ScrollView 제거 */}
+        <FlatList
+          data={userList}
+          renderItem={renderUser}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={{ paddingBottom: 20 }} // 여유 공간 추가
+        />
+
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
+            <Text style={styles.buttonText}>취소</Text>
           </TouchableOpacity>
 
-          <Text style={styles.modalTitle}>알림 보내기</Text>
-
-          <ScrollView style={styles.scrollContainer}>
-            <FlatList
-              data={userList}
-              renderItem={renderUser}
-              keyExtractor={(item) => item.id}
-            />
-          </ScrollView>
-
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
-              <Text style={styles.buttonText}>취소</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.confirmButton} onPress={handleConfirm}>
-              <Text style={styles.buttonText}>완료</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity style={styles.confirmButton} onPress={handleConfirm}>
+            <Text style={styles.buttonText}>완료</Text>
+          </TouchableOpacity>
         </View>
       </View>
-    </Modal>
+    </View>
+  </Modal>
+
   );
 };
 

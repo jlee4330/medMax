@@ -39,7 +39,7 @@ public class LoginManager : MonoBehaviour
 
         // HTTP 요청 시작
         GameData.Instance.IsLogin = true; // 로그인 상태로 설정
-        StartCoroutine(FetchDataFromServer("user3"));
+        StartCoroutine(FetchDataFromServer("260dcd4e09745e47"));
     }
 
     private IEnumerator FetchDataFromServer(string userID)

@@ -74,7 +74,7 @@ const surveyStyles = StyleSheet.create({
   nextButton: {
     backgroundColor: '#9C98E7',
     paddingVertical: 15,
-    marginBottom: 20,
+    marginBottom: 10,
     borderRadius: 8,
     alignItems: 'center',
     alignSelf: 'center',
@@ -139,10 +139,11 @@ const surveyStyles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
     paddingHorizontal: 20,
-    marginBottom: 30,
+    marginTop: 23,
+    marginBottom: 15,
   },
   textInput: {
     width: '100%',
