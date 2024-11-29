@@ -32,7 +32,7 @@ We provide the same contents in English here. Please click here !!
 ---
 
 ## 어떤 솔루션을 개발했나요?💉
-### 1. **온보딩📃** <img src="https://github.com/user-attachments/assets/ba2e8da0-4b87-4c46-932f-d4c4a4258bef" alt="온보딩" width="100" align="right">
+### 1. **온보딩📃** <img src="https://github.com/user-attachments/assets/ba2e8da0-4b87-4c46-932f-d4c4a4258bef" alt="온보딩" width="100" align="right"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 - **기록 항목**  
   - 별명, 만성질환 종류, 하루 복약 횟수, 각각의 복약 시간  
 - **목적**  
