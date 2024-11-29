@@ -6,7 +6,9 @@
 ## 소개💊
 
 안녕하세요! 저희는 **2024 가을학기 테크포임팩트 수업**을 수강한 카이스트 팀 **MedMax**입니다! 🎉  
-We provide the same contents in English here. Please click here !!
+We provide the same contents in English below.
+
+**앱 다운로드 링크** >> [Link](https://drive.google.com/drive/folders/1SzL0LQt7NDrO_5HDX4ncKD2NtdBEq0Sf)
   
 ![Group 289102](https://github.com/user-attachments/assets/2681a3cd-afad-4f2a-b8e1-f326b7da2d17)
 
