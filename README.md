@@ -89,7 +89,7 @@ We provide the same contents in English here. Please click here !!
 ## 데모 GIF🎥
 | **온보딩📃** | **메인 페이지🏡** | **마이 페이지📅** | **QnA 페이지❓** |
 |:------:|:------:|:------:|:------:
-| &nbsp;&nbsp;&nbsp; <img src="https://github.com/user-attachments/assets/ba2e8da0-4b87-4c46-932f-d4c4a4258bef" alt="온보딩" width="150"> &nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp; <img src="https://github.com/user-attachments/assets/da77a061-a89b-45d8-8451-0835488f41d1" alt="메인페이지" width="150"> &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; <img src="https://github.com/user-attachments/assets/c3f2f71b-3be0-4925-bb84-934a22fc04e4" alt="마이페이지" width="150"> &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; <img src="https://github.com/user-attachments/assets/a192c9b1-a36b-48ec-99ef-9c8ae1a63d1a" alt="QNA" width="150"> &nbsp;&nbsp;&nbsp; |
+| <img src="https://github.com/user-attachments/assets/ba2e8da0-4b87-4c46-932f-d4c4a4258bef" alt="온보딩" width="150"> | <img src="https://github.com/user-attachments/assets/da77a061-a89b-45d8-8451-0835488f41d1" alt="메인페이지" width="150"> | <img src="https://github.com/user-attachments/assets/c3f2f71b-3be0-4925-bb84-934a22fc04e4" alt="마이페이지" width="150"> | <img src="https://github.com/user-attachments/assets/a192c9b1-a36b-48ec-99ef-9c8ae1a63d1a" alt="QNA" width="150"> |
 
 ---
 
