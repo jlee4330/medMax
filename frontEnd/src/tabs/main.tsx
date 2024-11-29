@@ -1,5 +1,6 @@
+// main.tsx -> final
 import React, { useState, useEffect, useRef } from 'react';
-import { SafeAreaView, StyleSheet, Dimensions, View, Text, Image, TouchableOpacity } from 'react-native';
+import { Platform, SafeAreaView, StyleSheet, Dimensions, View, Text, Image, TouchableOpacity } from 'react-native';
 import WebView from 'react-native-webview';
 import CockModal from './mainPageComponent/cockModal'; 
 import CheckModal from './mainPageComponent/checkModal';
@@ -21,7 +22,7 @@ export default function CustomComponent() {
     const fetchUserId = async () => {
       try {
         const deviceId = await DeviceInfo.getUniqueId();
-        setUserId("260dcd4e09745e47");
+        setUserId(deviceId);
       } catch (error) {
         console.error('Failed to get device ID:', error);
       }
@@ -210,10 +211,11 @@ const styles = StyleSheet.create({
   webview: {
     width: windowWidth,
     height: windowHeight - 60,
+    zIndex : Platform.OS === 'ios' ? -1 : 0,
   },
   group7167: {
     position: 'absolute', // Ensure absolute positioning
-    top: windowHeight * 0.03, // Positioned relative to the top
+    top: Platform.OS === 'ios' ? windowHeight * 0.07 : windowHeight * 0.03, // iOS와 안드로이드 위치 차이 설정
     width: windowWidth * 0.9,
     height: windowHeight * 0.1,
     marginHorizontal: windowWidth * 0.05,

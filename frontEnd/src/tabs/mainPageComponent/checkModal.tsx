@@ -1,3 +1,4 @@
+// checkModal.tsx
 import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, StyleSheet, Animated, Image, Modal, Text } from 'react-native';
 

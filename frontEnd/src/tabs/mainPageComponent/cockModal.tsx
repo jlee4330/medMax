@@ -219,7 +219,8 @@
 //   },
 // });
 
-// export default CockModal;
+
+///CockModal.tsx;
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Modal, Image, FlatList, ScrollView } from 'react-native';
 
